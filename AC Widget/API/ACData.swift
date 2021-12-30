@@ -178,6 +178,19 @@ extension Array where Element == (Float, Date) {
 enum InfoType {
     case proceeds, downloads, updates, iap
 
+    var stringKey: LocalizedStringKey {
+        switch self {
+        case .proceeds:
+            return "PROCEEDS"
+        case .downloads:
+            return "DOWNLOADS"
+        case .updates:
+            return "UPDATES"
+        case .iap:
+            return "IN-APP-PURCHASES"
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .proceeds:

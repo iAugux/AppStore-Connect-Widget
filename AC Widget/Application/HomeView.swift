@@ -68,7 +68,7 @@ struct HomeView: View {
             }
         )
         .navigationTitle("HOME")
-        .toolbar(content: toolbar)
+        // .toolbar(content: toolbar)
         .sheet(isPresented: $showingSheet, content: sheet)
         .sheet(isPresented: $showsUpdateScreen, content: {
             UpdateView()
@@ -140,20 +140,10 @@ struct HomeView: View {
     }
 
     func toolbar() -> some ToolbarContent {
-        Group {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: { showingSheet.toggle() }, label: {
-                    Image(systemName: "key")
-                })
-            }
-
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showSettings.toggle()
-                }, label: {
-                    Image(systemName: "gear")
-                })
-            }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: { showingSheet.toggle() }, label: {
+                Image(systemName: "key")
+            })
         }
     }
 

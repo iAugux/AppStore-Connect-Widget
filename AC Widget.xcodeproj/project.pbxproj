@@ -110,6 +110,7 @@
 		CBDFA497261E52F200719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA496261E52F200719CC1 /* DynamicColor */; };
 		CBDFA49F261E55EE00719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA49E261E55EE00719CC1 /* DynamicColor */; };
 		CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA4A0261E55F500719CC1 /* DynamicColor */; };
+		CBE1C8AD277E4F66003DDDE7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8AC277E4F66003DDDE7 /* DetailView.swift */; };
 		CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEA7347262CD5B90095C39D /* KeySelectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,7 @@
 		CBB4A60626F3E6130064EE9E /* AppIconStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconStack.swift; sourceTree = "<group>"; };
 		CBB4A60C26F674880064EE9E /* SummaryExtraLarge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryExtraLarge.swift; sourceTree = "<group>"; };
 		CBBBE74B2700F17D00DF7942 /* AppStoreNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreNotice.swift; sourceTree = "<group>"; };
+		CBE1C8AC277E4F66003DDDE7 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		CBEA7347262CD5B90095C39D /* KeySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				CB436DDE261870D400A432B1 /* HomeView.swift */,
+				CBE1C8AC277E4F66003DDDE7 /* DetailView.swift */,
 				CBEA7347262CD5B90095C39D /* KeySelectionView.swift */,
 				CB61B0AB26EE952800624425 /* AppListView.swift */,
 				CB28AF002616163600B48215 /* SettingsView.swift */,
@@ -618,6 +621,7 @@
 				CB28AEFC2615F5E700B48215 /* GraphView.swift in Sources */,
 				CB436DDB26186B0C00A432B1 /* OnboardingView.swift in Sources */,
 				4552EE9E261CF3FF006C30B9 /* ACEntry.swift in Sources */,
+				CBE1C8AD277E4F66003DDDE7 /* DetailView.swift in Sources */,
 				CBAB729D261B338600ED0F94 /* APIError.swift in Sources */,
 				CB61B0AC26EE952800624425 /* AppListView.swift in Sources */,
 				CBB4A60726F3E6130064EE9E /* AppIconStack.swift in Sources */,
