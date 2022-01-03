@@ -203,4 +203,17 @@ enum InfoType {
             return "cart"
         }
     }
+    
+    var color: Color {
+        switch self {
+        case .proceeds:
+            return Color("ProceedsColor")
+        case .downloads:
+            return Color("DownloadsColor")
+        case .updates:
+            return Color("UpdatesColor")
+        case .iap:
+            return Color("IAPColor")
+        }
+    }
 }
