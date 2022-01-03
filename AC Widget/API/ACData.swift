@@ -58,6 +58,10 @@ extension ACData {
             entries = entries.filter({ $0.type == .update })
         case .iap:
             entries = entries.filter({ $0.type == .iap })
+        case .reDownloads:
+            entries = entries.filter({ $0.type == .redownload })
+        case .restoredIap:
+            entries = entries.filter({ $0.type == .restoredIap })
         }
 
         return entries
@@ -176,7 +180,7 @@ extension Array where Element == (Float, Date) {
 }
 
 enum InfoType {
-    case proceeds, downloads, updates, iap
+    case downloads, proceeds, updates, iap, reDownloads, restoredIap
 
     var stringKey: LocalizedStringKey {
         switch self {
@@ -188,6 +192,10 @@ enum InfoType {
             return "UPDATES"
         case .iap:
             return "IN-APP-PURCHASES"
+        case .reDownloads:
+            return "RE-DOWNLOADS"
+        case .restoredIap:
+            return "RESTORED_IN-APP_PURCHASES"
         }
     }
 
@@ -201,6 +209,8 @@ enum InfoType {
             return "arrow.triangle.2.circlepath"
         case .iap:
             return "cart"
+        case .reDownloads, .restoredIap:
+            return "icloud.and.arrow.down"
         }
     }
     
@@ -214,6 +224,10 @@ enum InfoType {
             return Color("UpdatesColor")
         case .iap:
             return Color("IAPColor")
+        case .reDownloads:
+            return Color("Re-DownloadsColor")
+        case .restoredIap:
+            return Color("RestoredIAPColor")
         }
     }
 }
