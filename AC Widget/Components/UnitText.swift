@@ -34,6 +34,7 @@ struct UnitText: View {
                         .font(.system(size: fontSize*0.5, weight: .semibold, design: .rounded) )
                         // .font(.system(size: fontSize*0.5))
                         .padding(.top, fontSize*0.1)
+                        .foregroundColor(.secondary)
                         .hidePlaceholderRedacted()
                 }
 
@@ -41,6 +42,7 @@ struct UnitText: View {
                     Image(systemName: metricImage)
                         .font(.system(size: fontSize*0.48, weight: .semibold, design: .default) )
                         .padding(.top, fontSize*0.1)
+                        .foregroundColor(.secondary)
                         .hidePlaceholderRedacted()
                 }
             }

@@ -8,49 +8,55 @@
 import SwiftUI
 // infotype
 struct DetailsRow: View {
-    var body: some View {
-        VStack {
-            HStack {
-                HStack {
-                    Image(systemName: "square.and.arrow.down")
-                    Text("Downloads")
-                }
-                .font(.caption.bold())
+    public let data: ACData
+    public let infoType: InfoType
 
+    private var currentDay: (Float, Date) {
+        return data.getLastRawData(for: infoType)
+    }
+
+    var body: some View {
+        Card(spacing: 15, innerPadding: 10) {
+            HStack {
+                HStack(alignment: .bottom, spacing: 5) {
+                    Image(systemName: infoType.systemImage)
+                    Text(infoType.stringKey)
+                }
+                .font(.caption.weight(.semibold))
+                .foregroundColor(infoType.color)
                 Spacer()
 
-                HStack {
-                    Text("Yesterday")
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
+                    Text(data.latestReportingDate())
                     Image(systemName: "chevron.right")
-                }.font(.caption)
+                }
+                .font(.caption)
+                .foregroundColor(.secondary)
             }
 
-            Spacer(minLength: 5)
-
-            HStack {
-                UnitText("280", metricSymbol: "square.and.arrow.down")
-                Spacer(minLength: 50)
-                GraphView(ACData.example.getRawData(for: .downloads, lastNDays: 30), color: .pink)
+            HStack(alignment: .bottom) {
+                if infoType == .proceeds {
+                UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: data.displayCurrency.symbol)
+                } else {
+                    UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: infoType.systemImage)
+                }
+                Spacer(minLength: 70)
+                GraphView(ACData.example.getRawData(for: infoType, lastNDays: 30), color: infoType.color)
+                    .frame(maxWidth: 230)
             }
             .frame(minHeight: 50)
         }
-        .padding(5)
-        .background(Color.white)
-        .cornerRadius(12)
+        .frame(height: 90)
     }
 }
 
 struct DetailsRow_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(ColorScheme.allCases, id: \.self) { scheme in
-            ZStack {
-                Color.secondary
-                DetailsRow()
-                    .padding()
-                    .frame(height: 150)
-            }
-//            .previewLayout(.fixed(width: 300, height: 100))
-            .preferredColorScheme(scheme)
-        }
+        DetailsRow(data: .exampleLargeSums, infoType: .iap)
+            .padding()
+            .background(Color(uiColor: .systemGroupedBackground))
+        //            .previewInterfaceOrientation(.portrait)
+//            .preferredColorScheme(.dark)
+//            .environmentObject(ACData.example)
     }
 }

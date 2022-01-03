@@ -42,7 +42,7 @@ extension ACData {
 
 extension ACData {
     // MARK: Get Raw Data
-    func getEntries(for type: InfoType, lastNDays: Int, filteredApps: [ACApp] = []) -> [ACEntry] {
+    private func getEntries(for type: InfoType, lastNDays: Int, filteredApps: [ACApp] = []) -> [ACEntry] {
         var entries = entries.getLastDays(lastNDays).filterApps(filteredApps)
 
         switch type {
@@ -83,6 +83,10 @@ extension ACData {
         }
 
         return result.fillZeroLastDays(lastNDays, latestDate: self.latestReportingDate())
+    }
+
+    func getLastRawData(for type: InfoType, filteredApps: [ACApp] = []) -> (Float, Date) {
+        return self.getRawData(for: type, lastNDays: 1, filteredApps: filteredApps).first ?? (0, .now)
     }
 
     // MARK: Get CountryCode
@@ -213,7 +217,7 @@ enum InfoType {
             return "icloud.and.arrow.down"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .proceeds:
