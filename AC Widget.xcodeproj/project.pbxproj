@@ -112,6 +112,7 @@
 		CBDFA49F261E55EE00719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA49E261E55EE00719CC1 /* DynamicColor */; };
 		CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA4A0261E55F500719CC1 /* DynamicColor */; };
 		CBE1C8AD277E4F66003DDDE7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8AC277E4F66003DDDE7 /* DetailView.swift */; };
+		CBE1C8B4278396FB003DDDE7 /* ComparisonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */; };
 		CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEA7347262CD5B90095C39D /* KeySelectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +212,7 @@
 		CBB4A60C26F674880064EE9E /* SummaryExtraLarge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryExtraLarge.swift; sourceTree = "<group>"; };
 		CBBBE74B2700F17D00DF7942 /* AppStoreNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreNotice.swift; sourceTree = "<group>"; };
 		CBE1C8AC277E4F66003DDDE7 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCard.swift; sourceTree = "<group>"; };
 		CBEA7347262CD5B90095C39D /* KeySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,6 +404,7 @@
 				450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */,
 				45E6FA34277B9EC400C5E426 /* AsyncButton.swift */,
 				4529359C2783902F00877A7B /* DetailsRow.swift */,
+				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				CB28AF0926161D5E00B48215 /* DescribedValueView.swift in Sources */,
 				45AB9881276D34B40024597F /* CurrencyPicker.swift in Sources */,
 				45B7C45A2700F18300F3ECC4 /* UpdateView.swift in Sources */,
+				CBE1C8B4278396FB003DDDE7 /* ComparisonCard.swift in Sources */,
 				CB28AEFC2615F5E700B48215 /* GraphView.swift in Sources */,
 				CB436DDB26186B0C00A432B1 /* OnboardingView.swift in Sources */,
 				4552EE9E261CF3FF006C30B9 /* ACEntry.swift in Sources */,

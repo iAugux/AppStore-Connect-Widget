@@ -234,4 +234,8 @@ enum InfoType {
             return Color("RestoredIAPColor")
         }
     }
+
+    var contrastColor: Color {
+        Color.white
+    }
 }
