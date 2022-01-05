@@ -1,8 +1,6 @@
 //
 //  ComparisonCard.swift
-//  AC Widget
-//
-//  Created by Cameron Shemilt on 03.01.22.
+//  AC Widget by NO-COMMENT
 //
 
 import SwiftUI
@@ -87,7 +85,6 @@ struct ComparisonCard_Previews: PreviewProvider {
                            secondaryLabel: "November"
             )
                 .padding()
-                .background(Color.black)
                 .preferredColorScheme(.dark)
         }
     }

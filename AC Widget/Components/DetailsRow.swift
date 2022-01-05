@@ -1,8 +1,6 @@
 //
 //  DetailsRow.swift
-//  AC Widget
-//
-//  Created by Miká Kruschel on 03.01.22.
+//  AC Widget by NO-COMMENT
 //
 
 import SwiftUI

@@ -113,6 +113,7 @@
 		CBDFA49F261E55EE00719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA49E261E55EE00719CC1 /* DynamicColor */; };
 		CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA4A0261E55F500719CC1 /* DynamicColor */; };
 		CBE1C8B4278396FB003DDDE7 /* ComparisonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */; };
+		CBE1C8B627862881003DDDE7 /* WeeklyAverageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */; };
 		CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEA7347262CD5B90095C39D /* KeySelectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -213,6 +214,7 @@
 		CBB4A60C26F674880064EE9E /* SummaryExtraLarge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryExtraLarge.swift; sourceTree = "<group>"; };
 		CBBBE74B2700F17D00DF7942 /* AppStoreNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreNotice.swift; sourceTree = "<group>"; };
 		CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCard.swift; sourceTree = "<group>"; };
+		CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyAverageCard.swift; sourceTree = "<group>"; };
 		CBEA7347262CD5B90095C39D /* KeySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -405,6 +407,7 @@
 				45E6FA34277B9EC400C5E426 /* AsyncButton.swift */,
 				4529359C2783902F00877A7B /* DetailsRow.swift */,
 				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
+				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				CB28AEE52615D28F00B48215 /* SummarySmall.swift in Sources */,
 				45C1A3F32619AC28006C1650 /* Widgets.intentdefinition in Sources */,
 				CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */,
+				CBE1C8B627862881003DDDE7 /* WeeklyAverageCard.swift in Sources */,
 				CB436DDF261870D400A432B1 /* HomeView.swift in Sources */,
 				CB77BBAF268D1EF5006D4EC4 /* DeviceTile.swift in Sources */,
 				CB77BBAB268D121E006D4EC4 /* CountryTile.swift in Sources */,
