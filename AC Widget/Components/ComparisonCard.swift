@@ -77,7 +77,7 @@ struct ComparisonCard_Previews: PreviewProvider {
             )
                 .padding()
                 .background(Color(uiColor: .secondarySystemBackground))
-            
+
             ComparisonCard(type: .downloads,
                            header: true,
                            title: "You had 1.234 less downloads this month than last one.",

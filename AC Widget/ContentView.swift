@@ -51,7 +51,7 @@ struct ContentView: View {
             .navigationViewStyle(.stack)
 
             NavigationView {
-                Text("Details")
+                DetailsOverview()
             }.tabItem {
                 Image(systemName: "chart.bar.xaxis")
                 Text("DETAILS")
@@ -77,32 +77,32 @@ struct ContentView: View {
                         Label("HOME", systemImage: "house")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .downloads),
+                    destination: EmptyView(),
                     label: {
                         Label("DOWNLOADS", systemImage: "square.and.arrow.down")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .proceeds),
+                    destination: EmptyView(),
                     label: {
                         Label("PROCEEDS", systemImage: "dollarsign.circle")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .updates),
+                    destination: EmptyView(),
                     label: {
                         Label("UPDATES", systemImage: "arrow.triangle.2.circlepath")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .downloads),
+                    destination: EmptyView(),
                     label: {
                         Label("SUBSCRIPTIONS", systemImage: "creditcard")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .iap),
+                    destination: EmptyView(),
                     label: {
                         Label("IN_APP_PURCHASES", systemImage: "cart")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .downloads),
+                    destination: EmptyView(),
                     label: {
                         Label("PRE_ORDERS", systemImage: "clock.arrow.circlepath")
                     })
@@ -134,5 +134,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(APIKeyProvider.example)
     }
 }

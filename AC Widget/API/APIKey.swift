@@ -82,6 +82,14 @@ class APIKeyProvider: ObservableObject {
     }
 }
 
+extension APIKeyProvider {
+    static let example: APIKeyProvider = {
+        let prov = APIKeyProvider()
+        prov.apiKeys.append(.example)
+        return prov
+    }()
+}
+
 struct APIKey: Codable, Identifiable, Hashable {
     var id: String { privateKeyID }
     let name: String

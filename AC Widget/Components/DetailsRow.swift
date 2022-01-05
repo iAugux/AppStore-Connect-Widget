@@ -36,7 +36,7 @@ struct DetailsRow: View {
 
             HStack(alignment: .bottom) {
                 if infoType == .proceeds {
-                UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: data.displayCurrency.symbol)
+                    UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: data.displayCurrency.symbol)
                 } else {
                     UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: infoType.systemImage)
                 }
