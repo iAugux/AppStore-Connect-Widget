@@ -112,6 +112,7 @@
 		CBBBE74C2700F17D00DF7942 /* AppStoreNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBBE74B2700F17D00DF7942 /* AppStoreNotice.swift */; };
 		CBC6F8B427863E3600D08A3F /* PercentageComparisonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */; };
 		CBC6F8E6279A05A600D08A3F /* SecondaryBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6F8E5279A05A600D08A3F /* SecondaryBackgroundModifier.swift */; };
+		CBC6F8E8279A0E2D00D08A3F /* CardSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */; };
 		CBDFA497261E52F200719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA496261E52F200719CC1 /* DynamicColor */; };
 		CBDFA49F261E55EE00719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA49E261E55EE00719CC1 /* DynamicColor */; };
 		CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = CBDFA4A0261E55F500719CC1 /* DynamicColor */; };
@@ -219,6 +220,7 @@
 		CBBBE74B2700F17D00DF7942 /* AppStoreNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreNotice.swift; sourceTree = "<group>"; };
 		CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageComparisonCard.swift; sourceTree = "<group>"; };
 		CBC6F8E5279A05A600D08A3F /* SecondaryBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryBackgroundModifier.swift; sourceTree = "<group>"; };
+		CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSection.swift; sourceTree = "<group>"; };
 		CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCard.swift; sourceTree = "<group>"; };
 		CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyAverageCard.swift; sourceTree = "<group>"; };
 		CBEA7347262CD5B90095C39D /* KeySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySelectionView.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				45AB9880276D34B40024597F /* CurrencyPicker.swift */,
 				450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */,
 				45E6FA34277B9EC400C5E426 /* AsyncButton.swift */,
+				CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */,
 				4529359C2783902F00877A7B /* DetailsRow.swift */,
 				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
 				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
@@ -627,6 +630,7 @@
 				CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */,
 				CBC6F8B427863E3600D08A3F /* PercentageComparisonCard.swift in Sources */,
 				45E6FA35277B9EC400C5E426 /* AsyncButton.swift in Sources */,
+				CBC6F8E8279A0E2D00D08A3F /* CardSection.swift in Sources */,
 				45E8C4812612512E007F9B0E /* AC_WidgetApp.swift in Sources */,
 				459CBA2D278631E900FF568E /* ACDataProvider.swift in Sources */,
 				CB2D236926433AB9003DA727 /* SummaryLarge.swift in Sources */,
