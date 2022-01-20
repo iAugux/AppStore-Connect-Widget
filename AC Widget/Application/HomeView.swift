@@ -71,6 +71,7 @@ struct HomeView: View {
 //        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 //            Task { await onAppear() }
 //        }
+        .secondaryBackground()
     }
 
     var loadingIndicator: some View {

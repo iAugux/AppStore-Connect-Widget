@@ -27,6 +27,7 @@ struct DetailsOverview: View {
             }
         }
         .navigationTitle("DETAILS")
+        .secondaryBackground()
     }
 
     var loadingIndicator: some View {
