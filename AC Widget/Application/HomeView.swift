@@ -8,21 +8,13 @@ import AppStoreConnect_Swift_SDK
 import StoreKit
 
 struct HomeView: View {
-    @State var data: ACData?
-    @State var error: APIError?
-    @State var showingSheet: Bool = false
+    @EnvironmentObject var dataProvider: ACDataProvider
 
     @State var showSettings = false
 
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
-
     @AppStorage(UserDefaultsKey.appStoreNotice, store: UserDefaults.shared) var appStoreNotice: Bool = true
-    @AppStorage(UserDefaultsKey.homeSelectedKey, store: UserDefaults.shared) private var keyID: String = ""
-    @AppStorage(UserDefaultsKey.homeCurrency, store: UserDefaults.shared) private var currency: String = "USD"
+
     @AppStorage(UserDefaultsKey.rateCount, store: UserDefaults.shared) var rateCount: Int = 0
-    private var selectedKey: APIKey? {
-        return apiKeysProvider.getApiKey(apiKeyId: keyID) ?? apiKeysProvider.apiKeys.first
-    }
 
     @State var tiles: [TileType] = []
 
@@ -31,9 +23,9 @@ struct HomeView: View {
 
     var body: some View {
         RefreshableScrollView(onRefresh: {
-            await onAppear(useMemoization: false)
+            await dataProvider.refreshData(useMemoization: false)
         }) {
-            if let data = data {
+            if let data = dataProvider.data {
                 lastChangeSubtitle
                 if appStoreNotice && AppStoreNotice.isTestFlight() {
                     AppStoreNotice()
@@ -69,16 +61,16 @@ struct HomeView: View {
         )
         .navigationTitle("HOME")
         // .toolbar(content: toolbar)
-        .sheet(isPresented: $showingSheet, content: sheet)
         .sheet(isPresented: $showsUpdateScreen, content: {
             UpdateView()
         })
-        .onChange(of: keyID, perform: { _ in Task { await onAppear(useMemoization: false) } })
-        .onChange(of: currency, perform: { _ in Task { await onAppear(useMemoization: false) } })
-        .task { await onAppear(useMemoization: true) }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            Task { await onAppear() }
-        }
+        .onAppear(perform: onAppear)
+//        .onChange(of: keyID, perform: { _ in Task { await dataProvider.refreshData(useMemoization: false) } })
+//        .onChange(of: currency, perform: { _ in Task { await dataProvider.refreshData(useMemoization: false) } })
+        .task { await dataProvider.refreshData(useMemoization: true) }
+//        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+//            Task { await onAppear() }
+//        }
     }
 
     var loadingIndicator: some View {
@@ -96,7 +88,7 @@ struct HomeView: View {
 
     var lastChangeSubtitle: some View {
         HStack {
-            Text("LAST_CHANGE:\(data?.latestReportingDate() ?? "-")")
+            Text("LAST_CHANGE:\(dataProvider.data?.latestReportingDate() ?? "-")")
                 .font(.subheadline)
             Spacer()
         }
@@ -106,25 +98,25 @@ struct HomeView: View {
     var additionalInformation: some View {
         VStack(spacing: 20) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 8) {
-                Text("LAST_CHANGE:\(data?.latestReportingDate() ?? "-")")
+                Text("LAST_CHANGE:\(dataProvider.data?.latestReportingDate() ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("CURRENCY:\(data?.displayCurrency.rawValue ?? "-")")
+                Text("CURRENCY:\(dataProvider.data?.displayCurrency.rawValue ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("API_KEY:\(selectedKey?.name ?? "-")")
+                Text("API_KEY:\(dataProvider.selectedKey?.name ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
-            if data != nil {
+            if dataProvider.data != nil {
                 AsyncButton(action: {
-                    await onAppear(useMemoization: false)
+                    await dataProvider.refreshData(useMemoization: false)
                 }) {
                     Text("REFRESH_DATA")
                 }
@@ -139,35 +131,20 @@ struct HomeView: View {
         .padding()
     }
 
-    func toolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Button(action: { showingSheet.toggle() }, label: {
-                Image(systemName: "key")
-            })
-        }
-    }
-
-    func sheet() -> some View {
-        NavigationView {
-            KeySelectionView()
-                .closeSheetButton()
-        }
-    }
-
-    private func onAppear(useMemoization: Bool = true) async {
+    private func onAppear() {
         askToRate()
 
         let selectedTiles = UserDefaults.shared?.stringArray(forKey: UserDefaultsKey.tilesInHome)?.compactMap({ TileType(rawValue: $0) }) ?? []
         tiles = selectedTiles.isEmpty ? TileType.allCases : selectedTiles
-
-        guard let apiKey = selectedKey else { return }
-        let api = AppStoreConnectApi(apiKey: apiKey)
-        do {
-            self.data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
-        } catch let err as APIError {
-            self.error = err
-        } catch {}
-
+//
+//        guard let apiKey = selectedKey else { return }
+//        let api = AppStoreConnectApi(apiKey: apiKey)
+//        do {
+//            self.data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
+//        } catch let err as APIError {
+//            self.error = err
+//        } catch {}
+//
         let appVersion: String = UIApplication.appVersion ?? ""
         let buildVersion: String = UIApplication.buildVersion ?? ""
         let vString = "\(appVersion) (\(buildVersion))"
@@ -197,14 +174,16 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                HomeView(data: ACData.example, tiles: TileType.allCases)
+                HomeView(tiles: TileType.allCases)
             }
 
             NavigationView {
-                HomeView(data: ACData.example, tiles: TileType.allCases)
+                HomeView(tiles: TileType.allCases)
             }
             .preferredColorScheme(.dark)
         }
+        .environmentObject(APIKeyProvider.example)
+        .environmentObject(ACDataProvider.example)
     }
 }
 

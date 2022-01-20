@@ -7,8 +7,8 @@ import SwiftUI
 import WidgetKit
 
 struct SettingsView: View {
+    @EnvironmentObject var dataProvider: ACDataProvider
     @AppStorage(UserDefaultsKey.includeRedownloads, store: UserDefaults.shared) var includeRedownloads: Bool = false
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
 
     @State private var addKeySheet: Bool = false
 
@@ -32,7 +32,7 @@ struct SettingsView: View {
 
     var keySection: some View {
         Section(header: Label("API_KEYS", systemImage: "key.fill"), footer: keySectionFooter) {
-            ForEach(apiKeysProvider.apiKeys) { key in
+            ForEach(dataProvider.apiKeysProvider.apiKeys) { key in
                 NavigationLink(destination: APIKeyDetailView(key),
                                label: {
                     HStack {
@@ -158,9 +158,9 @@ struct SettingsView: View {
     }
 
     private func deleteKey(at offsets: IndexSet) {
-        let keys = offsets.map({ apiKeysProvider.apiKeys[$0] })
+        let keys = offsets.map({ dataProvider.apiKeysProvider.apiKeys[$0] })
         keys.forEach { ACDataCache.clearCache(apiKey: $0) }
-        apiKeysProvider.deleteApiKeys(keys: keys)
+        dataProvider.apiKeysProvider.deleteApiKeys(keys: keys)
     }
 }
 

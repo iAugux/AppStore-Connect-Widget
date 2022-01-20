@@ -94,17 +94,15 @@ extension UserDefaults {
 }
 
 enum UserDefaultsKey {
-    @available(*, unavailable)
-    static let apiKeys = "apiKeys"
-    @available(*, unavailable)
-    static let dataCache = "dataCache"
     static let includeRedownloads = "includeRedownloads"
-    static let homeSelectedKey = "homeSelectedKey"
-    static let homeCurrency = "homeCurrency"
     static let tilesInHome = "tilesInHome"
     static let appStoreNotice = "appStoreNotice"
     static let lastSeenVersion = "lastSeenVersion"
     static let rateCount = "rateCount"
+    // private for ACDataProvider: static let homeSelectedKey = "homeSelectedKey"
+    // private for ACDataProvider: static let homeCurrency = "homeCurrency"
+    @available(*, unavailable) static let apiKeys = "apiKeys"
+    @available(*, unavailable) static let dataCache = "dataCache"
 }
 
 // MARK: Editing Strings

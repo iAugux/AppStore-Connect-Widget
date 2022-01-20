@@ -8,12 +8,12 @@ import WidgetKit
 
 @main
 struct ACWidgetApp: App {
-    @StateObject private var apiKeysProvider = APIKeyProvider()
+    @StateObject private var dataProvider = ACDataProvider()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(apiKeysProvider)
+                .environmentObject(dataProvider)
                 .onAppear {
                     WidgetCenter.shared.reloadAllTimelines()
                 }

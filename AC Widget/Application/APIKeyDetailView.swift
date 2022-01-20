@@ -7,7 +7,8 @@ import SwiftUI
 
 struct APIKeyDetailView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
+
+    @EnvironmentObject var dataProvider: ACDataProvider
 
     let key: APIKey
     @State private var keyName: String
@@ -122,7 +123,7 @@ struct APIKeyDetailView: View {
     }
 
     private func save() {
-        try? apiKeysProvider.addApiKey(apiKey: APIKey(name: keyName,
+        try? dataProvider.apiKeysProvider.addApiKey(apiKey: APIKey(name: keyName,
                                         color: keyColor,
                                         issuerID: issuerID,
                                         privateKeyID: privateKeyID,
@@ -158,7 +159,7 @@ struct APIKeyDetailView: View {
                 message: Text("DELETE_NO_UNDO"),
                 primaryButton: .destructive(Text("DELETE_KEY")) {
                     ACDataCache.clearCache(apiKey: key)
-                    apiKeysProvider.deleteApiKeys(keys: [key])
+                    dataProvider.apiKeysProvider.deleteApiKeys(keys: [key])
                     dismiss()
                 },
                 secondaryButton: .cancel()

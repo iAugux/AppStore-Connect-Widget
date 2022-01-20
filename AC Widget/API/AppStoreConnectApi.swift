@@ -34,12 +34,12 @@ class AppStoreConnectApi {
     }
 
     public func getData(currency: CurrencyParam?, numOfDays: Int = 35, useCache: Bool = true) async throws -> ACData {
-        if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example }
+        if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example.changeCurrency(to: currency?.toCurrency() ?? .USD) }
         return try await getData(currency: currency?.toCurrency(), numOfDays: numOfDays, useCache: useCache)
     }
 
     public func getData(currency: Currency? = nil, numOfDays: Int = 35, useCache: Bool = true, useMemoization: Bool = true) async throws -> ACData {
-        if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example }
+        if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example.changeCurrency(to: currency ?? .USD) }
 
         if useMemoization {
             if let last = AppStoreConnectApi.lastData[apiKey] {
@@ -202,6 +202,7 @@ class AppStoreConnectApi {
         }
     }
 
+    // swiftlint:disable:next function_body_length
     private func apiSalesAndTrendsWrapped(provider: APIProvider, vendorNumber: String, date: String) async throws -> Data {
         print("Loading data for: \(date)")
         return try await withCheckedThrowingContinuation { continuation in

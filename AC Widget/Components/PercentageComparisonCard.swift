@@ -13,7 +13,7 @@ struct PercentageComparisonCard: View {
     let title: LocalizedStringKey
     let mainValue: Float
     let comparisonValue: Float
-    
+
     var body: some View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
@@ -25,7 +25,7 @@ struct PercentageComparisonCard: View {
                 Text(title)
                     .font(.title2.weight(.semibold))
                 Divider()
-                
+
                 VStack(spacing: 6) {
                     HStack {
                         Text(mainType.stringKey)
@@ -35,20 +35,20 @@ struct PercentageComparisonCard: View {
                             .foregroundColor(comparisonType.color)
                     }
                     .font(.caption.weight(.medium))
-                    
+
                     HStack {
                         Text(mainValue.toString(abbreviation: .intelligent))
                         Spacer()
                         Text(comparisonValue.toString(abbreviation: .intelligent))
                     }
                     .font(.system(size: 34, weight: .semibold, design: .rounded))
-                    
+
                     GeometryReader { val in
                         HStack(spacing: 5) {
                             Rectangle()
                                 .foregroundColor(mainType.color)
                                 .frame(width: (val.size.width-5)*CGFloat(mainValue/(mainValue + comparisonValue)))
-                            
+
                             Rectangle()
                                 .foregroundColor(comparisonType.color)
                                 .frame(width: (val.size.width-5)*CGFloat(comparisonValue/(mainValue + comparisonValue)))
@@ -74,7 +74,7 @@ struct PercentageComparisonCard_Previews: PreviewProvider {
                 .frame(maxHeight: 300)
                 .padding()
                 .background(Color(uiColor: .secondarySystemBackground))
-            
+
             PercentageComparisonCard(mainType: .reDownloads,
                                      comparisonType: .downloads,
                                      header: true,

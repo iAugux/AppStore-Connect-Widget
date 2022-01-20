@@ -6,11 +6,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
+    @EnvironmentObject var dataProvider: ACDataProvider
+
+    @State var showingSheet: Bool = false
+
     var completedOnboarding: Bool {
-        return !apiKeysProvider.apiKeys.isEmpty
+        return !dataProvider.apiKeysProvider.apiKeys.isEmpty
     }
 
     var body: some View {
@@ -30,6 +33,12 @@ struct ContentView: View {
         TabView {
             NavigationView {
                 HomeView()
+                    .sheet(isPresented: $showingSheet, content: {
+                        NavigationView {
+                            KeySelectionView()
+                                .closeSheetButton()
+                        }
+                    })
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             NavigationLink(
@@ -39,7 +48,7 @@ struct ContentView: View {
                                 })
                         }
                         ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: {  }, label: {
+                            Button(action: { showingSheet.toggle() }, label: {
                                 Image(systemName: "key")
                             })
                         }

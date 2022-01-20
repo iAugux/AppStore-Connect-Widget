@@ -7,7 +7,8 @@ import SwiftUI
 
 struct OnboardingView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
+    @EnvironmentObject var dataProvider: ACDataProvider
+
     @State private var alert: AddAPIKeyAlert?
     @State private var page: OnboardingSection
 
@@ -229,7 +230,7 @@ struct OnboardingView: View {
             vendorNumber: vendor.trimmingCharacters(in: .whitespacesAndNewlines)
         )
 
-        if apiKeysProvider.getApiKey(apiKeyId: apiKey.id) != nil {
+        if dataProvider.apiKeysProvider.getApiKey(apiKeyId: apiKey.id) != nil {
             alert = .duplicateKey
             return
         }
@@ -237,7 +238,7 @@ struct OnboardingView: View {
         Task(priority: .userInitiated) {
             do {
                 try await apiKey.checkKey()
-                try apiKeysProvider.addApiKey(apiKey: apiKey)
+                try dataProvider.apiKeysProvider.addApiKey(apiKey: apiKey)
                 finishOnboarding()
                 let api = AppStoreConnectApi(apiKey: apiKey)
                 _ = try? await api.getData(useCache: true, useMemoization: false)

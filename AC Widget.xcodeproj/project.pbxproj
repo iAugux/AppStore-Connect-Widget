@@ -24,6 +24,7 @@
 		457E715C268D12E5000AEBF6 /* RearrangeTilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457E715B268D12E5000AEBF6 /* RearrangeTilesView.swift */; };
 		4583A87F261A43FE00368001 /* Widgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 45C1A3F72619AC28006C1650 /* Widgets.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		459CBA2B2786281000FF568E /* DetailsOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CBA2A2786281000FF568E /* DetailsOverview.swift */; };
+		459CBA2D278631E900FF568E /* ACDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459CBA2C278631E900FF568E /* ACDataProvider.swift */; };
 		45AB9881276D34B40024597F /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AB9880276D34B40024597F /* CurrencyPicker.swift */; };
 		45B7C45A2700F18300F3ECC4 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B7C4592700F18300F3ECC4 /* UpdateView.swift */; };
 		45B7C45C2700F2E400F3ECC4 /* UpdateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B7C45B2700F2E400F3ECC4 /* UpdateDetailView.swift */; };
@@ -162,6 +163,7 @@
 		457E715B268D12E5000AEBF6 /* RearrangeTilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeTilesView.swift; sourceTree = "<group>"; };
 		4583A842261A3E3700368001 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		459CBA2A2786281000FF568E /* DetailsOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsOverview.swift; sourceTree = "<group>"; };
+		459CBA2C278631E900FF568E /* ACDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACDataProvider.swift; sourceTree = "<group>"; };
 		45AB9880276D34B40024597F /* CurrencyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		45B7C4592700F18300F3ECC4 /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
 		45B7C45B2700F2E400F3ECC4 /* UpdateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDetailView.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				4552EE9D261CF3FF006C30B9 /* ACEntry.swift */,
 				4570D399261EE1FC006F50AA /* ACDataCache.swift */,
 				45D2041C262CBEB000D0E889 /* ACApp.swift */,
+				459CBA2C278631E900FF568E /* ACDataProvider.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				CBC6F8B427863E3600D08A3F /* PercentageComparisonCard.swift in Sources */,
 				45E6FA35277B9EC400C5E426 /* AsyncButton.swift in Sources */,
 				45E8C4812612512E007F9B0E /* AC_WidgetApp.swift in Sources */,
+				459CBA2D278631E900FF568E /* ACDataProvider.swift in Sources */,
 				CB2D236926433AB9003DA727 /* SummaryLarge.swift in Sources */,
 				45D2041D262CBEB000D0E889 /* ACApp.swift in Sources */,
 				CB9C4CB3262A2391007E38F1 /* InfoTileFront.swift in Sources */,

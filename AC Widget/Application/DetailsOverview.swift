@@ -8,18 +8,38 @@
 import SwiftUI
 
 struct DetailsOverview: View {
+    @EnvironmentObject var dataProvider: ACDataProvider
 
     private let displayedInfoTypes: [InfoType] = [.downloads, .proceeds, .updates, .iap]
 
     var body: some View {
-        ScrollView {
-            ForEach(displayedInfoTypes, id: \.self) { infoType in
-                DetailsRow(data: .exampleLargeSums, infoType: infoType)
-                    .padding(.vertical, 10)
+        RefreshableScrollView(onRefresh: {
+            await dataProvider.refreshData(useMemoization: false)
+        }) {
+            if let data = dataProvider.data {
+                ForEach(displayedInfoTypes, id: \.self) { infoType in
+                    DetailsRow(data: data, infoType: infoType)
+                        .padding(.vertical, 10)
+                }
+                .padding(.horizontal)
+            } else {
+                loadingIndicator
             }
         }
-        .padding()
         .navigationTitle("DETAILS")
+    }
+
+    var loadingIndicator: some View {
+        HStack(spacing: 10) {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+
+            Text("LOADING_DATA")
+                .foregroundColor(.gray)
+                .italic()
+        }
+        .padding(.top, 25)
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -29,5 +49,6 @@ struct DetailsOverview_Previews: PreviewProvider {
             DetailsOverview()
         }
         .preferredColorScheme(.dark)
+        .environmentObject(ACDataProvider.example)
     }
 }

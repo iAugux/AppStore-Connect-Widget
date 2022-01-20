@@ -6,13 +6,10 @@
 import SwiftUI
 
 struct KeySelectionView: View {
-    @EnvironmentObject var apiKeysProvider: APIKeyProvider
+    @EnvironmentObject var dataProvider: ACDataProvider
 
-    @AppStorage(UserDefaultsKey.homeSelectedKey, store: UserDefaults.shared) private var keyID: String = ""
-    @AppStorage(UserDefaultsKey.homeCurrency, store: UserDefaults.shared) private var currency: String = Currency.USD.rawValue
-    private var selectedKey: APIKey? {
-        return apiKeysProvider.getApiKey(apiKeyId: keyID)
-    }
+//    @AppStorage(UserDefaultsKey.homeSelectedKey, store: UserDefaults.shared) private var keyID: String = ""
+//    @AppStorage(UserDefaultsKey.homeCurrency, store: UserDefaults.shared) private var currency: String = Currency.USD.rawValue
 
     var body: some View {
         Form {
@@ -24,14 +21,14 @@ struct KeySelectionView: View {
 
     var keySelection: some View {
         Section(header: Label("API_KEY", systemImage: "key.fill")) {
-            ForEach(apiKeysProvider.apiKeys) { key in
-                Button(action: { keyID = key.id }, label: {
+            ForEach(dataProvider.apiKeysProvider.apiKeys) { key in
+                Button(action: { dataProvider.keyID = key.id }, label: {
                     HStack {
                         Text("\(Image(systemName: "circle.fill"))")
                             .foregroundColor(key.color)
                         Text(key.name)
                         Spacer()
-                        if key.id == selectedKey?.id {
+                        if key.id == dataProvider.selectedKey?.id {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.accentColor)
                         }
@@ -43,11 +40,11 @@ struct KeySelectionView: View {
 
     var currencySelection: some View {
         Section(header: Label("CURRENCY", systemImage: "dollarsign.circle.fill")) {
-            NavigationLink(destination: CurrencyPicker(selection: $currency)) {
+            NavigationLink(destination: CurrencyPicker(selection: dataProvider.$currency)) {
                 HStack {
                 Text("APP_CURRENCY")
                     Spacer()
-                    CurrencySymbol(symbol: (Currency(rawValue: currency) ?? .USD).symbol)
+                    CurrencySymbol(symbol: (Currency(rawValue: dataProvider.currency) ?? .USD).symbol)
                 }
             }
         }
