@@ -20,8 +20,8 @@ struct WeeklyAverageCard: View {
         self.title = title
         let filteredData = Array(data.sorted(by: { $0.1 < $1.1 }).prefix(7))
         self.data = filteredData
-        self.average = filteredData.map({ $0.0 }).reduce(0, +) / Float(filteredData.count)
-        self.max = filteredData.map({ $0.0 }).max() ?? 0
+        self.average = filteredData.isEmpty ? .infinity : filteredData.map(\.0).reduce(0, +) / Float(filteredData.count)
+        self.max = filteredData.map(\.0).max() ?? 0
     }
 
     var body: some View {

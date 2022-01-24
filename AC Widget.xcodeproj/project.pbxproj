@@ -19,6 +19,7 @@
 		456187F426F66FE400FAE4F8 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 456187F326F66FE400FAE4F8 /* KeychainAccess */; };
 		456187F626F6741A00FAE4F8 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 456187F526F6741A00FAE4F8 /* KeychainAccess */; };
 		456187F826F6742100FAE4F8 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 456187F726F6742100FAE4F8 /* KeychainAccess */; };
+		456BE765279A10FC0018D75A /* WeeklyAverageComparisonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456BE764279A10FC0018D75A /* WeeklyAverageComparisonCard.swift */; };
 		4570D39A261EE1FC006F50AA /* ACDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4570D399261EE1FC006F50AA /* ACDataCache.swift */; };
 		4570D39B261EE1FC006F50AA /* ACDataCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4570D399261EE1FC006F50AA /* ACDataCache.swift */; };
 		457E715C268D12E5000AEBF6 /* RearrangeTilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457E715B268D12E5000AEBF6 /* RearrangeTilesView.swift */; };
@@ -163,6 +164,7 @@
 		452A37F026161C97005CD1DA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4542C450261B912E00799E4B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4552EE9D261CF3FF006C30B9 /* ACEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACEntry.swift; sourceTree = "<group>"; };
+		456BE764279A10FC0018D75A /* WeeklyAverageComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyAverageComparisonCard.swift; sourceTree = "<group>"; };
 		4570D399261EE1FC006F50AA /* ACDataCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACDataCache.swift; sourceTree = "<group>"; };
 		457E715B268D12E5000AEBF6 /* RearrangeTilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeTilesView.swift; sourceTree = "<group>"; };
 		4583A842261A3E3700368001 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
 				CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */,
 				CBC6F8E5279A05A600D08A3F /* SecondaryBackgroundModifier.swift */,
+				456BE764279A10FC0018D75A /* WeeklyAverageComparisonCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				CB28AEFC2615F5E700B48215 /* GraphView.swift in Sources */,
 				CB436DDB26186B0C00A432B1 /* OnboardingView.swift in Sources */,
 				4552EE9E261CF3FF006C30B9 /* ACEntry.swift in Sources */,
+				456BE765279A10FC0018D75A /* WeeklyAverageComparisonCard.swift in Sources */,
 				CBAB729D261B338600ED0F94 /* APIError.swift in Sources */,
 				459CBA2B2786281000FF568E /* DetailsOverview.swift in Sources */,
 				CB61B0AC26EE952800624425 /* AppListView.swift in Sources */,
