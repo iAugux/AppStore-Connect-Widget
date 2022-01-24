@@ -8,7 +8,7 @@ import SwiftUI
 struct SecondaryBackground: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
-            Color(uiColor: .secondarySystemBackground)
+            Color("BackgroundColor")
                 .ignoresSafeArea()
             content
         }
