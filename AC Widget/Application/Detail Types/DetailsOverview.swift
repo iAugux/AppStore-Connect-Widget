@@ -16,8 +16,18 @@ struct DetailsOverview: View {
         }) {
             if let data = dataProvider.data {
                 ForEach(displayedInfoTypes, id: \.self) { infoType in
-                    DetailsRow(data: data, infoType: infoType)
-                        .padding(.vertical, 10)
+                    NavigationLink(destination: {
+                        switch infoType {
+                        case .downloads:
+                            DownloadsView()
+                        default:
+                            Text("TODO")
+                        }
+                    }, label: {
+                        DetailsRow(data: data, infoType: infoType)
+                            .padding(.vertical, 10)
+                    })
+                        .buttonStyle(.plain)
                 }
                 .padding(.horizontal)
             } else {
