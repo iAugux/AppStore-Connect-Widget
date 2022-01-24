@@ -73,6 +73,8 @@
 		CB436DEB2618E80200A432B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB436DEE2618E80200A432B1 /* Localizable.strings */; };
 		CB436DEC2618E80200A432B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB436DEE2618E80200A432B1 /* Localizable.strings */; };
 		CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */; };
+		CB5E6501279F436B00414E55 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6500279F436B00414E55 /* DownloadsView.swift */; };
+		CB5E6503279F48FF00414E55 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6502279F48FF00414E55 /* SummaryCard.swift */; };
 		CB61B0AC26EE952800624425 /* AppListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB61B0AB26EE952800624425 /* AppListView.swift */; };
 		CB77BBAB268D121E006D4EC4 /* CountryTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77BBAA268D121E006D4EC4 /* CountryTile.swift */; };
 		CB77BBAD268D18E8006D4EC4 /* PercentStackedBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77BBAC268D18E8006D4EC4 /* PercentStackedBarChart.swift */; };
@@ -206,6 +208,8 @@
 		CB436DED2618E80200A432B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB436DF12618E80600A432B1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyDetailView.swift; sourceTree = "<group>"; };
+		CB5E6500279F436B00414E55 /* DownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
+		CB5E6502279F48FF00414E55 /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		CB61B0AB26EE952800624425 /* AppListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListView.swift; sourceTree = "<group>"; };
 		CB77BBAA268D121E006D4EC4 /* CountryTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTile.swift; sourceTree = "<group>"; };
 		CB77BBAC268D18E8006D4EC4 /* PercentStackedBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentStackedBarChart.swift; sourceTree = "<group>"; };
@@ -354,6 +358,15 @@
 			path = WidgetIntentExtension;
 			sourceTree = "<group>";
 		};
+		CB5E64FF279F434900414E55 /* Detail Types */ = {
+			isa = PBXGroup;
+			children = (
+				459CBA2A2786281000FF568E /* DetailsOverview.swift */,
+				CB5E6500279F436B00414E55 /* DownloadsView.swift */,
+			);
+			path = "Detail Types";
+			sourceTree = "<group>";
+		};
 		CB7B9225276D299A0007766C /* ButtonStyles */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,7 +387,7 @@
 				CB436DDA26186B0C00A432B1 /* OnboardingView.swift */,
 				457E715B268D12E5000AEBF6 /* RearrangeTilesView.swift */,
 				45B7C4592700F18300F3ECC4 /* UpdateView.swift */,
-				459CBA2A2786281000FF568E /* DetailsOverview.swift */,
+				CB5E64FF279F434900414E55 /* Detail Types */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -416,6 +429,7 @@
 				45E6FA34277B9EC400C5E426 /* AsyncButton.swift */,
 				CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */,
 				4529359C2783902F00877A7B /* DetailsRow.swift */,
+				CB5E6502279F48FF00414E55 /* SummaryCard.swift */,
 				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
 				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
 				CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */,
@@ -620,6 +634,7 @@
 				CB77BBAF268D1EF5006D4EC4 /* DeviceTile.swift in Sources */,
 				CB77BBAB268D121E006D4EC4 /* CountryTile.swift in Sources */,
 				4570D39A261EE1FC006F50AA /* ACDataCache.swift in Sources */,
+				CB5E6503279F48FF00414E55 /* SummaryCard.swift in Sources */,
 				CBC6F8E6279A05A600D08A3F /* SecondaryBackgroundModifier.swift in Sources */,
 				CBAB729C261B338600ED0F94 /* APIKey.swift in Sources */,
 				CB28AEEA2615D2BB00B48215 /* SummaryMedium.swift in Sources */,
@@ -627,6 +642,7 @@
 				CB77BBAD268D18E8006D4EC4 /* PercentStackedBarChart.swift in Sources */,
 				CBB4A60526F3D8E40064EE9E /* InfoTile.swift in Sources */,
 				CB28AEEF2615D2E900B48215 /* ErrorWidget.swift in Sources */,
+				CB5E6501279F436B00414E55 /* DownloadsView.swift in Sources */,
 				CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */,
 				CBC6F8B427863E3600D08A3F /* PercentageComparisonCard.swift in Sources */,
 				45E6FA35277B9EC400C5E426 /* AsyncButton.swift in Sources */,

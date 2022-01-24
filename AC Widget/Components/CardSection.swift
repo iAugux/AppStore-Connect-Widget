@@ -27,6 +27,7 @@ struct CardSection<Content: View>: View {
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 320))], spacing: 10) {
                 content
+                    .frame(height: 280)
             }
         }
         .padding(.horizontal)

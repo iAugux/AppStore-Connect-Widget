@@ -27,7 +27,7 @@ struct ComparisonCard: View {
                     Text(title)
                         .font(.title2.weight(.semibold))
                     Divider()
-
+                    Spacer(minLength: 0)
                     VStack(alignment: .leading, spacing: 1) {
                         UnitText(primaryValue.toString(abbreviation: .intelligent), metricSymbol: type.systemImage)
                         ZStack(alignment: .leading) {
@@ -41,7 +41,7 @@ struct ComparisonCard: View {
                                 .padding(.leading, 8)
                         }
                     }
-
+                    Spacer(minLength: 0)
                     VStack(alignment: .leading, spacing: 1) {
                         UnitText(secondaryValue.toString(abbreviation: .intelligent), metricSymbol: type.systemImage)
 
