@@ -7,21 +7,18 @@ import SwiftUI
 import BetterToStrings
 
 struct WeeklyAverageCard: View {
-    let type: InfoType
-    let header: Bool
-    let title: LocalizedStringKey
-    let data: [(Float, Date)]
-    let average: Float
-    let max: Float
+    @EnvironmentObject private var dataProvider: ACDataProvider
+    private let type: InfoType
+    private let header: Bool
+    @State private var title: LocalizedStringKey = ""
+    @State private var data: [(Float, Date)] = []
+    @State private var average: Float = 0
+    @State private var max: Float = 0
 
-    init(type: InfoType, header: Bool, title: LocalizedStringKey, data: [(Float, Date)]) {
+    init(type: InfoType, header: Bool) {
         self.type = type
         self.header = header
         self.title = title
-        let filteredData = Array(data.sorted(by: { $0.1 < $1.1 }).prefix(7))
-        self.data = filteredData
-        self.average = filteredData.isEmpty ? .infinity : filteredData.map(\.0).reduce(0, +) / Float(filteredData.count)
-        self.max = filteredData.map(\.0).max() ?? 0
     }
 
     var body: some View {
@@ -35,7 +32,7 @@ struct WeeklyAverageCard: View {
                 Text(title)
                     .font(.title2.weight(.semibold))
                 Divider()
-                if max != 0 {
+                if !data.isEmpty {
                     ZStack(alignment: .top) {
                         graph
                         line
@@ -45,9 +42,35 @@ struct WeeklyAverageCard: View {
                 }
             }
         }
+        .onAppear(perform: refresh)
+        .onReceive(dataProvider.$data) { _ in refresh() }
     }
 
-    var graph: some View {
+    private func refresh() {
+        if let acData = dataProvider.data {
+            let rawData = acData.getRawData(for: type, lastNDays: 7)
+            self.data = rawData
+            self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
+            self.max = rawData.map(\.0).max() ?? 0
+
+            switch type {
+            case .downloads:
+                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) downloads this week."
+            case .proceeds:
+                self.title = "You earned an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 2))\(acData.displayCurrency.symbol) this week."
+            case .updates:
+                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) updates this week."
+            case .iap:
+                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) in-app purchases this week."
+            case .reDownloads:
+                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) re-downloads this week."
+            case .restoredIap:
+                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) restored purchases this week."
+            }
+        }
+    }
+
+    private var graph: some View {
         GeometryReader { val in
             HStack(alignment: .bottom) {
                 Spacer()
@@ -64,7 +87,7 @@ struct WeeklyAverageCard: View {
         }
     }
 
-    var line: some View {
+    private var line: some View {
         GeometryReader { val in
             Capsule()
                 .foregroundColor(type.color)
@@ -77,7 +100,7 @@ struct WeeklyAverageCard: View {
         }
     }
 
-    var text: some View {
+    private var text: some View {
         HStack {
             VStack(alignment: .leading, spacing: 12) {
                 (Text("Avg. ")+Text(type.stringKey))
@@ -95,37 +118,20 @@ struct WeeklyAverageCard: View {
 struct WeeklyAverageCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WeeklyAverageCard(type: .downloads,
-                              header: true,
-                              title: "You had an average of 78 Downloads this week.",
-                              data: [
-                                (0, Date.init(timeIntervalSinceNow: 0)),
-                                (1500, Date.init(timeIntervalSinceNow: -1 * 86400)),
-                                (0, Date.init(timeIntervalSinceNow: -2 * 86400)),
-                                (0, Date.init(timeIntervalSinceNow: -3 * 86400)),
-                                (500, Date.init(timeIntervalSinceNow: -4 * 86400)),
-                                (250, Date.init(timeIntervalSinceNow: -5 * 86400)),
-                                (300, Date.init(timeIntervalSinceNow: -6 * 86400)),
-                              ])
-                .frame(maxHeight: 300)
-                .padding()
-                .background(Color(uiColor: .secondarySystemBackground))
+            CardSection {
+                WeeklyAverageCard(type: .downloads, header: true)
+                WeeklyAverageCard(type: .proceeds, header: true)
+            }
+            .secondaryBackground()
+            .environmentObject(ACDataProvider.example)
 
-            WeeklyAverageCard(type: .downloads,
-                              header: false,
-                              title: "You had an average of 78 Downloads this week.",
-                              data: [
-                                (83, Date.init(timeIntervalSinceNow: 0)),
-                                (145, Date.init(timeIntervalSinceNow: -1 * 86400)),
-                                (68, Date.init(timeIntervalSinceNow: -2 * 86400)),
-                                (111, Date.init(timeIntervalSinceNow: -3 * 86400)),
-                                (83, Date.init(timeIntervalSinceNow: -4 * 86400)),
-                                (76, Date.init(timeIntervalSinceNow: -5 * 86400)),
-                                (79, Date.init(timeIntervalSinceNow: -6 * 86400)),
-                              ])
-                .frame(maxHeight: 300)
-                .padding()
-                .preferredColorScheme(.dark)
+            CardSection {
+                WeeklyAverageCard(type: .downloads, header: true)
+                WeeklyAverageCard(type: .proceeds, header: true)
+            }
+            .secondaryBackground()
+            .environmentObject(ACDataProvider.example)
+            .preferredColorScheme(.dark)
         }
     }
 }
