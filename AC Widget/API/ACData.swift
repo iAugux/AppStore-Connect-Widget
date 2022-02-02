@@ -7,6 +7,8 @@ import Foundation
 import SwiftUI
 import BetterToStrings
 
+typealias RawDataPoint = (Float, Date)
+
 struct ACData: Codable {
     let apps: [ACApp]
     let entries: [ACEntry]
@@ -67,7 +69,7 @@ extension ACData {
         return entries
     }
 
-    func getRawData(for type: InfoType, lastNDays: Int, filteredApps: [ACApp] = []) -> [(Float, Date)] {
+    func getRawData(for type: InfoType, lastNDays: Int, filteredApps: [ACApp] = []) -> [RawDataPoint] {
         let dict = Dictionary(grouping: getEntries(for: type, lastNDays: lastNDays, filteredApps: filteredApps), by: { $0.date })
         var result: [(Float, Date)]
 

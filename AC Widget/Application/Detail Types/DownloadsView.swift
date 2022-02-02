@@ -6,6 +6,12 @@
 import SwiftUI
 
 struct DownloadsView: View {
+    @EnvironmentObject private var provider: ACDataProvider
+
+    var data: ACData {
+        return provider.data ?? .example
+    }
+
     var body: some View {
         ScrollView {
             downloadsSection
@@ -17,7 +23,7 @@ struct DownloadsView: View {
 
     private var downloadsSection: some View {
         CardSection {
-            SummaryCard(type: .downloads, header: false)
+            SummaryCard(data: data, type: .downloads, header: false)
             ComparisonCard(type: .downloads,
                            header: false,
                            title: "You earned 254$ less this week than last one.",
@@ -25,12 +31,13 @@ struct DownloadsView: View {
                            primaryLabel: "December",
                            secondaryValue: 318,
                            secondaryLabel: "November")
+            WeeklyAverageComparisonCard(type: .downloads, header: false, title: "Your average earnings this week, are 3.7$ less.", data: [])
         }
     }
 
     private var reDownloadsSection: some View {
         CardSection("REDOWNLOADS") {
-            SummaryCard(type: .reDownloads, header: true)
+            SummaryCard(data: data, type: .reDownloads, header: true)
         }
     }
 }

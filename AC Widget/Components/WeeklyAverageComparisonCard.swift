@@ -1,13 +1,13 @@
 //
 //  WeeklyAverageComparisonCard.swift
-//  AC Widget
-//
-//  Created by Miká Kruschel on 20.01.22.
+//  AC Widget by NO-COMMENT
 //
 
 import SwiftUI
 
 struct WeeklyAverageComparisonCard: View {
+    @EnvironmentObject var dataProvider: ACDataProvider
+
     let type: InfoType
     let header: Bool
     let title: LocalizedStringKey
@@ -65,9 +65,15 @@ struct WeeklyAverageComparisonCard: View {
 
     var averagesText: some View {
         HStack {
-            UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: "$")
-            Spacer()
-            UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: "$")
+            if type == .proceeds {
+                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: Currency(rawValue: dataProvider.currency)?.symbol ?? "$")
+                Spacer()
+                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: Currency(rawValue: dataProvider.currency)?.symbol ?? "$")
+            } else {
+                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
+                Spacer()
+                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
+            }
         }
         .foregroundColor(type.color)
     }
@@ -147,21 +153,22 @@ struct WeeklyAverageComparisonCard: View {
 struct WeeklyAverageComparisonCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WeeklyAverageComparisonCard(type: .downloads,
-                                        header: true,
-                                        title: "You had an average of 78 Downloads this week.",
-                                        data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
-                .frame(maxHeight: 300)
-                .padding()
-                .background(Color(uiColor: .secondarySystemBackground))
+            CardSection {
+                WeeklyAverageComparisonCard(type: .downloads,
+                                            header: true,
+                                            title: "Your average earnings this week, are 3.7$ less.",
+                                            data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
+            }
+            .secondaryBackground()
 
-            WeeklyAverageComparisonCard(type: .downloads,
-                                        header: false,
-                                        title: "You had an average of 78 Downloads this week.",
-                                        data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
-                .frame(maxHeight: 300)
-                .padding()
-                .preferredColorScheme(.dark)
+            CardSection {
+                WeeklyAverageComparisonCard(type: .downloads,
+                                            header: false,
+                                            title: "Your average earnings this week, are 3.7$ less.",
+                                            data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
+            }
+            .secondaryBackground()
+            .preferredColorScheme(.dark)
         }
     }
 }

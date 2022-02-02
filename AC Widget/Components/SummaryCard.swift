@@ -6,18 +6,21 @@
 import SwiftUI
 
 struct SummaryCard: View {
-    @EnvironmentObject private var provider: ACDataProvider
-    var data: ACData {
-        provider.data ?? ACData.example
-    }
-    private var rawData: [(Float, Date)] {
-        data.getRawData(for: type, lastNDays: 30).reversed()
-    }
-    private var graphData: [CGFloat] {
+    init(data: ACData, type: InfoType, header: Bool) {
+        self.data = data
+        self.type = type
+        self.header = header
+
+        rawData = data.getRawData(for: type, lastNDays: 30)
         let copy = rawData.map { $0.0 }
         let max: Float = copy.max() ?? 1
-        return copy.map { CGFloat($0 / max) }
+        graphData = copy.map { CGFloat($0 / max) }
     }
+
+    private var data: ACData
+    private var rawData: [(Float, Date)]
+    private var graphData: [CGFloat]
+
     private var currencySymbol: String {
         switch type {
         case .proceeds:
@@ -101,19 +104,19 @@ struct SummaryCard: View {
                     }
                     .contentShape(Rectangle())
                     .highPriorityGesture(DragGesture(minimumDistance: 20)
-                                .onChanged({ value in
-                                    let newIndex = Int((value.location.x/reading.size.width) * CGFloat(graphData.count))
-                                    if newIndex != currentIndex && newIndex < rawData.count && newIndex >= 0 {
-                                        currentIndex = newIndex
-                                        UISelectionFeedbackGenerator()
-                                            .selectionChanged()
-                                    }
-                                })
-                                .onEnded({ _ in
-                                    withAnimation(Animation.easeOut(duration: 0.2)) {
-                                            currentIndex = nil
-                                        }
-                                })
+                        .onChanged({ value in
+                            let newIndex = Int((value.location.x/reading.size.width) * CGFloat(graphData.count))
+                            if newIndex != currentIndex && newIndex < rawData.count && newIndex >= 0 {
+                                currentIndex = newIndex
+                                UISelectionFeedbackGenerator()
+                                    .selectionChanged()
+                            }
+                        })
+                            .onEnded({ _ in
+                                withAnimation(Animation.easeOut(duration: 0.2)) {
+                                    currentIndex = nil
+                                }
+                            })
                     )
                 }
             } else {
@@ -168,8 +171,8 @@ struct SummaryCard: View {
 struct SummaryCard_Previews: PreviewProvider {
     static var previews: some View {
         CardSection {
-            SummaryCard(type: .downloads, header: true)
-            SummaryCard(type: .proceeds, header: false)
+            SummaryCard(data: .example, type: .downloads, header: true)
+            SummaryCard(data: .example, type: .proceeds, header: false)
         }
         .secondaryBackground()
         .environmentObject(ACDataProvider.example)
