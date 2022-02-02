@@ -31,7 +31,7 @@ struct DownloadsView: View {
                            primaryLabel: "December",
                            secondaryValue: 318,
                            secondaryLabel: "November")
-            WeeklyAverageComparisonCard(type: .downloads, header: false, title: "Your average earnings this week, are 3.7$ less.", data: [])
+            WeeklyAverageComparisonCard(type: .downloads, header: false)
         }
     }
 

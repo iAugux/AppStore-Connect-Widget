@@ -6,32 +6,20 @@
 import SwiftUI
 
 struct WeeklyAverageComparisonCard: View {
-    @EnvironmentObject var dataProvider: ACDataProvider
+    @EnvironmentObject private var dataProvider: ACDataProvider
 
-    let type: InfoType
-    let header: Bool
-    let title: LocalizedStringKey
-    let data: [(Float, Date)]
-    let average1: Float
-    let average2: Float
-    let max: Float
+    @State private var type: InfoType
+    @State private var header: Bool
 
-    init(type: InfoType, header: Bool, title: LocalizedStringKey, data: [(Float, Date)]) {
+    @State private var title: LocalizedStringKey = ""
+    @State private var data: [RawDataPoint] = []
+    @State private var average1: Float = 1
+    @State private var average2: Float = 1
+    @State private var max: Float = 1
+
+    init(type: InfoType, header: Bool) {
         self.type = type
         self.header = header
-        self.title = title
-        let filteredData = Array(data.sorted(by: { $0.1 < $1.1 }).prefix(31))
-        self.data = filteredData
-
-        if filteredData.isEmpty {
-            self.average1 = .zero
-            self.average2 = .zero
-        } else {
-            self.average1 = filteredData.dropLast(7).map(\.0).average()
-            self.average2 = filteredData.suffix(7).map(\.0).average()
-        }
-
-        self.max = filteredData.map(\.0).max() ?? 0
     }
 
     var body: some View {
@@ -61,14 +49,16 @@ struct WeeklyAverageComparisonCard: View {
                 }
             }
         }
+        .onAppear(perform: refresh)
+        .onReceive(dataProvider.$data) { _ in refresh() }
     }
 
-    var averagesText: some View {
+    private var averagesText: some View {
         HStack {
             if type == .proceeds {
-                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: Currency(rawValue: dataProvider.currency)?.symbol ?? "$")
+                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: currencySymbol)
                 Spacer()
-                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: Currency(rawValue: dataProvider.currency)?.symbol ?? "$")
+                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: currencySymbol)
             } else {
                 UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
                 Spacer()
@@ -78,7 +68,7 @@ struct WeeklyAverageComparisonCard: View {
         .foregroundColor(type.color)
     }
 
-    var dateRanges: some View {
+    private var dateRanges: some View {
         VStack(spacing: 0) {
             GeometryReader { geo in
                 HStack(spacing: 3) {
@@ -101,7 +91,7 @@ struct WeeklyAverageComparisonCard: View {
         .foregroundColor(Color(uiColor: .systemGray4))
     }
 
-    var graph: some View {
+    private var graph: some View {
         GeometryReader { geo in
             HStack(alignment: .bottom, spacing: 0) {
                 ForEach(data, id: \.1) { (value, date) in
@@ -119,7 +109,7 @@ struct WeeklyAverageComparisonCard: View {
         }
     }
 
-    var line: some View {
+    private var line: some View {
         GeometryReader { geo in
             HStack(spacing: 3) {
                 Capsule()
@@ -134,19 +124,94 @@ struct WeeklyAverageComparisonCard: View {
         }
     }
 
-    var firstDateIntervall: String {
+    private var firstDateIntervall: String {
         let days = self.data.dropLast(7).map(\.1)
         return formatDateRange(days)
     }
-    var secondDateIntervall: String {
+    private var secondDateIntervall: String {
         let days = self.data.suffix(7).map(\.1)
         return formatDateRange(days)
     }
 
-    func formatDateRange(_ days: [Date]) -> String {
+    private func formatDateRange(_ days: [Date]) -> String {
         let sorted = days.sorted()
         guard let first = sorted.first, let last = sorted.last else { return "" }
         return first.toString(format: "dd. MMM") + "-" + last.toString(format: "dd. MMM")
+    }
+
+    private var currencySymbol: String {
+        return dataProvider.displayCurrencySymbol
+    }
+
+    private func refresh() {
+        guard let providedData = dataProvider.data else { return }
+
+        let rawData = providedData.getRawData(for: type, lastNDays: 31)
+        let filteredData = Array(rawData.sorted(by: { $0.1 < $1.1 }))
+        self.data = filteredData
+
+        if filteredData.isEmpty {
+            self.average1 = .zero
+            self.average2 = .zero
+        } else {
+            self.average1 = filteredData.dropLast(7).map(\.0).average()
+            self.average2 = filteredData.suffix(7).map(\.0).average()
+        }
+
+        self.max = filteredData.map(\.0).max() ?? 0
+
+        let avgChange = average2 - average1
+        let avgChangeAbs: String = abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 1)
+        switch type {
+        case .downloads:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average downloads didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) downloads less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) downloads more this week than before.")
+            }
+        case .proceeds:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average earnings didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) more this week than before.")
+            }
+        case .updates:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average updates didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) updates less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) updates more this week than before.")
+            }
+        case .iap:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average updates didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) in-app purchases less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) in-app purchases more this week than before.")
+            }
+        case .reDownloads:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average re-downloads didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) re-downloads less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) re-downloads more this week than before.")
+            }
+        case .restoredIap:
+            if avgChange == 0 {
+                self.title = LocalizedStringKey("Your average restored purchases didn't change.")
+            } else if avgChange < 0 {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) restored purchases less this week than before.")
+            } else {
+                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) restored purchases more this week than before.")
+            }
+        }
     }
 }
 
@@ -154,21 +219,16 @@ struct WeeklyAverageComparisonCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             CardSection {
-                WeeklyAverageComparisonCard(type: .downloads,
-                                            header: true,
-                                            title: "Your average earnings this week, are 3.7$ less.",
-                                            data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
+                WeeklyAverageComparisonCard(type: .downloads, header: true)
             }
             .secondaryBackground()
 
             CardSection {
-                WeeklyAverageComparisonCard(type: .downloads,
-                                            header: false,
-                                            title: "Your average earnings this week, are 3.7$ less.",
-                                            data: ACData.exampleLargeSums.getRawData(for: .downloads, lastNDays: 30))
+                WeeklyAverageComparisonCard(type: .downloads, header: false)
             }
             .secondaryBackground()
             .preferredColorScheme(.dark)
         }
+        .environmentObject(ACDataProvider.exampleLargeSums)
     }
 }

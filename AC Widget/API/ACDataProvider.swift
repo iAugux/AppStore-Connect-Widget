@@ -18,6 +18,10 @@ class ACDataProvider: ObservableObject {
         didSet { refresh() }
     }
 
+    public var displayCurrencySymbol: String {
+        return data?.displayCurrency.symbol ?? "$"
+    }
+
     public var selectedKey: APIKey? {
         return apiKeysProvider.getApiKey(apiKeyId: keyID) ?? apiKeysProvider.apiKeys.first
     }
@@ -60,6 +64,12 @@ extension ACDataProvider {
     static let example: ACDataProvider = {
         let provider = ACDataProvider()
         provider.data = .example
+        return provider
+    }()
+
+    static let exampleLargeSums: ACDataProvider = {
+        let provider = ACDataProvider()
+        provider.data = .exampleLargeSums
         return provider
     }()
 }
