@@ -46,7 +46,7 @@ struct PercentageComparisonCard: View {
                             .foregroundColor(type.color)
                     }
                     .font(.caption.weight(.medium))
-                    
+
                     HStack {
                         Text(comparisonValue.toString(abbreviation: .intelligent))
                         Spacer()
@@ -59,7 +59,7 @@ struct PercentageComparisonCard: View {
                             Rectangle()
                                 .foregroundColor(comparisonType.color)
                                 .frame(width: (val.size.width-5)*CGFloat(comparisonValue/(mainValue + comparisonValue)))
-                            
+
                             Rectangle()
                                 .foregroundColor(type.color)
                                 .frame(width: (val.size.width-5)*CGFloat(mainValue/(mainValue + comparisonValue)))
@@ -78,6 +78,8 @@ struct PercentageComparisonCard: View {
         if let acData = dataProvider.data {
             self.mainValue = acData.getRawData(for: type, lastNDays: 30).reduce(0, { $0 + $1.0 })
             self.comparisonValue = acData.getRawData(for: comparisonType, lastNDays: 30).reduce(0, { $0 + $1.0 })
+            
+            if mainValue == 0 && comparisonValue == 0 { return } // check if division by zero
             let percentage = (mainValue / (mainValue + comparisonValue))*100
 
             switch type {
