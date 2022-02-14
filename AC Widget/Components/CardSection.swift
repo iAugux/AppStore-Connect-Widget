@@ -38,23 +38,10 @@ struct CardSection<Content: View>: View {
 struct CardSection_Previews: PreviewProvider {
     static var previews: some View {
             CardSection("Downloads") {
-                ComparisonCard(type: .downloads,
-                               header: true,
-                               title: "Test",
-                               primaryValue: 200,
-                               primaryLabel: "This Week",
-                               secondaryValue: 300,
-                               secondaryLabel: "Last Week")
-                    .frame(height: 255)
-                ComparisonCard(type: .iap,
-                               header: true,
-                               title: "Test",
-                               primaryValue: 300,
-                               primaryLabel: "This Week",
-                               secondaryValue: 200,
-                               secondaryLabel: "Last Week")
-                    .frame(height: 255)
+                WeeklyAverageCard(type: .downloads, header: true)
+                WeeklyAverageCard(type: .downloads, header: true)
             }
             .secondaryBackground()
+            .environmentObject(ACDataProvider.example)
     }
 }

@@ -24,13 +24,6 @@ struct DownloadsView: View {
     private var downloadsSection: some View {
         CardSection {
             SummaryCard(data: data, type: .downloads, header: false)
-            ComparisonCard(type: .downloads,
-                           header: false,
-                           title: "You earned 254$ less this week than last one.",
-                           primaryValue: 200,
-                           primaryLabel: "December",
-                           secondaryValue: 318,
-                           secondaryLabel: "November")
             WeeklyAverageComparisonCard(type: .downloads, header: false)
         }
     }

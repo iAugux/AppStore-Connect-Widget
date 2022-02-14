@@ -78,7 +78,7 @@ struct PercentageComparisonCard: View {
         if let acData = dataProvider.data {
             self.mainValue = acData.getRawData(for: type, lastNDays: 30).reduce(0, { $0 + $1.0 })
             self.comparisonValue = acData.getRawData(for: comparisonType, lastNDays: 30).reduce(0, { $0 + $1.0 })
-            
+
             if mainValue == 0 && comparisonValue == 0 { return } // check if division by zero
             let percentage = (mainValue / (mainValue + comparisonValue))*100
 

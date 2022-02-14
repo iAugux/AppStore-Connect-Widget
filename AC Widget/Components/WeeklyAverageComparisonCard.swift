@@ -11,7 +11,7 @@ struct WeeklyAverageComparisonCard: View {
     @State private var type: InfoType
     @State private var header: Bool
 
-    @State private var title: LocalizedStringKey = ""
+    @State private var title: String = ""
     @State private var data: [RawDataPoint] = []
     @State private var average1: Float = 1
     @State private var average2: Float = 1
@@ -163,53 +163,21 @@ struct WeeklyAverageComparisonCard: View {
         let avgChange = average2 - average1
         let avgChangeAbs: String = abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 1)
         switch type {
-        case .downloads:
+        case .downloads, .updates, .iap, .reDownloads, .restoredIap:
             if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average downloads didn't change.")
+                self.title = "Your average \(type.title.lowercased()) didn't change."
             } else if avgChange < 0 {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) downloads less this week than before.")
+                self.title = "Your app had \(avgChangeAbs) \(type.title.lowercased()) less this week than before."
             } else {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) downloads more this week than before.")
+                self.title = "Your app had \(avgChangeAbs) \(type.title.lowercased()) more this week than before."
             }
         case .proceeds:
             if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average earnings didn't change.")
+                self.title = "Your average earnings didn't change."
             } else if avgChange < 0 {
-                self.title = LocalizedStringKey("You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) less this week than before.")
+                self.title = "You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) less this week than before."
             } else {
-                self.title = LocalizedStringKey("You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) more this week than before.")
-            }
-        case .updates:
-            if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average updates didn't change.")
-            } else if avgChange < 0 {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) updates less this week than before.")
-            } else {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) updates more this week than before.")
-            }
-        case .iap:
-            if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average updates didn't change.")
-            } else if avgChange < 0 {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) in-app purchases less this week than before.")
-            } else {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) in-app purchases more this week than before.")
-            }
-        case .reDownloads:
-            if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average re-downloads didn't change.")
-            } else if avgChange < 0 {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) re-downloads less this week than before.")
-            } else {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) re-downloads more this week than before.")
-            }
-        case .restoredIap:
-            if avgChange == 0 {
-                self.title = LocalizedStringKey("Your average restored purchases didn't change.")
-            } else if avgChange < 0 {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) restored purchases less this week than before.")
-            } else {
-                self.title = LocalizedStringKey("Your app had \(avgChangeAbs) restored purchases more this week than before.")
+                self.title = "You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) more this week than before."
             }
         }
     }

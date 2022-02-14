@@ -191,17 +191,34 @@ enum InfoType {
     var stringKey: LocalizedStringKey {
         switch self {
         case .proceeds:
-            return "PROCEEDS"
+            return "Proceeds"
         case .downloads:
-            return "DOWNLOADS"
+            return "Downloads"
         case .updates:
-            return "UPDATES"
+            return "Updates"
         case .iap:
-            return "IN-APP-PURCHASES"
+            return "In-App Purchases"
         case .reDownloads:
-            return "RE-DOWNLOADS"
+            return "Re-Downloads"
         case .restoredIap:
-            return "RESTORED_IN-APP_PURCHASES"
+            return "Restored In-App Purchases"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .proceeds:
+            return "Proceeds"
+        case .downloads:
+            return "Downloads"
+        case .updates:
+            return "Updates"
+        case .iap:
+            return "In-App Purchases"
+        case .reDownloads:
+            return "Re-Downloads"
+        case .restoredIap:
+            return "Restored In-App Purchases"
         }
     }
 
