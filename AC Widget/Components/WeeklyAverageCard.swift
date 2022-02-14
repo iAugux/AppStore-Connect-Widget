@@ -8,18 +8,12 @@ import BetterToStrings
 
 struct WeeklyAverageCard: View {
     @EnvironmentObject private var dataProvider: ACDataProvider
-    private let type: InfoType
-    private let header: Bool
+    let type: InfoType
+    let header: Bool
     @State private var title: LocalizedStringKey = ""
     @State private var data: [(Float, Date)] = []
     @State private var average: Float = 0
     @State private var max: Float = 0
-
-    init(type: InfoType, header: Bool) {
-        self.type = type
-        self.header = header
-        self.title = title
-    }
 
     var body: some View {
         Card {
