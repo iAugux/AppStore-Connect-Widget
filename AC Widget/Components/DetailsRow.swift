@@ -9,7 +9,7 @@ struct DetailsRow: View {
     public let data: ACData
     public let infoType: InfoType
 
-    private var currentDay: (Float, Date) {
+    private var currentDay: RawDataPoint {
         return data.getLastRawData(for: infoType)
     }
 

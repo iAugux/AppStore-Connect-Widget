@@ -56,7 +56,7 @@ class ACDataCache {
         }.first
 
         let latestDate = latest?.date ?? Date()
-        let validDays = latestDate.getLastNDates(35).map({ $0.acApiFormat() })
+        let validDays = latestDate.getLastNDates(370).map({ $0.acApiFormat() })
 
         entries = entries.filter({ entry in
             validDays.contains(entry.date.acApiFormat())

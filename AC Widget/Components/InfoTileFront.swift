@@ -9,7 +9,7 @@ import BetterToStrings
 struct InfoTileFront: View {
     private var description: LocalizedStringKey
     private var data: ACData
-    private var rawData: [(Float, Date)]
+    private var rawData: [RawDataPoint]
     private var type: InfoType
     private var color: Color
 
@@ -84,7 +84,7 @@ struct InfoTileFront: View {
         }
     }
 
-    private func getGraphDataPoint(_ index: Int) -> (Float, Date) {
+    private func getGraphDataPoint(_ index: Int) -> RawDataPoint {
         if index >= rawData.count {
             return rawData.last ?? (0, Date(timeIntervalSince1970: 0))
         }

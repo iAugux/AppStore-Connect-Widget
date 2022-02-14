@@ -71,15 +71,15 @@ extension ACData {
 
     func getRawData(for type: InfoType, lastNDays: Int, filteredApps: [ACApp] = []) -> [RawDataPoint] {
         let dict = Dictionary(grouping: getEntries(for: type, lastNDays: lastNDays, filteredApps: filteredApps), by: { $0.date })
-        var result: [(Float, Date)]
+        var result: [RawDataPoint]
 
         switch type {
         case .proceeds:
-            result = dict.map { (key: Date, value: [ACEntry]) -> (Float, Date) in
+            result = dict.map { (key: Date, value: [ACEntry]) -> RawDataPoint in
                 return (value.reduce(0, { $0 + $1.proceeds * Float($1.units) }), key)
             }
         default:
-            result = dict.map { (key: Date, value: [ACEntry]) -> (Float, Date) in
+            result = dict.map { (key: Date, value: [ACEntry]) -> RawDataPoint in
                 return (Float(value.reduce(0, { $0 + $1.units })), key)
             }
         }
@@ -87,7 +87,7 @@ extension ACData {
         return result.fillZeroLastDays(lastNDays, latestDate: self.latestReportingDate())
     }
 
-    func getLastRawData(for type: InfoType, filteredApps: [ACApp] = []) -> (Float, Date) {
+    func getLastRawData(for type: InfoType, filteredApps: [ACApp] = []) -> RawDataPoint {
         return self.getRawData(for: type, lastNDays: 1, filteredApps: filteredApps).first ?? (0, .now)
     }
 
@@ -152,8 +152,8 @@ extension ACData {
 
 // MARK: Mock Data
 extension ACData {
-    static let example = createMockData(31)
-    static let exampleLargeSums = createMockData(31, largeValues: true)
+    static let example = createMockData(371)
+    static let exampleLargeSums = createMockData(371, largeValues: true)
 
     private static func createMockData(_ days: Int, largeValues: Bool = false) -> ACData {
         var entries: [ACEntry] = []
@@ -176,7 +176,7 @@ extension ACData {
     }
 }
 
-extension Array where Element == (Float, Date) {
+extension Array where Element == RawDataPoint {
     enum NumberLength { case standard, compact }
     func toString(size: NumberLength = .standard) -> String {
         self.map({ $0.0 })

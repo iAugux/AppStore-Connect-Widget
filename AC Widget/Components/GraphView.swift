@@ -10,7 +10,7 @@ struct GraphView: View {
     let data: [CGFloat]
     let color: Color
 
-    init(_ data: [(Float, Date)], color: Color = .accentColor) {
+    init(_ data: [RawDataPoint], color: Color = .accentColor) {
         let copy = data.map { $0.0 }
         let max: Float = copy.max() ?? 1
         self.data = copy.map { CGFloat($0 / max) }.reversed()
@@ -72,7 +72,7 @@ struct GraphView_Previews: PreviewProvider {
                 .padding()
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-            GraphView([(Float, Date)]())
+            GraphView([RawDataPoint]())
                 .padding()
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
         }

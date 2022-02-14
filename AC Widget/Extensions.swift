@@ -308,12 +308,20 @@ extension Array where Element == ACEntry {
     }
 }
 
-extension Array where Element == (Float, Date) {
-    func fillZeroLastDays(_ n: Int, latestDate: Date) -> [(Float, Date)] {
+extension Array where Element == RawDataPoint {
+    func fillZeroLastDays(_ n: Int, latestDate: Date) -> [RawDataPoint] {
         let lastNDays: [Date] = latestDate.getLastNDates(n)
-        return lastNDays.map({ day -> (Float, Date) in
+        return lastNDays.map({ day -> RawDataPoint in
             return self.first(where: { $0.1 == day }) ?? (Float.zero, day)
         })
+    }
+}
+
+extension Sequence {
+    func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+        return sorted { a, b in
+            return a[keyPath: keyPath] < b[keyPath: keyPath]
+        }
     }
 }
 

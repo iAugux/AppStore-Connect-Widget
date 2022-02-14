@@ -18,7 +18,7 @@ struct SummaryCard: View {
     }
 
     private var data: ACData
-    private var rawData: [(Float, Date)]
+    private var rawData: [RawDataPoint]
     private var graphData: [CGFloat]
 
     private var currencySymbol: String {
@@ -74,7 +74,7 @@ struct SummaryCard: View {
         }
     }
 
-    private func getGraphDataPoint(_ index: Int) -> (Float, Date) {
+    private func getGraphDataPoint(_ index: Int) -> RawDataPoint {
         if index >= rawData.count {
             return rawData.last ?? (0, Date(timeIntervalSince1970: 0))
         }

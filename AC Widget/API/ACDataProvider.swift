@@ -7,6 +7,8 @@ import SwiftUI
 import Combine
 
 class ACDataProvider: ObservableObject {
+    private var anyCancellable: AnyCancellable?
+
     @Published public var data: ACData?
     @Published public var error: APIError?
     @Published public var apiKeysProvider: APIKeyProvider
@@ -30,6 +32,10 @@ class ACDataProvider: ObservableObject {
         data = nil
         error = nil
         apiKeysProvider = APIKeyProvider()
+
+        anyCancellable = apiKeysProvider.objectWillChange.sink { [weak self] _ in
+            self?.objectWillChange.send()
+        }
     }
 
     private func refresh() {

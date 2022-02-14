@@ -41,6 +41,16 @@ struct OnboardingView: View {
         .navigationBarTitleDisplayMode(.inline)
         .alert(item: $alert, content: { generateAlert($0) })
         .navigationViewStyle(.stack)
+        #if DEBUG
+        .onDrop(of: ["public.json"], isTargeted: .constant(false)) { providers -> Bool in
+            providers.first?.loadDataRepresentation(forTypeIdentifier: "public.json", completionHandler: { (data, error) in
+                guard let data = data else { return }
+                guard let apiKey: APIKey = try? JSONDecoder().decode(APIKey.self, from: data) else { return }
+                try? dataProvider.apiKeysProvider.addApiKey(apiKey: apiKey)
+            })
+            return true
+        }
+        #endif
     }
 
     // MARK: Pages
