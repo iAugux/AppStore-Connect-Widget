@@ -6,11 +6,13 @@
 import SwiftUI
 
 struct NoDataOverlayView: View {
+    let short: Bool
+
     var body: some View {
-        Text("There is currently no data for this graph")
+        Text(short ? "No Data" : "There is currently no data for this graph")
             .bold()
             .multilineTextAlignment(.center)
-            .padding()
+            .padding(short ? 8 : 15)
             .background(.thinMaterial)
             .cornerRadius(9)
             .unredacted()
@@ -20,17 +22,22 @@ struct NoDataOverlayView: View {
 }
 
 extension View {
-    func noDataOverlay(_ condition: Bool) -> some View {
+    func noDataOverlay(_ condition: Bool, short: Bool = false) -> some View {
         self
-            .overlay(NoDataOverlayView().opacity(condition ? 1 : 0), alignment: .center)
+            .overlay(NoDataOverlayView(short: short).opacity(condition ? 1 : 0), alignment: .center)
             .redacted(reason: condition ? .placeholder : [])
     }
 }
 
 struct NoDataOverlay_Previews: PreviewProvider {
     static var previews: some View {
+        ZStack {
         LinearGradient(colors: [.red, .yellow, .green, .blue], startPoint: .leading, endPoint: .trailing)
-            .noDataOverlay(true)
+            VStack {
+                NoDataOverlayView(short: true)
+                NoDataOverlayView(short: false)
+            }
+        }
 
         CardSection {
             YearlyOverviewCard(type: .downloads, header: true)

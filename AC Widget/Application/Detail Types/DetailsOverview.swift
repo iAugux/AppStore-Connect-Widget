@@ -24,7 +24,7 @@ struct DetailsOverview: View {
                             Text("TODO")
                         }
                     }, label: {
-                        DetailsRow(data: data, infoType: infoType)
+                        DetailsRow(infoType: infoType)
                             .padding(.vertical, 10)
                     })
                         .buttonStyle(.plain)

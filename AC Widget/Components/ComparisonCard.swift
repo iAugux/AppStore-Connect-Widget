@@ -17,6 +17,8 @@ struct ComparisonCard: View {
     @State private var secondaryValue: Float = 0
     @State private var secondaryLabel: String = ""
 
+    @State private var noData = true
+
     var body: some View {
         Card {
             GeometryReader { val in
@@ -25,6 +27,7 @@ struct ComparisonCard: View {
                         Label(type.title, systemImage: type.systemImage)
                             .font(.subheadline.weight(.semibold))
                             .foregroundColor(type.color)
+                            .unredacted()
                     }
                     Text(title)
                         .font(.title2.weight(.semibold))
@@ -41,6 +44,7 @@ struct ComparisonCard: View {
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundColor(type.contrastColor)
                                 .padding(.leading, 8)
+                                .unredacted()
                         }
                     }
                     Spacer(minLength: 0)
@@ -56,41 +60,63 @@ struct ComparisonCard: View {
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundColor(.primary)
                                 .padding(.leading, 8)
+                                .unredacted()
                         }
                     }
                 }
             }
+            .noDataOverlay(noData)
         }
         .onAppear(perform: refresh)
         .onReceive(dataProvider.$data) { _ in refresh() }
     }
 
     private func refresh() {
-        if let acData = dataProvider.data {
-            self.primaryValue = acData.getRawData(for: type, lastNDays: interval.lastNDays).reduce(0, { $0 + $1.0 })
-            self.secondaryValue = acData.getRawData(for: type, lastNDays: 2*interval.lastNDays).reduce(0, { $0 + $1.0 }) - primaryValue
-            self.primaryLabel = interval.primaryLabel
-            self.secondaryLabel = interval.secondaryLabel
+        guard let acData = dataProvider.data else {
+            showNoData()
+            return
+        }
 
-            switch type {
-            case .downloads, .updates, .restoredIap, .reDownloads, .iap:
-                if primaryValue == secondaryValue {
-                    self.title = "Your average \(type.title.lowercased()) in the last \(interval.sentenceBlock) were the same as before."
-                } else if primaryValue < secondaryValue {
-                    self.title = "You had more \(type.title.lowercased()) in the last \(interval.sentenceBlock) than before."
-                } else {
-                    self.title = "You had less \(type.title.lowercased()) in the last \(interval.sentenceBlock) than before."
-                }
-            case .proceeds:
-                if primaryValue == secondaryValue {
-                    self.title = "Your earnings in the last \(interval.sentenceBlock) did not change."
-                } else if primaryValue < secondaryValue {
-                    self.title = "You earned more in the last \(interval.sentenceBlock) than before."
-                } else {
-                    self.title = "You earned less in the last \(interval.sentenceBlock) than before."
-                }
+        self.primaryValue = acData.getRawData(for: type, lastNDays: interval.lastNDays).reduce(0, { $0 + $1.0 })
+        self.secondaryValue = acData.getRawData(for: type, lastNDays: 2*interval.lastNDays).reduce(0, { $0 + $1.0 }) - primaryValue
+
+        guard primaryValue != 0 || secondaryValue != 0 else {
+            showNoData()
+            return
+        }
+
+        self.primaryLabel = interval.primaryLabel
+        self.secondaryLabel = interval.secondaryLabel
+
+        switch type {
+        case .downloads, .updates, .restoredIap, .reDownloads, .iap:
+            if primaryValue == secondaryValue {
+                self.title = "Your average \(type.title.lowercased()) in the last \(interval.sentenceBlock) were the same as before."
+            } else if primaryValue < secondaryValue {
+                self.title = "You had more \(type.title.lowercased()) in the last \(interval.sentenceBlock) than before."
+            } else {
+                self.title = "You had less \(type.title.lowercased()) in the last \(interval.sentenceBlock) than before."
+            }
+        case .proceeds:
+            if primaryValue == secondaryValue {
+                self.title = "Your earnings in the last \(interval.sentenceBlock) did not change."
+            } else if primaryValue < secondaryValue {
+                self.title = "You earned more in the last \(interval.sentenceBlock) than before."
+            } else {
+                self.title = "You earned less in the last \(interval.sentenceBlock) than before."
             }
         }
+
+        noData = false
+    }
+
+    private func showNoData() {
+        self.primaryValue = 42
+        self.secondaryValue = 69 - primaryValue
+        self.primaryLabel = interval.primaryLabel
+        self.secondaryLabel = interval.secondaryLabel
+        self.title = "You earned less in the last than before."
+        noData = true
     }
 }
 
@@ -99,17 +125,19 @@ struct ComparisonCard_Previews: PreviewProvider {
         Group {
             CardSection {
                 ComparisonCard(type: .downloads, header: true, interval: .sevenDays)
+                    .environmentObject(ACDataProvider.example)
                 ComparisonCard(type: .proceeds, header: true, interval: .thirtyDays)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
 
             CardSection {
                 ComparisonCard(type: .downloads, header: true, interval: .sevenDays)
+                    .environmentObject(ACDataProvider.example)
                 ComparisonCard(type: .proceeds, header: true, interval: .thirtyDays)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
             .preferredColorScheme(.dark)
         }
     }

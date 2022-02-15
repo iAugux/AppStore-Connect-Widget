@@ -14,6 +14,8 @@ struct PercentageComparisonCard: View {
     @State private var mainValue: Float = 0
     @State private var comparisonValue: Float = 0
 
+    @State private var noData = true
+
     var comparisonType: InfoType {
         switch type {
         case .reDownloads:
@@ -32,6 +34,7 @@ struct PercentageComparisonCard: View {
                     Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
+                        .unredacted()
                 }
                 Text(title)
                     .font(.title2.weight(.semibold))
@@ -46,6 +49,7 @@ struct PercentageComparisonCard: View {
                             .foregroundColor(type.color)
                     }
                     .font(.caption.weight(.medium))
+                    .unredacted()
 
                     HStack {
                         Text(comparisonValue.toString(abbreviation: .intelligent))
@@ -69,28 +73,48 @@ struct PercentageComparisonCard: View {
                     .frame(height: 16)
                 }
             }
+            .noDataOverlay(noData)
         }
         .onAppear(perform: refresh)
         .onReceive(dataProvider.$data) { _ in refresh() }
     }
 
     private func refresh() {
-        if let acData = dataProvider.data {
-            self.mainValue = acData.getRawData(for: type, lastNDays: 30).reduce(0, { $0 + $1.0 })
-            self.comparisonValue = acData.getRawData(for: comparisonType, lastNDays: 30).reduce(0, { $0 + $1.0 })
-
-            if mainValue == 0 && comparisonValue == 0 { return } // check if division by zero
-            let percentage = (mainValue / (mainValue + comparisonValue))*100
-
-            switch type {
-            case .reDownloads:
-                self.title = "\(percentage.toString(abbreviation: .none, maxFractionDigits: 1))% of your total downloads were re-downloaded."
-            case .restoredIap:
-                self.title = "\(percentage.toString(abbreviation: .none, maxFractionDigits: 1))% of your total in-app purchases were restored."
-            default:
-                self.title = "ERROR"
-            }
+        guard let acData = dataProvider.data else {
+            showNoData()
+            return
         }
+
+        self.mainValue = acData.getRawData(for: type, lastNDays: 30).reduce(0, { $0 + $1.0 })
+        self.comparisonValue = acData.getRawData(for: comparisonType, lastNDays: 30).reduce(0, { $0 + $1.0 })
+
+        guard mainValue != 0 || comparisonValue != 0 else {
+            showNoData()
+            return
+        }
+
+        if mainValue == 0 && comparisonValue == 0 { return } // check if division by zero
+        let percentage = (mainValue / (mainValue + comparisonValue))*100
+
+        switch type {
+        case .reDownloads:
+            self.title = "\(percentage.toString(abbreviation: .none, maxFractionDigits: 1))% of your total downloads were re-downloaded."
+        case .restoredIap:
+            self.title = "\(percentage.toString(abbreviation: .none, maxFractionDigits: 1))% of your total in-app purchases were restored."
+        default:
+            self.title = "ERROR"
+        }
+
+        noData = false
+    }
+
+    private func showNoData() {
+        self.mainValue = Float(Int.random(in: 50...100))
+        self.comparisonValue = Float(Int.random(in: 20...60))
+
+        self.title = "42% of your total downloads were re-downloaded."
+
+        noData = true
     }
 }
 
@@ -99,17 +123,19 @@ struct PercentageComparisonCard_Previews: PreviewProvider {
         Group {
             CardSection {
                 PercentageComparisonCard(type: .reDownloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 PercentageComparisonCard(type: .restoredIap, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
 
             CardSection {
                 PercentageComparisonCard(type: .reDownloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 PercentageComparisonCard(type: .restoredIap, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
             .preferredColorScheme(.dark)
         }
     }
