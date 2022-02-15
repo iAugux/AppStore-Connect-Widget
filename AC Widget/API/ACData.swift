@@ -257,4 +257,21 @@ enum InfoType {
     var contrastColor: Color {
         Color.white
     }
+
+    var goalDefaultsKey: String {
+        switch self {
+        case .downloads:
+            return "downloads-goal"
+        case .proceeds:
+            return "proceeds-goal"
+        case .updates:
+            return "updates-goal"
+        case .iap:
+            return "in-app-purchases-goal"
+        case .reDownloads:
+            return "re-downloads-goal"
+        case .restoredIap:
+            return "restored-in-app-purchases-goal"
+        }
+    }
 }
