@@ -55,15 +55,9 @@ struct WeeklyAverageComparisonCard: View {
 
     private var averagesText: some View {
         HStack {
-            if type == .proceeds {
-                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: currencySymbol)
-                Spacer()
-                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: currencySymbol)
-            } else {
-                UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
-                Spacer()
-                UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
-            }
+            UnitText(average1.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: currencySymbol)
+            Spacer()
+            UnitText(average2.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: currencySymbol)
         }
         .foregroundColor(type.color)
     }

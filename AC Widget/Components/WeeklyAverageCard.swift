@@ -101,7 +101,7 @@ struct WeeklyAverageCard: View {
                     .font(.caption.weight(.medium))
                     .foregroundColor(Color(uiColor: .systemGray4))
 
-                UnitText(average.toString(abbreviation: .intelligent, maxFractionDigits: 1), metricSymbol: type.systemImage)
+                UnitText(average.toString(abbreviation: .intelligent, maxFractionDigits: 1), infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)
             }
             .padding(.leading, 10)
             Spacer()

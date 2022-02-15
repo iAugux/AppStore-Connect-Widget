@@ -31,7 +31,7 @@ struct ComparisonCard: View {
                     Divider()
 
                     VStack(alignment: .leading, spacing: 1) {
-                        UnitText(primaryValue.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
+                        UnitText(primaryValue.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 6)
                                 .foregroundColor(type.color)
@@ -45,7 +45,7 @@ struct ComparisonCard: View {
                     }
                     Spacer(minLength: 0)
                     VStack(alignment: .leading, spacing: 1) {
-                        UnitText(secondaryValue.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
+                        UnitText(secondaryValue.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)
 
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 6)

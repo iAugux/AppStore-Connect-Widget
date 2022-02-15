@@ -21,7 +21,7 @@ struct GraphView: View {
         if !data.isEmpty {
             GeometryReader { reading in
                 HStack(alignment: .bottom, spacing: 0) {
-                    ForEach(data.indices) { i in
+                    ForEach(data.indices, id: \.self) { i in
                         Capsule()
                             .frame(width: (reading.size.width/CGFloat(data.count))*0.7, height: reading.size.height * getHeight(i))
                             .foregroundColor(getColor(i))

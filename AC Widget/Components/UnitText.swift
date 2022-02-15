@@ -7,21 +7,16 @@ import SwiftUI
 import WidgetKit
 
 struct UnitText: View {
-    let text: String
-    let metricString: String?
-    let metricImage: String?
-    var fontSize: CGFloat = 30
+    private let text: String
+    private let infoType: InfoType
+    private var fontSize: CGFloat = 30
+    private var currencySymbol: String
 
-    init(_ text: String, metric: String) {
+    public init(_ text: String, infoType: InfoType, currencySymbol: String? = "") {
+        assert(infoType != .proceeds || !(currencySymbol?.isEmpty ?? true), "Proceeds need a currencySymbol.")
         self.text = text
-        self.metricString = metric
-        self.metricImage = nil
-    }
-
-    init(_ text: String, metricSymbol: String) {
-        self.text = text
-        self.metricString = nil
-        self.metricImage = metricSymbol
+        self.infoType = infoType
+        self.currencySymbol = currencySymbol ?? ""
     }
 
     var body: some View {
@@ -29,17 +24,15 @@ struct UnitText: View {
             HStack(alignment: .top, spacing: 0) {
                 Text(text)
 
-                if let metricString = metricString {
-                    Text(metricString)
+                if infoType == .proceeds && !currencySymbol.isEmpty {
+                    Text(currencySymbol)
                         .font(.system(size: fontSize*0.5, weight: .semibold, design: .rounded) )
                         // .font(.system(size: fontSize*0.5))
                         .padding(.top, fontSize*0.1)
                         .foregroundColor(.secondary)
                         .hidePlaceholderRedacted()
-                }
-
-                if let metricImage = metricImage {
-                    Image(systemName: metricImage)
+                } else {
+                    Image(systemName: infoType.systemImage)
                         .font(.system(size: fontSize*0.48, weight: .semibold, design: .default) )
                         .padding(.top, fontSize*0.1)
                         .foregroundColor(.secondary)
@@ -52,7 +45,7 @@ struct UnitText: View {
         .lineLimit(1)
     }
 
-    func fontSize(_ fontSize: CGFloat) -> some View {
+    public func fontSize(_ fontSize: CGFloat) -> some View {
         var copy = self
         copy.fontSize = fontSize
         return copy
@@ -62,16 +55,16 @@ struct UnitText: View {
 struct UnitText_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            UnitText("45.3", metric: "$")
+            UnitText("45.3", infoType: .proceeds, currencySymbol: "€")
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-            UnitText("4.8k", metricSymbol: "square.and.arrow.down")
+            UnitText("4.8k", infoType: .downloads, currencySymbol: "€")
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
 
             VStack {
                 HStack {
                     Spacer()
-                    UnitText("253", metric: "€")
+                    UnitText("253", infoType: .proceeds, currencySymbol: "€")
                         .fontSize(35)
                 }
                 Spacer()

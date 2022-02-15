@@ -18,8 +18,8 @@ struct SummarySmall: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
 
-                UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), metricSymbol: "square.and.arrow.down")
-                UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), metric: data.displayCurrency.symbol)
+                UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .downloads)
+                UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
 
                 Spacer()
                     .frame(minHeight: 0)

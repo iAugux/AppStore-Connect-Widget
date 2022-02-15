@@ -18,7 +18,7 @@ struct PercentStackedBarChart: View {
         if !data.isEmpty {
             GeometryReader { reading in
                 HStack(spacing: 0) {
-                    ForEach(data.indices) { i in
+                    ForEach(data.indices, id: \.self) { i in
                         Rectangle()
                             .foregroundColor(data[i].1)
                             .frame(width: calcWidth(i: i, totalWidth: reading.size.width))

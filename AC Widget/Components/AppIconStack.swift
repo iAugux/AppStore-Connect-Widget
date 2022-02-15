@@ -19,7 +19,7 @@ struct AppIconStack: View {
 
     var body: some View {
         ZStack {
-            ForEach(0..<showAppCount) { index in
+            ForEach(0..<showAppCount, id: \.self) { index in
                 Group {
                     if let data = apps[index].artwork60ImgData, let uiImg = UIImage(data: data) {
                         Image(uiImage: uiImg)

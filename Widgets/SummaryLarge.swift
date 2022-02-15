@@ -53,7 +53,7 @@ struct SummaryLarge: View {
 
     var downloadsSection: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), metricSymbol: "square.and.arrow.down")
+            UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .downloads)
             GraphView(data.getRawData(for: .downloads, lastNDays: 30, filteredApps: filteredApps), color: color.readable(colorScheme: colorScheme))
 
             VStack(spacing: 0) {
@@ -69,7 +69,7 @@ struct SummaryLarge: View {
 
     var proceedsSection: some View {
         VStack(alignment: .leading, spacing: 5.0) {
-            UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), metric: data.displayCurrency.symbol)
+            UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
             GraphView(data.getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps), color: color.readable(colorScheme: colorScheme))
 
             VStack(spacing: 0) {
@@ -128,14 +128,14 @@ struct SummaryLarge: View {
                     }
 
                     HStack(alignment: .bottom) {
-                        UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.downloads.systemImage)
+                        UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: [app]).toString(), infoType: .downloads)
                             .fontSize(fewApps ? 25 : 19)
                         Spacer()
-                        UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [app]).toString(), metric: data.displayCurrency.symbol)
+                        UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [app]).toString(), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
                             .fontSize(fewApps ? 25 : 19)
                         if fewApps {
                             Spacer()
-                            UnitText(data.getRawData(for: .iap, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.iap.systemImage)
+                            UnitText(data.getRawData(for: .iap, lastNDays: 1, filteredApps: [app]).toString(), infoType: .iap)
                                 .fontSize(25)
                         }
                     }

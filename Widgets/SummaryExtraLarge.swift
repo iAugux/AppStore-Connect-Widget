@@ -46,7 +46,7 @@ struct SummaryExtraLarge: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), metricSymbol: "square.and.arrow.down")
+                    UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .downloads)
                 }
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data.getRawData(for: .downloads, lastNDays: 7, filteredApps: filteredApps).toString(size: .compact))
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data.getRawData(for: .downloads, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact))
@@ -72,7 +72,7 @@ struct SummaryExtraLarge: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), metric: data.displayCurrency.symbol)
+                    UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
                 }
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data
                                     .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
@@ -127,19 +127,19 @@ struct SummaryExtraLarge: View {
 
                     HStack(alignment: .bottom) {
                         Spacer()
-                        UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.downloads.systemImage)
+                        UnitText(data.getRawData(for: .downloads, lastNDays: 1, filteredApps: [app]).toString(), infoType: .downloads)
                             .fontSize(19)
                         Spacer()
-                        UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [app]).toString(), metric: data.displayCurrency.symbol)
+                        UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [app]).toString(), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
                             .fontSize(19)
                         if (filteredApps.count != 0 && filteredApps.count <= 3) || (filteredApps.count == 0 && data.apps.count <= 3) {
                             Spacer()
-                            UnitText(data.getRawData(for: .iap, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.iap.systemImage)
+                            UnitText(data.getRawData(for: .iap, lastNDays: 1, filteredApps: [app]).toString(), infoType: .iap)
                                 .fontSize(19)
                         }
                         if (filteredApps.count != 0 && filteredApps.count <= 2) || (filteredApps.count == 0 && data.apps.count <= 2) {
                             Spacer()
-                            UnitText(data.getRawData(for: .updates, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.updates.systemImage)
+                            UnitText(data.getRawData(for: .updates, lastNDays: 1, filteredApps: [app]).toString(), infoType: .updates)
                                 .fontSize(19)
                         }
                     }

@@ -103,11 +103,7 @@ struct InfoTile: View {
                 Spacer()
             }
 
-            if currencySymbol.isEmpty {
-                UnitText(data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [app]).toString(), metricSymbol: type.systemImage)
-            } else {
-                UnitText(data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [app]).toString(), metric: currencySymbol)
-            }
+            UnitText(data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [app]).toString(), infoType: type, currencySymbol: currencySymbol)
         }
     }
 }

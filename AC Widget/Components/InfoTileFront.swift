@@ -66,20 +66,12 @@ struct InfoTileFront: View {
                 Text(getGraphDataPoint(index).1.toString(format: "dd. MMM.", smartConversion: true))
                     .font(.system(size: 20))
                 Spacer()
-                if currencySymbol.isEmpty {
-                    UnitText(getGraphDataPoint(index).0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: type.systemImage)
-                } else {
-                    UnitText(getGraphDataPoint(index).0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: currencySymbol)
-                }
+                UnitText(getGraphDataPoint(index).0.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: currencySymbol)
             } else {
                 Text(description)
                     .font(.system(size: 20))
                 Spacer()
-                if currencySymbol.isEmpty {
-                    UnitText(data.getRawData(for: type, lastNDays: 1).toString(), metricSymbol: type.systemImage)
-                } else {
-                    UnitText(data.getRawData(for: type, lastNDays: 1).toString(), metric: currencySymbol)
-                }
+                UnitText(data.getRawData(for: type, lastNDays: 1).toString(), infoType: type, currencySymbol: currencySymbol)
             }
         }
     }
@@ -100,7 +92,7 @@ struct InfoTileFront: View {
             if !graphData.isEmpty {
                 GeometryReader { reading in
                     HStack(alignment: .bottom, spacing: 0) {
-                        ForEach(graphData.indices) { i in
+                        ForEach(graphData.indices, id: \.self) { i in
                             Capsule()
                                 .frame(width: (reading.size.width/CGFloat(graphData.count))*0.7, height: reading.size.height * getGraphHeight(i))
                                 .foregroundColor(getGraphColor(i))

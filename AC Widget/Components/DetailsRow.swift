@@ -33,11 +33,7 @@ struct DetailsRow: View {
             }
 
             HStack(alignment: .bottom) {
-                if infoType == .proceeds {
-                    UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metric: data.displayCurrency.symbol)
-                } else {
-                    UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), metricSymbol: infoType.systemImage)
-                }
+                UnitText(currentDay.0.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: .proceeds, currencySymbol: data.displayCurrency.symbol)
                 Spacer(minLength: 70)
                 GraphView(ACData.example.getRawData(for: infoType, lastNDays: 30), color: infoType.color)
                     .frame(maxWidth: 230)
