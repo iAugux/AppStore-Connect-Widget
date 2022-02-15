@@ -18,7 +18,7 @@ struct MonthlyGoalCard: View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
                 }
@@ -142,7 +142,7 @@ struct MonthlyGoalCard: View {
     private func refresh() {
         if let acData = dataProvider.data {
             self.goal = UserDefaults.shared?.float(forKey: type.goalDefaultsKey) ?? 0
-            self.current = acData.getRawData(for: type, lastNDays: acData.latestReportingDate().dateToMonthNumber()).reduce(0, { $0 + $1.0 })
+            self.current = acData.getRawData(for: type, lastNDays: acData.latestReportingDate().dateToDayNumber()).reduce(0, { $0 + $1.0 })
 
             let avg = acData.getRawData(for: type, lastNDays: 7).reduce(0, { $0 + $1.0 }) / 7
             let calendar = Calendar.current
