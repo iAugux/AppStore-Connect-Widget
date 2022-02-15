@@ -22,7 +22,7 @@ struct ComparisonCard: View {
             GeometryReader { val in
                 VStack(alignment: .leading, spacing: 10) {
                     if header {
-                        Label(type.stringKey, systemImage: type.systemImage)
+                        Label(type.title, systemImage: type.systemImage)
                             .font(.subheadline.weight(.semibold))
                             .foregroundColor(type.color)
                     }

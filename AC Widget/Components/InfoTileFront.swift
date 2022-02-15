@@ -164,7 +164,7 @@ struct InfoTileFront: View {
                 Spacer()
                     .frame(width: 40)
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
-                                   value: data.getRawData(for: type, lastNDays: data.latestReportingDate().dateToMonthNumber()).toString(size: .compact).appending(currencySymbol))
+                                   value: data.getRawData(for: type, lastNDays: data.latestReportingDate().dateToDayNumber()).toString(size: .compact).appending(currencySymbol))
             }
         }
     }

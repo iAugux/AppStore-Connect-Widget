@@ -29,7 +29,7 @@ struct PercentageComparisonCard: View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
                 }
@@ -39,10 +39,10 @@ struct PercentageComparisonCard: View {
 
                 VStack(spacing: 6) {
                     HStack {
-                        Text(comparisonType.stringKey)
+                        Text(comparisonType.title)
                             .foregroundColor(comparisonType.color)
                         Spacer()
-                        Text(type.stringKey)
+                        Text(type.title)
                             .foregroundColor(type.color)
                     }
                     .font(.caption.weight(.medium))

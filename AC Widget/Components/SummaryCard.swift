@@ -6,62 +6,112 @@
 import SwiftUI
 
 struct SummaryCard: View {
-    init(data: ACData, type: InfoType, header: Bool) {
-        self.data = data
+    @EnvironmentObject private var dataProvider: ACDataProvider
+    private let type: InfoType
+    private let header: Bool
+
+    @State private var currentIndex: Int?
+    @State private var graphData: [CGFloat] = []
+
+    @State private var latestData: RawDataPoint = (0, .now)
+    @State private var rawData: [RawDataPoint] = []
+
+    @State private var noData = true
+
+    init(type: InfoType, header: Bool) {
         self.type = type
         self.header = header
 
-        rawData = data.getRawData(for: type, lastNDays: 30)
-        let copy = rawData.map { $0.0 }
-        let max: Float = copy.max() ?? 1
-        graphData = copy.map { CGFloat($0 / max) }
+        //        rawData = data.getRawData(for: type, lastNDays: 30)
+        //        let copy = rawData.map { $0.0 }
+        //        let max: Float = copy.max() ?? 1
+        //        graphData = copy.map { CGFloat($0 / max) }
     }
 
-    private var data: ACData
-    private var rawData: [RawDataPoint]
-    private var graphData: [CGFloat]
-
-    private var currencySymbol: String {
-        switch type {
-        case .proceeds:
-            return data.displayCurrency.symbol
-        default:
-            return ""
-        }
-    }
-    @State private var currentIndex: Int?
-
-    let type: InfoType
-    let header: Bool
+    //    private var data: ACData
+    //    private var rawData: [RawDataPoint]
+    //    private var graphData: [CGFloat]
+    //
+    //    private var currencySymbol: String {
+    //        switch type {
+    //        case .proceeds:
+    //            return data.displayCurrency.symbol
+    //        default:
+    //            return ""
+    //        }
+    //    }
+    //
+    //    let type: InfoType
+    //    let header: Bool
 
     var body: some View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
+                        .unredacted()
                 }
                 topSection
                 graphSection
                 bottomSection
             }
+            .noDataOverlay(noData)
         }
+        .onAppear(perform: refresh)
+        .onReceive(dataProvider.$data) { _ in refresh() }
+    }
+
+    private func refresh() {
+        guard let acData = dataProvider.data else {
+            showNoData()
+            return
+        }
+        rawData = acData.getRawData(for: type, lastNDays: 30)
+
+        guard !rawData.isEmpty else {
+            showNoData()
+            return
+        }
+
+        let copy = rawData.map { $0.0 }
+        let max: Float = copy.max() ?? 1
+        graphData = copy.map { CGFloat($0 / max) }
+
+        latestData = rawData.last ?? (0, .now)
+
+        noData = false
+    }
+
+    private func showNoData() {
+        rawData = ACData.createExampleData(30)
+        let copy = rawData.map { $0.0 }
+        let max: Float = copy.max() ?? 1
+        graphData = copy.map { CGFloat($0 / max) }
+
+        latestData = rawData.last ?? (0, .now)
+
+        noData = true
+    }
+
+    var currencySymbol: String {
+        dataProvider.displayCurrencySymbol
     }
 
     // MARK: Top
     var topSection: some View {
         HStack(alignment: .top) {
             if let index = currentIndex {
-                Text(getGraphDataPoint(index).1.toString(format: "dd. MMM.", smartConversion: true))
+                Text(getGraphDataPoint(index).1.reportingDate())
                     .font(.system(size: 20))
                 Spacer()
                 UnitText(getGraphDataPoint(index).0.toString(abbreviation: .intelligent, maxFractionDigits: 2), infoType: type, currencySymbol: currencySymbol)
             } else {
-                Text(data.latestReportingDate())
+                Text(latestData.1.reportingDate())
                     .font(.system(size: 20))
                 Spacer()
-                UnitText(data.getRawData(for: type, lastNDays: 1).toString(), infoType: type, currencySymbol: currencySymbol)
+                UnitText([latestData].toString(), infoType: type, currencySymbol: currencySymbol)
             }
         }
     }
@@ -79,42 +129,36 @@ struct SummaryCard: View {
     // MARK: Graph
     var graphSection: some View {
         Group {
-            if !graphData.isEmpty {
-                GeometryReader { reading in
-                    HStack(alignment: .bottom, spacing: 0) {
-                        ForEach(graphData.indices, id: \.self) { i in
-                            Capsule()
-                                .frame(width: (reading.size.width/CGFloat(graphData.count))*0.7, height: reading.size.height * getGraphHeight(i))
-                                .foregroundColor(getGraphColor(i))
-                                .opacity(currentIndex == i ? 0.7 : 1)
+            GeometryReader { reading in
+                HStack(alignment: .bottom, spacing: 0) {
+                    ForEach(graphData.indices, id: \.self) { i in
+                        Capsule()
+                            .frame(width: (reading.size.width/CGFloat(graphData.count))*0.7, height: reading.size.height * getGraphHeight(i))
+                            .foregroundColor(getGraphColor(i))
+                            .opacity(currentIndex == i ? 0.7 : 1)
 
-                            if i != graphData.count-1 {
-                                Spacer()
-                                    .frame(minWidth: 0)
-                            }
+                        if i != graphData.count-1 {
+                            Spacer()
+                                .frame(minWidth: 0)
                         }
                     }
-                    .contentShape(Rectangle())
-                    .highPriorityGesture(DragGesture(minimumDistance: 20)
-                        .onChanged({ value in
-                            let newIndex = Int((value.location.x/reading.size.width) * CGFloat(graphData.count))
-                            if newIndex != currentIndex && newIndex < rawData.count && newIndex >= 0 {
-                                currentIndex = newIndex
-                                UISelectionFeedbackGenerator()
-                                    .selectionChanged()
+                }
+                .contentShape(Rectangle())
+                .highPriorityGesture(DragGesture(minimumDistance: 20)
+                    .onChanged({ value in
+                        let newIndex = Int((value.location.x/reading.size.width) * CGFloat(graphData.count))
+                        if newIndex != currentIndex && newIndex < rawData.count && newIndex >= 0 {
+                            currentIndex = newIndex
+                            UISelectionFeedbackGenerator()
+                                .selectionChanged()
+                        }
+                    })
+                        .onEnded({ _ in
+                            withAnimation(Animation.easeOut(duration: 0.2)) {
+                                currentIndex = nil
                             }
                         })
-                            .onEnded({ _ in
-                                withAnimation(Animation.easeOut(duration: 0.2)) {
-                                    currentIndex = nil
-                                }
-                            })
-                    )
-                }
-            } else {
-                Text("NO_DATA")
-                    .foregroundColor(.gray)
-                    .italic()
+                )
             }
         }
     }
@@ -143,18 +187,18 @@ struct SummaryCard: View {
     var bottomSection: some View {
         VStack {
             HStack(alignment: .bottom) {
-                DescribedValueView(description: "LAST_SEVEN_DAYS", value: data.getRawData(for: type, lastNDays: 7).toString(size: .compact).appending(currencySymbol))
+                DescribedValueView(description: "LAST_SEVEN_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 7).toString(size: .compact).appending(currencySymbol) ?? "-")
                 Spacer()
                     .frame(width: 40)
-                DescribedValueView(description: "LAST_THIRTY_DAYS", value: data.getRawData(for: type, lastNDays: 30).toString(size: .compact).appending(currencySymbol))
+                DescribedValueView(description: "LAST_THIRTY_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 30).toString(size: .compact).appending(currencySymbol) ?? "-")
             }
 
             HStack(alignment: .bottom) {
-                DescribedValueView(description: "CHANGE_PERCENT", value: data.getChange(type).appending("%"))
+                DescribedValueView(description: "CHANGE_PERCENT", value: dataProvider.data?.getChange(type).appending("%") ?? "-")
                 Spacer()
                     .frame(width: 40)
-                DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
-                                   value: data.getRawData(for: type, lastNDays: data.latestReportingDate().dateToMonthNumber()).toString(size: .compact).appending(currencySymbol))
+                DescribedValueView(descriptionString: latestData.1.toString(format: "MMMM").appending(":"),
+                                   value: dataProvider.data?.getRawData(for: type, lastNDays: latestData.1.dateToDayNumber()).toString(size: .compact).appending(currencySymbol) ?? "-")
             }
         }
     }
@@ -163,10 +207,11 @@ struct SummaryCard: View {
 struct SummaryCard_Previews: PreviewProvider {
     static var previews: some View {
         CardSection {
-            SummaryCard(data: .example, type: .downloads, header: true)
-            SummaryCard(data: .example, type: .proceeds, header: false)
+            SummaryCard(type: .downloads, header: false)
+                .environmentObject(ACDataProvider.example)
+            SummaryCard(type: .proceeds, header: true)
+                .environmentObject(ACDataProvider.exampleNoData)
         }
         .secondaryBackground()
-        .environmentObject(ACDataProvider.example)
     }
 }

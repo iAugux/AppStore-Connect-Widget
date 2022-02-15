@@ -15,53 +15,75 @@ struct WeeklyAverageCard: View {
     @State private var average: Float = 0
     @State private var max: Float = 0
 
+    @State private var noData = true
+
     var body: some View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
+                        .unredacted()
                 }
                 Text(title)
                     .font(.title2.weight(.semibold))
                 Divider()
-                if !data.isEmpty {
-                    ZStack(alignment: .top) {
-                        graph
-                        line
-                    }
-                } else {
-                    Text("NO_DATA")
+                ZStack(alignment: .top) {
+                    graph
+                    line
                 }
             }
+            .noDataOverlay(noData)
         }
         .onAppear(perform: refresh)
         .onReceive(dataProvider.$data) { _ in refresh() }
     }
 
     private func refresh() {
-        if let acData = dataProvider.data {
-            let rawData = acData.getRawData(for: type, lastNDays: 7)
-            self.data = rawData
-            self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
-            self.max = rawData.map(\.0).max() ?? 0
-
-            switch type {
-            case .downloads:
-                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) downloads this week."
-            case .proceeds:
-                self.title = "You earned an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 2))\(acData.displayCurrency.symbol) this week."
-            case .updates:
-                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) updates this week."
-            case .iap:
-                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) in-app purchases this week."
-            case .reDownloads:
-                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) re-downloads this week."
-            case .restoredIap:
-                self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) restored purchases this week."
-            }
+        guard let acData = dataProvider.data else {
+            showNoData()
+            return
         }
+
+        let rawData = acData.getRawData(for: type, lastNDays: 7)
+
+        guard !rawData.isEmpty else {
+            showNoData()
+            return
+        }
+
+        self.data = rawData
+        self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
+        self.max = rawData.map(\.0).max() ?? 0
+
+        switch type {
+        case .downloads:
+            self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) downloads this week."
+        case .proceeds:
+            self.title = "You earned an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 2))\(acData.displayCurrency.symbol) this week."
+        case .updates:
+            self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) updates this week."
+        case .iap:
+            self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) in-app purchases this week."
+        case .reDownloads:
+            self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) re-downloads this week."
+        case .restoredIap:
+            self.title = "You had an average of \(average.toString(abbreviation: .intelligent, maxFractionDigits: 1)) restored purchases this week."
+        }
+
+        noData = false
+    }
+
+    private func showNoData() {
+        let rawData = ACData.createExampleData(7)
+        self.data = rawData
+        self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
+        self.max = rawData.map(\.0).max() ?? 0
+
+        self.title = "You had an average of 42 restored purchases this week."
+
+        noData = true
     }
 
     private var graph: some View {
@@ -72,7 +94,7 @@ struct WeeklyAverageCard: View {
                     VStack {
                         RoundedRectangle(cornerRadius: 4)
                             .frame(width: val.size.width/20, height: val.size.height * CGFloat(value/max) - 25)
-                        Text(date.toString(format: "EEEEE"))
+                        Text(date.toString(format: "EEEEE")).unredacted()
                     }
                     .foregroundColor(Color(uiColor: .systemGray4))
                 }
@@ -97,9 +119,10 @@ struct WeeklyAverageCard: View {
     private var text: some View {
         HStack {
             VStack(alignment: .leading, spacing: 12) {
-                (Text("Avg. ")+Text(type.stringKey))
+                Text("Avg. \(type.title)")
                     .font(.caption.weight(.medium))
                     .foregroundColor(Color(uiColor: .systemGray4))
+                    .unredacted()
 
                 UnitText(average.toString(abbreviation: .intelligent, maxFractionDigits: 1), infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)
             }
@@ -114,17 +137,19 @@ struct WeeklyAverageCard_Previews: PreviewProvider {
         Group {
             CardSection {
                 WeeklyAverageCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 WeeklyAverageCard(type: .proceeds, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
 
             CardSection {
                 WeeklyAverageCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 WeeklyAverageCard(type: .proceeds, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
             .preferredColorScheme(.dark)
         }
     }

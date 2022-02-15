@@ -62,7 +62,7 @@ struct SummaryLarge: View {
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data
                                     .getRawData(for: .downloads, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact))
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
-                                   value: data.getRawData(for: .downloads, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps).toString(size: .compact))
+                                   value: data.getRawData(for: .downloads, lastNDays: data.latestReportingDate().dateToDayNumber(), filteredApps: filteredApps).toString(size: .compact))
             }
         }
     }
@@ -83,7 +83,7 @@ struct SummaryLarge: View {
                                     .appending(data.displayCurrency.symbol))
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
                                    value: data
-                                    .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps)
+                                    .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToDayNumber(), filteredApps: filteredApps)
                                     .toString(size: .compact)
                                     .appending(data.displayCurrency.symbol))
             }

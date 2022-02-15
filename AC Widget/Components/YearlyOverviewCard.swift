@@ -12,6 +12,7 @@ struct YearlyOverviewCard: View {
 
     @State private var monthData: [(month: Int, val: Float)] = []
     @State private var maxData: (month: Int, val: Float) = (month: 0, val: 0)
+    @State private var noData = true
 
     init(type: InfoType, header: Bool) {
         self.type = type
@@ -22,20 +23,18 @@ struct YearlyOverviewCard: View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
+                        .unredacted()
                 }
                 Text(Calendar.current.monthSymbols.indices.contains(maxData.month-1) ? "It looks like \(Calendar.current.monthSymbols[maxData.month-1]) ist your strongest month." : "")
                     .font(.title2.weight(.semibold))
 
                 Divider()
-                if !monthData.isEmpty {
-                    graph
-                } else {
-                    Text("NO_DATA")
-                }
+                graph
             }
+            .noDataOverlay(noData)
         }
         .onAppear(perform: refresh)
         .onReceive(dataProvider.$data) { _ in refresh() }
@@ -50,7 +49,7 @@ struct YearlyOverviewCard: View {
                             .fill(month == maxData.month ? type.color : Color(uiColor: .systemGray4))
                             .frame(width: geo.size.width/20, height: geo.size.height * CGFloat(val/maxData.val) - 25)
 
-                        Text(Calendar.current.veryShortMonthSymbols[month-1])
+                        Text(Calendar.current.veryShortMonthSymbols[month-1]).unredacted()
                     }
                     .foregroundColor(Color(uiColor: .systemGray4))
                     .frame(maxWidth: .infinity)
@@ -60,24 +59,42 @@ struct YearlyOverviewCard: View {
     }
 
     private func refresh() {
-        if let acData = dataProvider.data {
-            let rawData = acData.getRawData(for: type, lastNDays: 365)
-
-            let currentMonth = Calendar.current.component(.month, from: .now)
-            let monthOrder = Array(currentMonth...(currentMonth + 11)).map({ 1 + $0 % 12 })
-
-            monthData = Dictionary(grouping: rawData) { (data) -> Int in
-                return Calendar.current.component(.month, from: data.1)
-            }.map { (key: Int, value: [RawDataPoint]) in
-                (month: key, val: value.map(\.0).sum())
-            }.sorted(by: {
-                return (monthOrder.firstIndex(of: $0.month) ?? 13) < (monthOrder.firstIndex(of: $1.month) ?? 13)
-            })
-
-            if let max = monthData.max(by: { $0.val < $1.val }) {
-                maxData = max
-            }
+        guard let acData = dataProvider.data else {
+            showNoData()
+            return
         }
+        let rawData = acData.getRawData(for: type, lastNDays: 365)
+
+        guard !rawData.isEmpty else {
+            showNoData()
+            return
+        }
+
+        let currentMonth = Calendar.current.component(.month, from: .now)
+        let monthOrder = Array(currentMonth...(currentMonth + 11)).map({ 1 + $0 % 12 })
+
+        monthData = Dictionary(grouping: rawData) { (data) -> Int in
+            return Calendar.current.component(.month, from: data.1)
+        }.map { (key: Int, value: [RawDataPoint]) in
+            (month: key, val: value.map(\.0).sum())
+        }.sorted(by: {
+            return (monthOrder.firstIndex(of: $0.month) ?? 13) < (monthOrder.firstIndex(of: $1.month) ?? 13)
+        })
+
+        if let max = monthData.max(by: { $0.val < $1.val }) {
+            maxData = max
+        }
+        noData = false
+    }
+
+    private func showNoData() {
+        let currentMonth = Calendar.current.component(.month, from: .now)
+        let monthOrder = Array(currentMonth...(currentMonth + 11)).map({ 1 + $0 % 12 })
+
+        monthData = monthOrder.map({ (month: $0, val: Float.random(in: 30...100)) })
+        if let max = monthData.max(by: { $0.val < $1.val }) { maxData = max }
+
+        noData = true
     }
 }
 
@@ -86,17 +103,19 @@ struct YearlyOverviewCard_Previews: PreviewProvider {
         Group {
             CardSection {
                 YearlyOverviewCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 YearlyOverviewCard(type: .proceeds, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
 
             CardSection {
                 YearlyOverviewCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.example)
                 YearlyOverviewCard(type: .proceeds, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
-            .environmentObject(ACDataProvider.example)
             .preferredColorScheme(.dark)
         }
     }

@@ -17,6 +17,8 @@ struct WeeklyAverageComparisonCard: View {
     @State private var average2: Float = 1
     @State private var max: Float = 1
 
+    @State private var noData = true
+
     init(type: InfoType, header: Bool) {
         self.type = type
         self.header = header
@@ -26,28 +28,28 @@ struct WeeklyAverageComparisonCard: View {
         Card {
             VStack(alignment: .leading, spacing: 10) {
                 if header {
-                    Label(type.stringKey, systemImage: type.systemImage)
+                    Label(type.title, systemImage: type.systemImage)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(type.color)
+                        .unredacted()
                 }
                 Text(title)
                     .font(.title2.weight(.semibold))
                 Divider()
-                if max != 0 {
-                    VStack(spacing: 5) {
-                        averagesText
 
-                        ZStack(alignment: .top) {
-                            graph
-                            line
-                        }
+                VStack(spacing: 5) {
+                    averagesText
 
-                        dateRanges
+                    ZStack(alignment: .top) {
+                        graph
+                        line
                     }
-                } else {
-                    Text("NO_DATA")
+
+                    dateRanges.unredacted()
                 }
+
             }
+            .noDataOverlay(noData)
         }
         .onAppear(perform: refresh)
         .onReceive(dataProvider.$data) { _ in refresh() }
@@ -88,16 +90,14 @@ struct WeeklyAverageComparisonCard: View {
     private var graph: some View {
         GeometryReader { geo in
             HStack(alignment: .bottom, spacing: 0) {
-                ForEach(data, id: \.1) { (value, date) in
+                ForEach(data, id: \.1) { (value, _) in
                     VStack {
                         Capsule()
                             .frame(width: 0.5 * geo.size.width / 31, height: geo.size.height * CGFloat(value/max))
                         //                        Text(date.toString(format: "EEEEE"))
                     }
                     .foregroundColor(Color(uiColor: .systemGray4))
-                    if data.last?.1 != date {
-                        Spacer(minLength: 0)
-                    }
+                    .frame(maxWidth: .infinity)
                 }
             }
         }
@@ -138,9 +138,18 @@ struct WeeklyAverageComparisonCard: View {
     }
 
     private func refresh() {
-        guard let providedData = dataProvider.data else { return }
+        guard let providedData = dataProvider.data else {
+            showNoData()
+            return
+        }
 
         let rawData = providedData.getRawData(for: type, lastNDays: 31)
+
+        guard !rawData.isEmpty else {
+            showNoData()
+            return
+        }
+
         let filteredData = Array(rawData.sorted(by: { $0.1 < $1.1 }))
         self.data = filteredData
 
@@ -174,6 +183,22 @@ struct WeeklyAverageComparisonCard: View {
                 self.title = "You earned \(abs(avgChange).toString(abbreviation: .intelligent, maxFractionDigits: 2))\(currencySymbol) more this week than before."
             }
         }
+
+        noData = false
+    }
+
+    private func showNoData() {
+        let filteredData = Array(ACData.createExampleData(31).sorted(by: { $0.1 < $1.1 }))
+        self.data = filteredData
+
+        self.average1 = filteredData.dropLast(7).map(\.0).average()
+        self.average2 = filteredData.suffix(7).map(\.0).average()
+
+        self.max = filteredData.map(\.0).max() ?? 0
+
+        self.title = "Lorem ipsum dolor sit amet consectetur."
+
+        noData = true
     }
 }
 
@@ -181,16 +206,21 @@ struct WeeklyAverageComparisonCard_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             CardSection {
+                WeeklyAverageComparisonCard(type: .downloads, header: false)
+                    .environmentObject(ACDataProvider.exampleLargeSums)
                 WeeklyAverageComparisonCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
 
             CardSection {
                 WeeklyAverageComparisonCard(type: .downloads, header: false)
+                    .environmentObject(ACDataProvider.exampleLargeSums)
+                WeeklyAverageComparisonCard(type: .downloads, header: true)
+                    .environmentObject(ACDataProvider.exampleNoData)
             }
             .secondaryBackground()
             .preferredColorScheme(.dark)
         }
-        .environmentObject(ACDataProvider.exampleLargeSums)
     }
 }

@@ -27,7 +27,7 @@ struct InfoTile: View {
         case 2:
             return 30
         case 3:
-            return data.latestReportingDate().dateToMonthNumber()
+            return data.latestReportingDate().dateToDayNumber()
         default:
             return 1
         }

@@ -73,6 +73,12 @@ extension ACDataProvider {
         return provider
     }()
 
+    static let exampleNoData: ACDataProvider = {
+        let provider = ACDataProvider()
+        provider.data = nil
+        return provider
+    }()
+
     static let exampleLargeSums: ACDataProvider = {
         let provider = ACDataProvider()
         provider.data = .exampleLargeSums

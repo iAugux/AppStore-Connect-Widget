@@ -23,14 +23,14 @@ struct DownloadsView: View {
 
     private var downloadsSection: some View {
         CardSection {
-            SummaryCard(data: data, type: .downloads, header: false)
+            SummaryCard(type: .downloads, header: false)
             WeeklyAverageComparisonCard(type: .downloads, header: false)
         }
     }
 
     private var reDownloadsSection: some View {
         CardSection("REDOWNLOADS") {
-            SummaryCard(data: data, type: .reDownloads, header: true)
+            SummaryCard(type: .reDownloads, header: true)
         }
     }
 }

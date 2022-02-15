@@ -150,6 +150,12 @@ extension ACData {
     }
 }
 
+extension Date {
+    func reportingDate() -> String {
+        return self.toString(format: "dd. MMM.", smartConversion: true)
+    }
+}
+
 // MARK: Mock Data
 extension ACData {
     static let example = createMockData(371)
@@ -174,6 +180,10 @@ extension ACData {
         }
         return ACData(entries: entries, currency: .USD, apps: [ACApp.mockApp])
     }
+
+    public static func createExampleData(_ days: Int, largeValues: Bool = false) -> [RawDataPoint] {
+        return Date.now.dayBefore.getLastNDates(days).map({ return (Float(Int.random(in: 7...30) * (largeValues ? 5 : 1)), $0) })
+    }
 }
 
 extension Array where Element == RawDataPoint {
@@ -187,23 +197,6 @@ extension Array where Element == RawDataPoint {
 
 enum InfoType {
     case downloads, proceeds, updates, iap, reDownloads, restoredIap
-
-    var stringKey: LocalizedStringKey {
-        switch self {
-        case .proceeds:
-            return "Proceeds"
-        case .downloads:
-            return "Downloads"
-        case .updates:
-            return "Updates"
-        case .iap:
-            return "In-App Purchases"
-        case .reDownloads:
-            return "Re-Downloads"
-        case .restoredIap:
-            return "Restored In-App Purchases"
-        }
-    }
 
     var title: String {
         switch self {
