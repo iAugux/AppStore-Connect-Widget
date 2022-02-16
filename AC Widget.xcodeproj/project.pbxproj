@@ -78,6 +78,7 @@
 		CB436DEB2618E80200A432B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB436DEE2618E80200A432B1 /* Localizable.strings */; };
 		CB436DEC2618E80200A432B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB436DEE2618E80200A432B1 /* Localizable.strings */; };
 		CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */; };
+		CB54789727BDA34300E0F428 /* HeatMapCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54789627BDA34300E0F428 /* HeatMapCard.swift */; };
 		CB5E6501279F436B00414E55 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6500279F436B00414E55 /* DownloadsView.swift */; };
 		CB5E6503279F48FF00414E55 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6502279F48FF00414E55 /* SummaryCard.swift */; };
 		CB61B0AC26EE952800624425 /* AppListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB61B0AB26EE952800624425 /* AppListView.swift */; };
@@ -221,6 +222,7 @@
 		CB436DED2618E80200A432B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB436DF12618E80600A432B1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyDetailView.swift; sourceTree = "<group>"; };
+		CB54789627BDA34300E0F428 /* HeatMapCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapCard.swift; sourceTree = "<group>"; };
 		CB5E6500279F436B00414E55 /* DownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
 		CB5E6502279F48FF00414E55 /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		CB61B0AB26EE952800624425 /* AppListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListView.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				45C718B927BAEAF4009CC361 /* YearlyOverviewCard.swift */,
 				CB94792727BC3FC500CF4BAD /* MonthlyGoalCard.swift */,
 				450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */,
+				CB54789627BDA34300E0F428 /* HeatMapCard.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				CB77BBAF268D1EF5006D4EC4 /* DeviceTile.swift in Sources */,
 				CB77BBAB268D121E006D4EC4 /* CountryTile.swift in Sources */,
 				4570D39A261EE1FC006F50AA /* ACDataCache.swift in Sources */,
+				CB54789727BDA34300E0F428 /* HeatMapCard.swift in Sources */,
 				CB5E6503279F48FF00414E55 /* SummaryCard.swift in Sources */,
 				CBC6F8E6279A05A600D08A3F /* SecondaryBackgroundModifier.swift in Sources */,
 				CBAB729C261B338600ED0F94 /* APIKey.swift in Sources */,

@@ -44,7 +44,7 @@ struct HeatMap: View {
 
     private func numOfBoxes(width: CGFloat) -> Int {
         let weekday = Calendar.current.component(.weekday, from: Date.now) + 1
-        return (Int(width / (HeatMap.size + HeatMap.spacing)) * 7) - weekday
+        return (Int((width+HeatMap.spacing) / (HeatMap.size + HeatMap.spacing)) * 7) - weekday
     }
 
     private func weekdayLabel(index: Int) -> some View {

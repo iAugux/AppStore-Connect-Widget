@@ -10,7 +10,7 @@ struct PercentageComparisonCard: View {
     @EnvironmentObject private var dataProvider: ACDataProvider
     let type: InfoType
     let header: Bool
-    @State private var title: LocalizedStringKey = ""
+    @State private var title: String = ""
     @State private var mainValue: Float = 0
     @State private var comparisonValue: Float = 0
 

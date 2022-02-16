@@ -10,7 +10,7 @@ struct WeeklyAverageCard: View {
     @EnvironmentObject private var dataProvider: ACDataProvider
     let type: InfoType
     let header: Bool
-    @State private var title: LocalizedStringKey = ""
+    @State private var title: String = ""
     @State private var data: [RawDataPoint] = []
     @State private var average: Float = 0
     @State private var max: Float = 0
