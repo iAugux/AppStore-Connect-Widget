@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450B69FC27BD8A66000626C4 /* RankingChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B69FB27BD8A66000626C4 /* RankingChart.swift */; };
+		450B69FF27BD9A28000626C4 /* CountryRankingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */; };
 		450FE060276E1B9600BA1D7B /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */; };
 		4529359D2783902F00877A7B /* DetailsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4529359C2783902F00877A7B /* DetailsRow.swift */; };
 		452A37F126161C97005CD1DA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452A37F026161C97005CD1DA /* Extensions.swift */; };
@@ -161,6 +163,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		450B69FB27BD8A66000626C4 /* RankingChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingChart.swift; sourceTree = "<group>"; };
+		450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryRankingCard.swift; sourceTree = "<group>"; };
 		450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
 		451A530127010A100094B5D6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Widgets.strings; sourceTree = "<group>"; };
 		451A530327010A110094B5D6 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Widgets.strings; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 				45C718B927BAEAF4009CC361 /* YearlyOverviewCard.swift */,
 				CB94792727BC3FC500CF4BAD /* MonthlyGoalCard.swift */,
 				4544325E27BC42740070DCE5 /* NoDataOverlay.swift */,
+				450B69FB27BD8A66000626C4 /* RankingChart.swift */,
+				450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -643,6 +649,7 @@
 				45E8C4832612512E007F9B0E /* ContentView.swift in Sources */,
 				CB28AEE52615D28F00B48215 /* SummarySmall.swift in Sources */,
 				45C1A3F32619AC28006C1650 /* Widgets.intentdefinition in Sources */,
+				450B69FF27BD9A28000626C4 /* CountryRankingCard.swift in Sources */,
 				CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */,
 				CBE1C8B627862881003DDDE7 /* WeeklyAverageCard.swift in Sources */,
 				CB436DDF261870D400A432B1 /* HomeView.swift in Sources */,
@@ -694,6 +701,7 @@
 				457E715C268D12E5000AEBF6 /* RearrangeTilesView.swift in Sources */,
 				CBAB729E261B338600ED0F94 /* AppStoreConnectApi.swift in Sources */,
 				CBAB729F261B338600ED0F94 /* ACData.swift in Sources */,
+				450B69FC27BD8A66000626C4 /* RankingChart.swift in Sources */,
 				CB9C4CAB262A136A007E38F1 /* Card.swift in Sources */,
 				4529359D2783902F00877A7B /* DetailsRow.swift in Sources */,
 			);

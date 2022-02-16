@@ -119,6 +119,10 @@ extension String {
     func countryCodeToName() -> String {
         return (Locale.current as NSLocale).localizedString(forCountryCode: self) ?? ""
     }
+
+    static func placeholder(length: Int) -> String {
+        String(Array(repeating: "X", count: length))
+    }
 }
 
 // MARK: View Modifier
