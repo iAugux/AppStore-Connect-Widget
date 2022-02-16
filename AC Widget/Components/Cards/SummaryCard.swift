@@ -68,7 +68,7 @@ struct SummaryCard: View {
             showNoData()
             return
         }
-        rawData = acData.getRawData(for: type, lastNDays: 30)
+        rawData = acData.getRawData(for: type, lastNDays: 30).reversed()
 
         guard !rawData.isEmpty else {
             showNoData()
@@ -187,10 +187,10 @@ struct SummaryCard: View {
     var bottomSection: some View {
         VStack {
             HStack(alignment: .bottom) {
-                DescribedValueView(description: "LAST_SEVEN_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 7).toString(size: .compact).appending(currencySymbol) ?? "-")
+                DescribedValueView(description: "LAST_SEVEN_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 7).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
                 Spacer()
                     .frame(width: 40)
-                DescribedValueView(description: "LAST_THIRTY_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 30).toString(size: .compact).appending(currencySymbol) ?? "-")
+                DescribedValueView(description: "LAST_THIRTY_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 30).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
             }
 
             HStack(alignment: .bottom) {
@@ -198,7 +198,7 @@ struct SummaryCard: View {
                 Spacer()
                     .frame(width: 40)
                 DescribedValueView(descriptionString: latestData.1.toString(format: "MMMM").appending(":"),
-                                   value: dataProvider.data?.getRawData(for: type, lastNDays: latestData.1.dateToDayNumber()).toString(size: .compact).appending(currencySymbol) ?? "-")
+                                   value: dataProvider.data?.getRawData(for: type, lastNDays: latestData.1.dateToDayNumber()).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
             }
         }
     }
