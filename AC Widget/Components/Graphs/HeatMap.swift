@@ -25,10 +25,10 @@ struct HeatMap: View {
 
     var body: some View {
         GeometryReader { reading in
-            let numOfBoxes = numOfBoxes(width: reading.size.width)
+            let numOfBoxes = abs(numOfBoxes(width: reading.size.width))
 
             LazyHGrid(rows: HeatMap.rows, spacing: HeatMap.spacing) {
-                ForEach(0..<numOfBoxes) { index in
+                ForEach(0..<numOfBoxes, id: \.self) { index in
                     Group {
                         if index < 7 {
                             weekdayLabel(index: index)

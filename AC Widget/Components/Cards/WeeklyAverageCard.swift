@@ -12,8 +12,8 @@ struct WeeklyAverageCard: View {
     let header: Bool
     @State private var title: String = ""
     @State private var data: [RawDataPoint] = []
-    @State private var average: Float = 0
-    @State private var max: Float = 0
+    @State private var average: Float = 1
+    @State private var max: Float = 1
 
     @State private var noData = true
 
@@ -55,7 +55,7 @@ struct WeeklyAverageCard: View {
 
         self.data = rawData
         self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
-        self.max = rawData.map(\.0).max() ?? 0
+        self.max = rawData.map(\.0).max() ?? 1
 
         switch type {
         case .downloads:
@@ -79,7 +79,7 @@ struct WeeklyAverageCard: View {
         let rawData = ACData.createExampleData(7)
         self.data = rawData
         self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
-        self.max = rawData.map(\.0).max() ?? 0
+        self.max = rawData.map(\.0).max() ?? 1
 
         self.title = .placeholder(length: 55)
 

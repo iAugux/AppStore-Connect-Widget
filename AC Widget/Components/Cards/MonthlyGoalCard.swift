@@ -121,8 +121,13 @@ struct MonthlyGoalCard: View {
     }
 
     private var noGoal: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer()
+            Image(systemName: "target")
+                .font(.largeTitle.weight(.medium))
+                .foregroundColor(type.color)
+                .padding(.bottom, 8)
+
             Text("You have not set a goal yet.")
                 .italic()
                 .foregroundColor(.gray)

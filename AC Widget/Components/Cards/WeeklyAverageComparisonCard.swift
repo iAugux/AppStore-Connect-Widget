@@ -69,10 +69,10 @@ struct WeeklyAverageComparisonCard: View {
             GeometryReader { geo in
                 HStack(spacing: 3) {
                     Capsule()
-                        .frame(width: -1.5 + (31 - 7) * geo.size.width / 31)
+                        .frame(width: abs(-1.5 + (31 - 7) * geo.size.width / 31))
 
                     Capsule()
-                        .frame(width: -1.5 + 7 * geo.size.width / 31)
+                        .frame(width: abs(-1.5 + 7 * geo.size.width / 31))
                 }
             }
             .frame(height: 1, alignment: .bottom)
@@ -107,11 +107,11 @@ struct WeeklyAverageComparisonCard: View {
         GeometryReader { geo in
             HStack(spacing: 3) {
                 Capsule()
-                    .frame(width: -1.5 + (31 - 7) * geo.size.width / 31, height: 6)
+                    .frame(width: abs(-1.5 + (31 - 7) * geo.size.width / 31), height: 6)
                     .offset(x: 0, y: geo.size.height - (geo.size.height * CGFloat(average1/max)) - 3)
 
                 Capsule()
-                    .frame(width: -1.5 + 7 * geo.size.width / 31, height: 6)
+                    .frame(width: abs(-1.5 + 7 * geo.size.width / 31), height: 6)
                     .offset(x: 0, y: geo.size.height - (geo.size.height * CGFloat(average2/max)) - 3)
             }
             .foregroundColor(type.color)
