@@ -299,6 +299,33 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		458DD70F27BDA0A3000CC07A /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				CB5E6502279F48FF00414E55 /* SummaryCard.swift */,
+				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
+				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
+				CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */,
+				456BE764279A10FC0018D75A /* WeeklyAverageComparisonCard.swift */,
+				45C718B927BAEAF4009CC361 /* YearlyOverviewCard.swift */,
+				CB94792727BC3FC500CF4BAD /* MonthlyGoalCard.swift */,
+				450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		458DD71027BDA0E9000CC07A /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				CB28AEFB2615F5E700B48215 /* GraphView.swift */,
+				CB94792927BC414A00CF4BAD /* ProgressBar.swift */,
+				450B69FB27BD8A66000626C4 /* RankingChart.swift */,
+				CBABEE7E27BD8B9B00C1F1DD /* HeatMap.swift */,
+				CB77BBAC268D18E8006D4EC4 /* PercentStackedBarChart.swift */,
+			);
+			path = Graphs;
+			sourceTree = "<group>";
+		};
 		45E8C4742612512E007F9B0E = {
 			isa = PBXGroup;
 			children = (
@@ -428,11 +455,10 @@
 			isa = PBXGroup;
 			children = (
 				CB7B9225276D299A0007766C /* ButtonStyles */,
+				458DD70F27BDA0A3000CC07A /* Cards */,
+				458DD71027BDA0E9000CC07A /* Graphs */,
 				CB9C4CAA262A136A007E38F1 /* Card.swift */,
-				CB28AEFB2615F5E700B48215 /* GraphView.swift */,
-				CB94792927BC414A00CF4BAD /* ProgressBar.swift */,
-				CBABEE7E27BD8B9B00C1F1DD /* HeatMap.swift */,
-				CB77BBAC268D18E8006D4EC4 /* PercentStackedBarChart.swift */,
+				CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */,
 				CBB4A60426F3D8E40064EE9E /* InfoTile.swift */,
 				CB9C4CB2262A2391007E38F1 /* InfoTileFront.swift */,
 				CB77BBAA268D121E006D4EC4 /* CountryTile.swift */,
@@ -445,19 +471,9 @@
 				45AB9880276D34B40024597F /* CurrencyPicker.swift */,
 				450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */,
 				45E6FA34277B9EC400C5E426 /* AsyncButton.swift */,
-				CBC6F8E7279A0E2D00D08A3F /* CardSection.swift */,
 				4529359C2783902F00877A7B /* DetailsRow.swift */,
-				CB5E6502279F48FF00414E55 /* SummaryCard.swift */,
-				CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */,
-				CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */,
-				CBC6F8B327863E3600D08A3F /* PercentageComparisonCard.swift */,
 				CBC6F8E5279A05A600D08A3F /* SecondaryBackgroundModifier.swift */,
-				456BE764279A10FC0018D75A /* WeeklyAverageComparisonCard.swift */,
-				45C718B927BAEAF4009CC361 /* YearlyOverviewCard.swift */,
-				CB94792727BC3FC500CF4BAD /* MonthlyGoalCard.swift */,
 				4544325E27BC42740070DCE5 /* NoDataOverlay.swift */,
-				450B69FB27BD8A66000626C4 /* RankingChart.swift */,
-				450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
