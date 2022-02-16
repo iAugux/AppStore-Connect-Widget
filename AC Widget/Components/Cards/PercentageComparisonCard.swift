@@ -62,11 +62,11 @@ struct PercentageComparisonCard: View {
                         HStack(spacing: 5) {
                             Rectangle()
                                 .foregroundColor(comparisonType.color)
-                                .frame(width: (val.size.width-5)*CGFloat(comparisonValue/(mainValue + comparisonValue)))
+                                .frame(width: abs(val.size.width-5)*CGFloat(comparisonValue/(mainValue + comparisonValue)))
 
                             Rectangle()
                                 .foregroundColor(type.color)
-                                .frame(width: (val.size.width-5)*CGFloat(mainValue/(mainValue + comparisonValue)))
+                                .frame(width: abs(val.size.width-5)*CGFloat(mainValue/(mainValue + comparisonValue)))
                         }
                         .clipShape(Capsule())
                     }

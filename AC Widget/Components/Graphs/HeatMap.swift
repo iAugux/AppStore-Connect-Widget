@@ -56,6 +56,11 @@ struct HeatMap: View {
 
     private func element(date: Date) -> some View {
         if let dataPoint = data.first(where: { Calendar.current.isDate($0.1, inSameDayAs: date) }) {
+            if dataPoint.0 == 0 {
+                return RoundedRectangle(cornerRadius: 5)
+                    .frame(width: HeatMap.size, height: HeatMap.size)
+                    .foregroundColor(Color(uiColor: .systemGray4))
+            }
             return RoundedRectangle(cornerRadius: 5)
                 .frame(width: HeatMap.size, height: HeatMap.size)
                 .foregroundColor(color.opacity(max(Double(dataPoint.0/maxValue), 0.08)))
