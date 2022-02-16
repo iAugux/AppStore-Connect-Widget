@@ -159,7 +159,7 @@ extension APIKey {
             } catch let error as APIError {
                 throw error
             } catch {
-                throw APIError.unknown
+                throw APIError.unhandled(error.localizedDescription)
             }
             return
         }

@@ -254,7 +254,7 @@ struct OnboardingView: View {
                 _ = try? await api.getData(useCache: true, useMemoization: false)
             } catch let err {
                 let apiErr: APIError = (err as? APIError) ?? .unknown
-                if apiErr == .invalidCredentials {
+                if case .invalidCredentials = apiErr {
                     alert = .invalidKey
                 }
             }

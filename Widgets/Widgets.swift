@@ -74,7 +74,7 @@ struct Provider: IntentTimelineProvider {
                 let entry = ACStatEntry(date: Date(), data: nil, filteredApps: [], error: err, color: .accentColor, configuration: configuration)
 
                 var nextUpdateDate = Date()
-                if err == .invalidCredentials {
+                if case .invalidCredentials = err {
                     nextUpdateDate = nextUpdateDate.advanced(by: 24 * 60)
                 } else {
                     // wenn api down, update in 5 min erneut

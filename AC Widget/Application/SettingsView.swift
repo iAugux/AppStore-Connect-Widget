@@ -187,7 +187,7 @@ struct ApiKeyCheckIndicator: View {
             } else if status == nil {
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(.green)
-            } else if status == .invalidCredentials {
+            } else if case .invalidCredentials = status {
                 Image(systemName: "xmark.circle")
                     .foregroundColor(.red)
             } else {
