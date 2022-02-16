@@ -33,12 +33,12 @@ class AppStoreConnectApi {
         lastData.removeAll()
     }
 
-    public func getData(currency: CurrencyParam?, numOfDays: Int = 270, useCache: Bool = true) async throws -> ACData {
+    public func getData(currency: CurrencyParam?, numOfDays: Int = 35, useCache: Bool = true) async throws -> ACData {
         if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example.changeCurrency(to: currency?.toCurrency() ?? .USD) }
         return try await getData(currency: currency?.toCurrency(), numOfDays: numOfDays, useCache: useCache)
     }
 
-    public func getData(currency: Currency? = nil, numOfDays: Int = 370, useCache: Bool = true, useMemoization: Bool = true) async throws -> ACData {
+    public func getData(currency: Currency? = nil, numOfDays: Int = 35, useCache: Bool = true, useMemoization: Bool = true) async throws -> ACData {
         if apiKey.name.caseInsensitiveCompare(APIKey.demoKeyName) == .orderedSame { return ACData.example.changeCurrency(to: currency ?? .USD) }
 
         if useMemoization {
@@ -69,7 +69,7 @@ class AppStoreConnectApi {
         return data
     }
 
-    private func getDataFromAPI(localCurrency: Currency, numOfDays: Int = 370, useCache: Bool = true) async throws -> ACData {
+    private func getDataFromAPI(localCurrency: Currency, numOfDays: Int = 35, useCache: Bool = true) async throws -> ACData {
         if self.privateKey.count < privateKeyMinLength {
             throw APIError.invalidCredentials
         }
