@@ -112,7 +112,7 @@ struct PercentageComparisonCard: View {
         self.mainValue = Float(Int.random(in: 50...100))
         self.comparisonValue = Float(Int.random(in: 20...60))
 
-        self.title = "42% of your total downloads were re-downloaded."
+        self.title = .placeholder(length: 50)
 
         noData = true
     }

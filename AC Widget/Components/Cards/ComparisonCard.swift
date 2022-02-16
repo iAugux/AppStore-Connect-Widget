@@ -115,7 +115,7 @@ struct ComparisonCard: View {
         self.secondaryValue = 69 - primaryValue
         self.primaryLabel = interval.primaryLabel
         self.secondaryLabel = interval.secondaryLabel
-        self.title = "You earned less in the last than before."
+        self.title = .placeholder(length: 40)
         noData = true
     }
 }

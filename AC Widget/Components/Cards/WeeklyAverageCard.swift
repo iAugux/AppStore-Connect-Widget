@@ -81,7 +81,7 @@ struct WeeklyAverageCard: View {
         self.average = rawData.isEmpty ? .infinity : rawData.map(\.0).reduce(0, +) / Float(rawData.count)
         self.max = rawData.map(\.0).max() ?? 0
 
-        self.title = "You had an average of 42 restored purchases this week."
+        self.title = .placeholder(length: 55)
 
         noData = true
     }

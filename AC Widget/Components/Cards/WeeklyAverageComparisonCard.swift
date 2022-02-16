@@ -196,7 +196,7 @@ struct WeeklyAverageComparisonCard: View {
 
         self.max = filteredData.map(\.0).max() ?? 0
 
-        self.title = "Lorem ipsum dolor sit amet consectetur."
+        self.title = .placeholder(length: 40)
 
         noData = true
     }
