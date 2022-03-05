@@ -14,15 +14,10 @@ struct DetailsOverview: View {
         RefreshableScrollView(onRefresh: {
             await dataProvider.refreshData(useMemoization: false)
         }) {
-            if let data = dataProvider.data {
+            if dataProvider.data != nil {
                 ForEach(displayedInfoTypes, id: \.self) { infoType in
                     NavigationLink(destination: {
-                        switch infoType {
-                        case .downloads:
-                            DownloadsView()
-                        default:
-                            Text("TODO")
-                        }
+                        DetailView(type: infoType, secondaryType: infoType.associatedType)
                     }, label: {
                         DetailsRow(infoType: infoType)
                             .padding(.vertical, 10)
@@ -34,7 +29,7 @@ struct DetailsOverview: View {
                 loadingIndicator
             }
         }
-        .navigationTitle("DETAILS")
+        .navigationTitle("Details")
         .secondaryBackground()
     }
 

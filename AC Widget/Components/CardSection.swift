@@ -7,9 +7,9 @@ import SwiftUI
 
 struct CardSection<Content: View>: View {
     let content: Content
-    let title: LocalizedStringKey?
+    let title: String?
 
-    init(_ title: LocalizedStringKey? = nil, @ViewBuilder content: () -> Content) {
+    init(_ title: String? = nil, @ViewBuilder content: () -> Content) {
         self.content = content()
         self.title = title
     }

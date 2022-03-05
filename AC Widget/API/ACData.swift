@@ -267,4 +267,15 @@ enum InfoType {
             return "restored-in-app-purchases-goal"
         }
     }
+
+    var associatedType: InfoType? {
+        switch self {
+        case .downloads:
+            return .reDownloads
+        case .iap:
+            return .restoredIap
+        default:
+            return nil
+        }
+    }
 }

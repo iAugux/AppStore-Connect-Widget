@@ -93,7 +93,7 @@ struct WeeklyAverageCard: View {
                 ForEach(data, id: \.1) { (value, date) in
                     VStack {
                         RoundedRectangle(cornerRadius: 4)
-                            .frame(width: val.size.width/20, height: val.size.height * CGFloat(value/max) - 25)
+                            .frame(width: val.size.width/20, height: abs(val.size.height * CGFloat(value/max) - 25))
                         Text(date.toString(format: "EEEEE")).unredacted()
                     }
                     .foregroundColor(Color(uiColor: .systemGray4))

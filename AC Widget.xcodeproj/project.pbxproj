@@ -79,7 +79,7 @@
 		CB436DEC2618E80200A432B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB436DEE2618E80200A432B1 /* Localizable.strings */; };
 		CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */; };
 		CB54789727BDA34300E0F428 /* HeatMapCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54789627BDA34300E0F428 /* HeatMapCard.swift */; };
-		CB5E6501279F436B00414E55 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6500279F436B00414E55 /* DownloadsView.swift */; };
+		CB54789B27D3F93500E0F428 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54789A27D3F93500E0F428 /* DetailView.swift */; };
 		CB5E6503279F48FF00414E55 /* SummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E6502279F48FF00414E55 /* SummaryCard.swift */; };
 		CB61B0AC26EE952800624425 /* AppListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB61B0AB26EE952800624425 /* AppListView.swift */; };
 		CB77BBAB268D121E006D4EC4 /* CountryTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77BBAA268D121E006D4EC4 /* CountryTile.swift */; };
@@ -223,7 +223,7 @@
 		CB436DF12618E80600A432B1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB436E12261A3F6E00A432B1 /* APIKeyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyDetailView.swift; sourceTree = "<group>"; };
 		CB54789627BDA34300E0F428 /* HeatMapCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapCard.swift; sourceTree = "<group>"; };
-		CB5E6500279F436B00414E55 /* DownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
+		CB54789A27D3F93500E0F428 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		CB5E6502279F48FF00414E55 /* SummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCard.swift; sourceTree = "<group>"; };
 		CB61B0AB26EE952800624425 /* AppListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListView.swift; sourceTree = "<group>"; };
 		CB77BBAA268D121E006D4EC4 /* CountryTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTile.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				459CBA2A2786281000FF568E /* DetailsOverview.swift */,
-				CB5E6500279F436B00414E55 /* DownloadsView.swift */,
+				CB54789A27D3F93500E0F428 /* DetailView.swift */,
 			);
 			path = "Detail Types";
 			sourceTree = "<group>";
@@ -689,7 +689,6 @@
 				CBB4A60526F3D8E40064EE9E /* InfoTile.swift in Sources */,
 				CBABEE7F27BD8B9B00C1F1DD /* HeatMap.swift in Sources */,
 				CB28AEEF2615D2E900B48215 /* ErrorWidget.swift in Sources */,
-				CB5E6501279F436B00414E55 /* DownloadsView.swift in Sources */,
 				CB436E13261A3F6E00A432B1 /* APIKeyDetailView.swift in Sources */,
 				CBC6F8B427863E3600D08A3F /* PercentageComparisonCard.swift in Sources */,
 				45E6FA35277B9EC400C5E426 /* AsyncButton.swift in Sources */,
@@ -714,6 +713,7 @@
 				CB436DDB26186B0C00A432B1 /* OnboardingView.swift in Sources */,
 				4552EE9E261CF3FF006C30B9 /* ACEntry.swift in Sources */,
 				456BE765279A10FC0018D75A /* WeeklyAverageComparisonCard.swift in Sources */,
+				CB54789B27D3F93500E0F428 /* DetailView.swift in Sources */,
 				CBAB729D261B338600ED0F94 /* APIError.swift in Sources */,
 				459CBA2B2786281000FF568E /* DetailsOverview.swift in Sources */,
 				4544325F27BC42740070DCE5 /* NoDataOverlay.swift in Sources */,
