@@ -29,12 +29,12 @@ struct DetailView: View {
         CardSection {
             SummaryCard(type: type, header: false)
             MonthlyGoalCard(type: type, header: false)
-            ComparisonCard(type: type, header: false, interval: .thirtyDays)
             HeatMapCard(type: type, header: false)
             WeeklyAverageCard(type: type, header: false)
             ComparisonCard(type: type, header: false, interval: .sevenDays)
             CountryRankingCard(type: type, header: false)
             WeeklyAverageComparisonCard(type: type, header: false)
+            ComparisonCard(type: type, header: false, interval: .thirtyDays)
             YearlyOverviewCard(type: type, header: false)
         }
     }

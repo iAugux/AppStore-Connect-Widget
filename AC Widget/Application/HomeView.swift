@@ -10,45 +10,29 @@ import StoreKit
 struct HomeView: View {
     @EnvironmentObject var dataProvider: ACDataProvider
 
-    @State var showSettings = false
-
     @AppStorage(UserDefaultsKey.appStoreNotice, store: UserDefaults.shared) var appStoreNotice: Bool = true
-
     @AppStorage(UserDefaultsKey.rateCount, store: UserDefaults.shared) var rateCount: Int = 0
-
-    @State var tiles: [TileType] = []
-
     @AppStorage(UserDefaultsKey.lastSeenVersion, store: UserDefaults.shared) private var lastSeenVersion: String = ""
+
+    @State var showSettings = false
     @State private var showsUpdateScreen = false
 
     var body: some View {
         RefreshableScrollView(onRefresh: {
             await dataProvider.refreshData(useMemoization: false)
         }) {
-            if let data = dataProvider.data {
+            if dataProvider.data != nil {
                 lastChangeSubtitle
                 if appStoreNotice && AppStoreNotice.isTestFlight() {
                     AppStoreNotice()
                 }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 320))], spacing: 8) {
-                    ForEach(tiles) { tile in
-                        switch tile {
-                        case .downloads:
-                            InfoTile(description: "DOWNLOADS", data: data, type: .downloads)
-                        case .proceeds:
-                            InfoTile(description: "PROCEEDS", data: data, type: .proceeds)
-                        case .updates:
-                            InfoTile(description: "UPDATES", data: data, type: .updates)
-                        case .iap:
-                            InfoTile(description: "IN-APP-PURCHASES", data: data, type: .iap)
-                        case .topCountry:
-                            CountryTile(data: data)
-                        case .devices:
-                            DeviceTile(data: data)
-                        }
-                    }
+                CardSection {
+                    SummaryCard(type: .downloads, header: true)
+                    SummaryCard(type: .proceeds, header: true)
+                    SummaryCard(type: .updates, header: true)
+                    SummaryCard(type: .iap, header: true)
                 }
-                .padding(.horizontal)
+                trendsSection
                 additionalInformation
             } else {
                 loadingIndicator
@@ -60,26 +44,27 @@ struct HomeView: View {
             }
         )
         .navigationTitle("HOME")
-        // .toolbar(content: toolbar)
         .sheet(isPresented: $showsUpdateScreen, content: {
             UpdateView()
         })
         .onAppear(perform: onAppear)
-//        .onChange(of: keyID, perform: { _ in Task { await dataProvider.refreshData(useMemoization: false) } })
-//        .onChange(of: currency, perform: { _ in Task { await dataProvider.refreshData(useMemoization: false) } })
         .task { await dataProvider.refreshData(useMemoization: true) }
-//        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-//            Task { await onAppear() }
-//        }
         .secondaryBackground()
     }
 
-    var loadingIndicator: some View {
+    private var trendsSection: some View {
+        CardSection("Trends") {
+            // TODO: Add basic logic for displaying trends 'intelligent'
+            WeeklyAverageCard(type: .downloads, header: true)
+        }
+    }
+
+    private var loadingIndicator: some View {
         HStack(spacing: 10) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
 
-            Text("LOADING_DATA")
+            Text("Loading Data")
                 .foregroundColor(.gray)
                 .italic()
         }
@@ -87,29 +72,29 @@ struct HomeView: View {
         .frame(maxWidth: .infinity)
     }
 
-    var lastChangeSubtitle: some View {
+    private var lastChangeSubtitle: some View {
         HStack {
-            Text("LAST_CHANGE:\(dataProvider.data?.latestReportingDate() ?? "-")")
+            Text("Last Change:\(dataProvider.data?.latestReportingDate() ?? "-")")
                 .font(.subheadline)
             Spacer()
         }
         .padding(.horizontal)
     }
 
-    var additionalInformation: some View {
+    private var additionalInformation: some View {
         VStack(spacing: 20) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 8) {
-                Text("LAST_CHANGE:\(dataProvider.data?.latestReportingDate() ?? "-")")
+                Text("Last Change:\(dataProvider.data?.latestReportingDate() ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("CURRENCY:\(dataProvider.data?.displayCurrency.rawValue ?? "-")")
+                Text("Currency:\(dataProvider.data?.displayCurrency.rawValue ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("API_KEY:\(dataProvider.selectedKey?.name ?? "-")")
+                Text("API Key:\(dataProvider.selectedKey?.name ?? "-")")
                     .font(.system(size: 12))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -119,7 +104,7 @@ struct HomeView: View {
                 AsyncButton(action: {
                     await dataProvider.refreshData(useMemoization: false)
                 }) {
-                    Text("REFRESH_DATA")
+                    Text("Refresh Data")
                 }
                 .padding(.vertical, 8)
                 .padding(.horizontal, 20)
@@ -135,17 +120,6 @@ struct HomeView: View {
     private func onAppear() {
         askToRate()
 
-        let selectedTiles = UserDefaults.shared?.stringArray(forKey: UserDefaultsKey.tilesInHome)?.compactMap({ TileType(rawValue: $0) }) ?? []
-        tiles = selectedTiles.isEmpty ? TileType.allCases : selectedTiles
-//
-//        guard let apiKey = selectedKey else { return }
-//        let api = AppStoreConnectApi(apiKey: apiKey)
-//        do {
-//            self.data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
-//        } catch let err as APIError {
-//            self.error = err
-//        } catch {}
-//
         let appVersion: String = UIApplication.appVersion ?? ""
         let buildVersion: String = UIApplication.buildVersion ?? ""
         let vString = "\(appVersion) (\(buildVersion))"
@@ -156,7 +130,7 @@ struct HomeView: View {
         }
     }
 
-    func askToRate() {
+    private func askToRate() {
         let daysSinceInstall = Calendar.current.numberOfDaysBetween(Date.appInstallDate, and: .now)
         if daysSinceInstall > (rateCount + 1) * 20 {
             // equivalent to rateCount += 1 in most cases, except if app is installed a long time ago but no review done
@@ -175,27 +149,14 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                HomeView(tiles: TileType.allCases)
+                HomeView()
             }
 
             NavigationView {
-                HomeView(tiles: TileType.allCases)
+                HomeView()
             }
             .preferredColorScheme(.dark)
         }
-        .environmentObject(APIKeyProvider.example)
         .environmentObject(ACDataProvider.example)
     }
-}
-
-enum TileType: String, CaseIterable, Identifiable {
-    case downloads
-    case proceeds
-    case updates
-    case topCountry
-    case devices
-    case iap
-
-    var localized: LocalizedStringKey { return .init(rawValue) }
-    var id: String { return rawValue }
 }
