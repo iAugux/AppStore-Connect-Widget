@@ -61,7 +61,31 @@ struct APIKeyDetailView: View {
 
     var appListSection: some View {
         Section(header: Label("APP_LIST", systemImage: "app.fill")) {
-            AppListView(apps: apps)
+            if apps.isEmpty {
+                Text("NO_APPS")
+            } else {
+                List(apps) { (app: ACApp) in
+                    HStack {
+                        Group {
+                            if let data = app.artwork60ImgData, let uiImg = UIImage(data: data) {
+                                Image(uiImage: uiImg)
+                                    .resizable()
+                            } else {
+                                Rectangle().foregroundColor(.secondary)
+                            }
+                        }
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(7)
+
+                        if let url = URL(string: "https://apps.apple.com/us/app/id" + app.appstoreId) {
+                            Link(app.name, destination: url)
+                        } else {
+                            Text(app.name)
+                        }
+                    }
+                    .padding(.vertical, 3)
+                }
+            }
         }
     }
 

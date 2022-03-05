@@ -80,12 +80,11 @@ struct DetailsRow_Previews: PreviewProvider {
         VStack {
             DetailsRow(infoType: .iap)
                 .padding()
-                .background(Color(uiColor: .systemGroupedBackground))
                 .environmentObject(ACDataProvider.example)
             DetailsRow(infoType: .iap)
                 .padding()
-                .background(Color(uiColor: .systemGroupedBackground))
                 .environmentObject(ACDataProvider.exampleNoData)
         }
+        .secondaryBackground()
     }
 }

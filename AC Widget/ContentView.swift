@@ -68,7 +68,7 @@ struct ContentView: View {
             .navigationViewStyle(.stack)
 
             NavigationView {
-                Text("Apps")
+                AppListView()
             }.tabItem {
                 Image(systemName: "square.grid.2x2.fill")
                 Text("APPS")
