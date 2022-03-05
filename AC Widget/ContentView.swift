@@ -91,12 +91,12 @@ struct ContentView: View {
                         Label("Downloads", systemImage: "square.and.arrow.down")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .downloads),
+                    destination: DetailView(type: .proceeds),
                     label: {
                         Label("Proceeds", systemImage: "dollarsign.circle")
                     })
                 NavigationLink(
-                    destination: DetailView(type: .downloads),
+                    destination: DetailView(type: .updates),
                     label: {
                         Label("Updates", systemImage: "arrow.triangle.2.circlepath")
                     })
