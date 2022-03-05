@@ -130,7 +130,7 @@ struct AppRow: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .unredacted()
-            UnitText(value, infoType: type, currencySymbol: "$")
+            UnitText(value, infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)
                 .offset(x: 5)
         }
     }
