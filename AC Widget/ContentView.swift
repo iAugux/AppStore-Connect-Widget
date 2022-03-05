@@ -83,50 +83,50 @@ struct ContentView: View {
                 NavigationLink(
                     destination: HomeView(),
                     label: {
-                        Label("HOME", systemImage: "house")
+                        Label("Home", systemImage: "house")
+                    })
+                NavigationLink(
+                    destination: DetailView(type: .downloads, secondaryType: .reDownloads),
+                    label: {
+                        Label("Downloads", systemImage: "square.and.arrow.down")
+                    })
+                NavigationLink(
+                    destination: DetailView(type: .downloads),
+                    label: {
+                        Label("Proceeds", systemImage: "dollarsign.circle")
+                    })
+                NavigationLink(
+                    destination: DetailView(type: .downloads),
+                    label: {
+                        Label("Updates", systemImage: "arrow.triangle.2.circlepath")
                     })
                 NavigationLink(
                     destination: EmptyView(),
                     label: {
-                        Label("DOWNLOADS", systemImage: "square.and.arrow.down")
+                        Label("Subscriptions", systemImage: "creditcard")
+                    })
+                NavigationLink(
+                    destination: DetailView(type: .iap, secondaryType: .restoredIap),
+                    label: {
+                        Label("In-App Purchases", systemImage: "cart")
                     })
                 NavigationLink(
                     destination: EmptyView(),
                     label: {
-                        Label("PROCEEDS", systemImage: "dollarsign.circle")
-                    })
-                NavigationLink(
-                    destination: EmptyView(),
-                    label: {
-                        Label("UPDATES", systemImage: "arrow.triangle.2.circlepath")
-                    })
-                NavigationLink(
-                    destination: EmptyView(),
-                    label: {
-                        Label("SUBSCRIPTIONS", systemImage: "creditcard")
-                    })
-                NavigationLink(
-                    destination: EmptyView(),
-                    label: {
-                        Label("IN_APP_PURCHASES", systemImage: "cart")
-                    })
-                NavigationLink(
-                    destination: EmptyView(),
-                    label: {
-                        Label("PRE_ORDERS", systemImage: "clock.arrow.circlepath")
+                        Label("Pre-Orders", systemImage: "clock.arrow.circlepath")
                     })
                 NavigationLink(
                     destination: SettingsView(),
                     label: {
-                        Label("SETTINGS", systemImage: "gear")
+                        Label("Settings", systemImage: "gear")
                     })
 
-                Section(header: Text("APPS")) {
+                Section(header: Text("Apps")) {
                     // TODO: List all apps
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle("MENU")
+            .navigationTitle("Menu")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {  }, label: {
