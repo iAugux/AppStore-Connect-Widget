@@ -13,18 +13,35 @@ enum APIError: Error {
     case unhandled(String)
     case unknown
 
+    var userTitle: String {
+        switch self {
+        case .invalidCredentials:
+            return "Invalid Key"
+        case .wrongPermissions:
+            return "No Permission"
+        case .exceededLimit:
+            return "Limit Reached"
+        case .noDataAvailable:
+            return "No Data Available"
+        case .unknown:
+            return "Unknown Error"
+        case .unhandled:
+            return "Unhandled Error"
+        }
+    }
+
     var userDescription: String {
         switch self {
         case .invalidCredentials:
-            return NSLocalizedString("ERROR_INVALID_CREDENTIALS", comment: "")
+            return "The credentials you entered are incorrect."
         case .wrongPermissions:
-            return NSLocalizedString("ERROR_WRONG_PERMISSIONS", comment: "")
+            return "Your API-key does not have the right permissions."
         case .exceededLimit:
-            return NSLocalizedString("ERROR_EXCEEDED_LIMIT", comment: "")
+            return "You have exceeded the hourly limit of API requests."
         case .noDataAvailable:
-            return NSLocalizedString("ERROR_NO_DATA_AVAILABLE", comment: "")
+            return "Data is not yet available."
         case .unknown:
-            return NSLocalizedString("ERROR_UNKNOWN", comment: "")
+            return "An unknown error occurred. Please file a bug report."
         case .unhandled(let description):
             return "Error: \(description)"
         }

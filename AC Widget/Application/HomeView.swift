@@ -27,6 +27,9 @@ struct HomeView: View {
                     AppStoreNotice()
                 }
                 CardSection {
+                    if let error = dataProvider.error {
+                        ErrorCard(error: error)
+                    }
                     SummaryCard(type: .downloads, header: true)
                     SummaryCard(type: .proceeds, header: true)
                     SummaryCard(type: .updates, header: true)

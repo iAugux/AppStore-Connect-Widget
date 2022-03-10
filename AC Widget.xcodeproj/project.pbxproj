@@ -130,6 +130,7 @@
 		CBE1C8B4278396FB003DDDE7 /* ComparisonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */; };
 		CBE1C8B627862881003DDDE7 /* WeeklyAverageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */; };
 		CBEA7348262CD5B90095C39D /* KeySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEA7347262CD5B90095C39D /* KeySelectionView.swift */; };
+		CBF7E62D27DA99FA003CA663 /* ErrorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF7E62C27DA99FA003CA663 /* ErrorCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +247,7 @@
 		CBE1C8B3278396FB003DDDE7 /* ComparisonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCard.swift; sourceTree = "<group>"; };
 		CBE1C8B527862881003DDDE7 /* WeeklyAverageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyAverageCard.swift; sourceTree = "<group>"; };
 		CBEA7347262CD5B90095C39D /* KeySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySelectionView.swift; sourceTree = "<group>"; };
+		CBF7E62C27DA99FA003CA663 /* ErrorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 				CB94792727BC3FC500CF4BAD /* MonthlyGoalCard.swift */,
 				450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */,
 				CB54789627BDA34300E0F428 /* HeatMapCard.swift */,
+				CBF7E62C27DA99FA003CA663 /* ErrorCard.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				CBAB729E261B338600ED0F94 /* AppStoreConnectApi.swift in Sources */,
 				CBAB729F261B338600ED0F94 /* ACData.swift in Sources */,
 				450B69FC27BD8A66000626C4 /* RankingChart.swift in Sources */,
+				CBF7E62D27DA99FA003CA663 /* ErrorCard.swift in Sources */,
 				CB9C4CAB262A136A007E38F1 /* Card.swift in Sources */,
 				4529359D2783902F00877A7B /* DetailsRow.swift in Sources */,
 			);
