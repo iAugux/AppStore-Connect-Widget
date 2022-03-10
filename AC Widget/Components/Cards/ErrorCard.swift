@@ -61,7 +61,7 @@ struct ErrorCard_Previews: PreviewProvider {
             }
             .secondaryBackground()
             .environmentObject(ACDataProvider.example)
-            
+
             CardSection {
                 ErrorCard(error: .exceededLimit)
                 ErrorCard(error: .invalidCredentials)

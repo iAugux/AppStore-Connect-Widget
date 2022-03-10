@@ -16,6 +16,11 @@ struct SummaryCard: View {
     @State private var latestData: RawDataPoint = (0, .now)
     @State private var rawData: [RawDataPoint] = []
 
+    @State private var sevenDays: String = ""
+    @State private var thirtyDays: String = ""
+    @State private var change: String = ""
+    @State private var month: String = ""
+
     @State private var noData = true
 
     init(type: InfoType, header: Bool) {
@@ -80,6 +85,16 @@ struct SummaryCard: View {
         graphData = copy.map { CGFloat($0 / max) }
 
         latestData = rawData.last ?? (0, .now)
+
+        var suffix = ""
+        if type == .proceeds {
+            suffix = dataProvider.displayCurrencySymbol
+        }
+
+        sevenDays = Array(rawData.prefix(7)).toString(size: .compact).appending(suffix)
+        thirtyDays = rawData.toString(size: .compact).appending(suffix)
+        change = dataProvider.data?.getChange(type).appending("%") ?? "-"
+        month = acData.getRawData(for: type, lastNDays: latestData.1.dateToDayNumber()).toString(size: .compact).appending(suffix)
 
         noData = false
     }
@@ -187,18 +202,17 @@ struct SummaryCard: View {
     var bottomSection: some View {
         VStack {
             HStack(alignment: .bottom) {
-                DescribedValueView(description: "LAST_SEVEN_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 7).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
+                DescribedValueView(description: "7 days:", value: sevenDays)
                 Spacer()
                     .frame(width: 40)
-                DescribedValueView(description: "LAST_THIRTY_DAYS", value: dataProvider.data?.getRawData(for: type, lastNDays: 30).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
+                DescribedValueView(description: "30 days:", value: thirtyDays)
             }
 
             HStack(alignment: .bottom) {
-                DescribedValueView(description: "CHANGE_PERCENT", value: dataProvider.data?.getChange(type).appending("%") ?? "-")
+                DescribedValueView(description: "Change:", value: change)
                 Spacer()
                     .frame(width: 40)
-                DescribedValueView(descriptionString: latestData.1.toString(format: "MMMM").appending(":"),
-                                   value: dataProvider.data?.getRawData(for: type, lastNDays: latestData.1.dateToDayNumber()).toString(size: .compact).appending(type == .proceeds ? currencySymbol : "") ?? "-")
+                DescribedValueView(descriptionString: latestData.1.toString(format: "MMMM").appending(":"), value: month)
             }
         }
     }
