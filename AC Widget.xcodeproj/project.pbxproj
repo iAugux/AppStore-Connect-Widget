@@ -10,6 +10,9 @@
 		450B69FC27BD8A66000626C4 /* RankingChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B69FB27BD8A66000626C4 /* RankingChart.swift */; };
 		450B69FF27BD9A28000626C4 /* CountryRankingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450B69FE27BD9A28000626C4 /* CountryRankingCard.swift */; };
 		450FE060276E1B9600BA1D7B /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450FE05F276E1B9600BA1D7B /* RefreshableScrollView.swift */; };
+		45114CEA27DAA1DD003E7D6A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 45114CE927DAA1DD003E7D6A /* Algorithms */; };
+		45114CEC27DAA22F003E7D6A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 45114CEB27DAA22F003E7D6A /* Algorithms */; };
+		45114CEE27DAA247003E7D6A /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 45114CED27DAA247003E7D6A /* Algorithms */; };
 		4529359D2783902F00877A7B /* DetailsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4529359C2783902F00877A7B /* DetailsRow.swift */; };
 		452A37F126161C97005CD1DA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452A37F026161C97005CD1DA /* Extensions.swift */; };
 		452A37F226161C97005CD1DA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452A37F026161C97005CD1DA /* Extensions.swift */; };
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB77BBB22691F19A006D4EC4 /* BetterToStrings in Frameworks */,
+				45114CEA27DAA1DD003E7D6A /* Algorithms in Frameworks */,
 				45E8C4C0261268D4007F9B0E /* SwiftCSV in Frameworks */,
 				456187F426F66FE400FAE4F8 /* KeychainAccess in Frameworks */,
 				CBDFA497261E52F200719CC1 /* DynamicColor in Frameworks */,
@@ -268,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45114CEC27DAA22F003E7D6A /* Algorithms in Frameworks */,
 				45E8C4992612531D007F9B0E /* SwiftUI.framework in Frameworks */,
 				45CAC10F2615CBCB00FF63E7 /* AppStoreConnect-Swift-SDK in Frameworks */,
 				456187F626F6741A00FAE4F8 /* KeychainAccess in Frameworks */,
@@ -284,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB77BBB62691F3F2006D4EC4 /* BetterToStrings in Frameworks */,
+				45114CEE27DAA247003E7D6A /* Algorithms in Frameworks */,
 				CBAB72AD261B33DF00ED0F94 /* AppStoreConnect-Swift-SDK in Frameworks */,
 				456187F826F6742100FAE4F8 /* KeychainAccess in Frameworks */,
 				CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */,
@@ -511,6 +517,7 @@
 				CBDFA496261E52F200719CC1 /* DynamicColor */,
 				CB77BBB12691F19A006D4EC4 /* BetterToStrings */,
 				456187F326F66FE400FAE4F8 /* KeychainAccess */,
+				45114CE927DAA1DD003E7D6A /* Algorithms */,
 			);
 			productName = "AC Widget";
 			productReference = 45E8C47D2612512E007F9B0E /* AC Widget.app */;
@@ -536,6 +543,7 @@
 				CBDFA49E261E55EE00719CC1 /* DynamicColor */,
 				CB77BBB32691F3EC006D4EC4 /* BetterToStrings */,
 				456187F526F6741A00FAE4F8 /* KeychainAccess */,
+				45114CEB27DAA22F003E7D6A /* Algorithms */,
 			);
 			productName = WidgetsExtension;
 			productReference = 45E8C4942612531D007F9B0E /* WidgetsExtension.appex */;
@@ -561,6 +569,7 @@
 				CBDFA4A0261E55F500719CC1 /* DynamicColor */,
 				CB77BBB52691F3F2006D4EC4 /* BetterToStrings */,
 				456187F726F6742100FAE4F8 /* KeychainAccess */,
+				45114CED27DAA247003E7D6A /* Algorithms */,
 			);
 			productName = WidgetIntentExtension;
 			productReference = 45FD5191261915F200603D8A /* WidgetIntentExtension.appex */;
@@ -603,6 +612,7 @@
 				CBDFA495261E52F200719CC1 /* XCRemoteSwiftPackageReference "DynamicColor" */,
 				CB77BBB02691F19A006D4EC4 /* XCRemoteSwiftPackageReference "BetterToStrings" */,
 				456187F226F66FE400FAE4F8 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				45114CE827DAA1DD003E7D6A /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 45E8C47E2612512E007F9B0E /* Products */;
 			projectDirPath = "";
@@ -1150,6 +1160,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		45114CE827DAA1DD003E7D6A /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		456187F226F66FE400FAE4F8 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
@@ -1201,6 +1219,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		45114CE927DAA1DD003E7D6A /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45114CE827DAA1DD003E7D6A /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+		45114CEB27DAA22F003E7D6A /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45114CE827DAA1DD003E7D6A /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+		45114CED27DAA247003E7D6A /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45114CE827DAA1DD003E7D6A /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		456187F326F66FE400FAE4F8 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 456187F226F66FE400FAE4F8 /* XCRemoteSwiftPackageReference "KeychainAccess" */;

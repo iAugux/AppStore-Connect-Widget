@@ -69,7 +69,9 @@ class ACDataProvider: ObservableObject {
             data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
         } catch let err as APIError {
             self.error = err
-        } catch {}
+        } catch {
+            self.error = .unknown
+        }
     }
 }
 

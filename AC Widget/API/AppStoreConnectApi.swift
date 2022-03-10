@@ -7,6 +7,7 @@ import Foundation
 import AppStoreConnect_Swift_SDK
 import Gzip
 import SwiftCSV
+import Algorithms
 
 @MainActor
 class AppStoreConnectApi {
@@ -122,10 +123,42 @@ class AppStoreConnectApi {
         }
 
         let apps = try? await self.getApps(entries: entries)
-        let acdata = ACData(entries: entries, currency: localCurrency, apps: apps ?? [])
-        ACDataCache.saveData(data: acdata, apiKey: self.apiKey)
 
+        let acdata = ACData(entries: optimizeEntries(entries), currency: localCurrency, apps: apps ?? [])
+        ACDataCache.saveData(data: acdata, apiKey: self.apiKey)
         return acdata
+    }
+
+    private func optimizeEntries(_ entries: [ACEntry]) -> [ACEntry] {
+        var recentEntries: [ACEntry] = []
+        var oldEntries: [ACEntry] = []
+
+        for entry in entries {
+            if abs(Calendar.current.numberOfDaysBetween(.now, and: entry.date)) < 32 {
+                recentEntries.append(entry)
+            } else {
+                oldEntries.append(entry)
+            }
+        }
+
+        let groupedEntries = Dictionary(grouping: oldEntries, by: { Calendar.current.component(.month, from: $0.date) })
+            .flatMap { (_: Int, entries: [ACEntry]) in
+                return Dictionary(grouping: entries, by: \.type)
+                    .map { (type: ACEntryType, entriesSameType: [ACEntry]) in
+                        return ACEntry(
+                            appTitle: "",
+                            appSKU: "",
+                            units: entriesSameType.map(\.units).reduce(.zero, +),
+                            proceeds: entriesSameType.map(\.proceeds).sum(),
+                            date: entriesSameType.first?.date ?? .distantPast,
+                            countryCode: "",
+                            device: "",
+                            appIdentifier: "",
+                            type: type)
+                    }
+            }
+
+        return recentEntries + groupedEntries
     }
 
     private func parseApiResult(_ result: Data, localCurrency: Currency) -> [ACEntry] {
@@ -175,19 +208,15 @@ class AppStoreConnectApi {
     }
 
     private func getApps(entries: [ACEntry]) async throws -> [ACApp] {
-        let tupples: [ITunesLookupApp] = entries.map({ .init(appstoreId: $0.appIdentifier, name: $0.appTitle, sku: $0.appSKU) })
-        var uniqueTupple: [ITunesLookupApp] = []
-        for tupple in tupples {
-            if !uniqueTupple.contains(where: { $0.appstoreId == tupple.appstoreId }) {
-                uniqueTupple.append(tupple)
-            }
-        }
+        let apps: [ITunesLookupApp] = entries
+            .map({ .init(appstoreId: $0.appIdentifier, name: $0.appTitle, sku: $0.appSKU) })
+            .uniqued(on: \.appstoreId)
 
         return await withTaskGroup(of: ACApp?.self) { group in
             var lookUps: [ACApp] = []
-            lookUps.reserveCapacity(uniqueTupple.count)
+            lookUps.reserveCapacity(apps.count)
 
-            for app in uniqueTupple {
+            for app in apps {
                 group.addTask {
                     return try? await self.iTunesLookup(app: app)
                 }
