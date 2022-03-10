@@ -59,7 +59,7 @@ struct HeatMap: View {
             if dataPoint.0 == 0 {
                 return RoundedRectangle(cornerRadius: 5)
                     .frame(width: HeatMap.size, height: HeatMap.size)
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                    .foregroundColor(.graphColor)
             }
             return RoundedRectangle(cornerRadius: 5)
                 .frame(width: HeatMap.size, height: HeatMap.size)
@@ -67,7 +67,7 @@ struct HeatMap: View {
         }
         return RoundedRectangle(cornerRadius: 5)
             .frame(width: HeatMap.size, height: HeatMap.size)
-            .foregroundColor(Color(uiColor: .systemGray4))
+            .foregroundColor(.graphColor)
     }
 }
 

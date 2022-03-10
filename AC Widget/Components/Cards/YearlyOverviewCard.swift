@@ -46,12 +46,12 @@ struct YearlyOverviewCard: View {
                 ForEach(monthData, id: \.month) { (month: Int, val: Float) in
                     VStack {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(month == maxData.month ? type.color : Color(uiColor: .systemGray4))
+                            .fill(month == maxData.month ? type.color : .graphColor)
                             .frame(width: geo.size.width/20, height: geo.size.height * CGFloat(val/maxData.val) - 25)
 
                         Text(Calendar.current.veryShortMonthSymbols[month-1]).unredacted()
                     }
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                    .foregroundColor(.graphColor)
                     .frame(maxWidth: .infinity)
                 }
             }

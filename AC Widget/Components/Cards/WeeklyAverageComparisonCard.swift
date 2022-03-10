@@ -84,7 +84,7 @@ struct WeeklyAverageComparisonCard: View {
             }
             .font(.system(size: 9))
         }
-        .foregroundColor(Color(uiColor: .systemGray4))
+        .foregroundColor(.graphColor)
     }
 
     private var graph: some View {
@@ -96,7 +96,7 @@ struct WeeklyAverageComparisonCard: View {
                             .frame(width: 0.5 * geo.size.width / 31, height: geo.size.height * CGFloat(value/max))
                         //                        Text(date.toString(format: "EEEEE"))
                     }
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                    .foregroundColor(.graphColor)
                     .frame(maxWidth: .infinity)
                 }
             }

@@ -96,7 +96,7 @@ struct WeeklyAverageCard: View {
                             .frame(width: val.size.width/20, height: abs(val.size.height * CGFloat(value/max) - 25))
                         Text(date.toString(format: "EEEEE")).unredacted()
                     }
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                    .foregroundColor(.graphColor)
                 }
             }
             .padding(.horizontal)
@@ -121,7 +121,7 @@ struct WeeklyAverageCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Avg. \(type.title)")
                     .font(.caption.weight(.medium))
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                    .foregroundColor(.graphColor)
                     .unredacted()
 
                 UnitText(average.toString(abbreviation: .intelligent, maxFractionDigits: 1), infoType: type, currencySymbol: dataProvider.displayCurrencySymbol)

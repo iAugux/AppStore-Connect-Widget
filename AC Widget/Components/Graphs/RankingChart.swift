@@ -29,7 +29,7 @@ struct RankingChart: View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: spacing) {
                 ForEach(data.prefix(rowCount(geo.size.height)).indices, id: \.self) { i in
-                    RankingChartRow(data: data[i], color: i == 0 ? color : Color(uiColor: .systemGray4), contrastColor: i == 0 ? contrastColor : .primary, width: maxValue == 0 ? 0 : geo.size.width * CGFloat(data[i].1 / maxValue))
+                    RankingChartRow(data: data[i], color: i == 0 ? color : .graphColor, contrastColor: i == 0 ? contrastColor : .primary, width: maxValue == 0 ? 0 : geo.size.width * CGFloat(data[i].1 / maxValue))
                         .frame(height: rowHeight)
                 }
             }

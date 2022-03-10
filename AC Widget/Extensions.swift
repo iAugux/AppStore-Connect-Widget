@@ -220,6 +220,7 @@ extension Color {
     static let systemWhite: Color = Color("systemWhite")
     static let cardColor: Color = Color("CardColor")
     static let secondaryCardColor: Color = Color("SecondaryCardColor")
+    static let graphColor: Color = Color(uiColor: .systemGray4)
 }
 
 // From: http://brunowernimont.me/howtos/make-swiftui-color-codable

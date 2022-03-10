@@ -53,7 +53,7 @@ struct ComparisonCard: View {
 
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 6)
-                                .foregroundColor(Color(uiColor: .systemGray4))
+                                .foregroundColor(.graphColor)
                                 .frame(width: val.size.width * CGFloat(secondaryValue/max(primaryValue, secondaryValue)), height: 30)
 
                             Text(secondaryLabel)
