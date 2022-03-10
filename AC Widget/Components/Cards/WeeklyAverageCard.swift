@@ -90,7 +90,7 @@ struct WeeklyAverageCard: View {
         GeometryReader { val in
             HStack(alignment: .bottom) {
                 Spacer()
-                ForEach(data, id: \.1) { (value, date) in
+                ForEach(data.reversed(), id: \.1) { (value, date) in
                     VStack {
                         RoundedRectangle(cornerRadius: 4)
                             .frame(width: val.size.width/20, height: abs(val.size.height * CGFloat(value/max) - 25))
