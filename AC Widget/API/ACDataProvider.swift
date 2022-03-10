@@ -36,11 +36,23 @@ class ACDataProvider: ObservableObject {
         anyCancellable = apiKeysProvider.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
+
+        refresh()
     }
 
     private func refresh() {
         data = nil
         error = nil
+
+        // load cached data
+        guard let apiKey = selectedKey else {
+            data = nil
+            error = .unknown
+            return
+        }
+        data = ACDataCache.getData(apiKey: apiKey)
+
+        // load data from api
         Task {
             await refreshData()
         }
