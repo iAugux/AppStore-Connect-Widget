@@ -7,9 +7,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-
     @EnvironmentObject var dataProvider: ACDataProvider
-
     @State var showingSheet: Bool = false
 
     var completedOnboarding: Bool {
@@ -121,8 +119,34 @@ struct ContentView: View {
                         Label("Settings", systemImage: "gear")
                     })
 
-                Section(header: Text("Apps")) {
-                    // TODO: List all apps
+                if let apps = dataProvider.data?.apps {
+                    Section(header: Text("Apps")) {
+                        ForEach(apps) { app in
+                            NavigationLink(
+                                destination: EmptyView(),
+                                label: {
+                                    HStack {
+                                        Group {
+                                            if let data = app.artwork60ImgData, let uiImg = UIImage(data: data) {
+                                                Image(uiImage: uiImg)
+                                                    .resizable()
+                                                    .cornerRadius(5)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 5)
+                                                            .stroke(Color.secondaryCardColor, lineWidth: 0.3)
+                                                    )
+                                            } else {
+                                                Image(systemName: "questionmark.app")
+                                            }
+                                        }
+                                        .frame(width: 25, height: 25)
+                                        
+                                        Text(app.name)
+                                            .lineLimit(1)
+                                    }
+                                })
+                        }
+                    }
                 }
             }
             .listStyle(.sidebar)
