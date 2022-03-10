@@ -127,9 +127,15 @@ struct ContentView: View {
             }
             .listStyle(.sidebar)
             .navigationTitle("Menu")
+            .sheet(isPresented: $showingSheet, content: {
+                NavigationView {
+                    KeySelectionView()
+                        .closeSheetButton()
+                }
+            })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {  }, label: {
+                    Button(action: { showingSheet.toggle() }, label: {
                         Image(systemName: "key")
                     })
                 }
