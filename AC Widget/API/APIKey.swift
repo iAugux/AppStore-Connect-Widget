@@ -28,7 +28,7 @@ class APIKeyProvider: ObservableObject {
         }
     }
 
-    private static let keychain = Keychain(service: "dev.kruschel.AC-Widget.AC", accessGroup: "E348R9JYR6.dev.kruschel.AC-Widget")
+    private static let keychain = Keychain(service: "com.iAugus.AC-Widget.AC", accessGroup: "J4Z2NCTR3S.com.iAugus.AC-Widget")
         .synchronizable(true)
     private static let keychainKey = "ac-api-key"
 

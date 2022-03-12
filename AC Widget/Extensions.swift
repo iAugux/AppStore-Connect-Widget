@@ -89,7 +89,7 @@ extension UIApplication {
 // MARK: User Defaults
 extension UserDefaults {
     static var shared: UserDefaults? {
-        UserDefaults(suiteName: "group.dev.kruschel.ACWidget")
+        UserDefaults(suiteName: "group.com.iAugus.ACWidget")
     }
 }
 

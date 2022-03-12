@@ -9,7 +9,7 @@ class ACDataCache {
     private init() {}
 
     private static var storageUrl: URL? {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.dev.kruschel.ACWidget")
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.iAugus.ACWidget")
     }
 
     private struct CacheObjectCollection: Codable {
