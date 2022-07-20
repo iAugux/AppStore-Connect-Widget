@@ -1074,8 +1074,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swiftcsv/SwiftCSV";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
+				kind = exactVersion;
+				version = 0.6.1;
 			};
 		};
 		CB77BBB02691F19A006D4EC4 /* XCRemoteSwiftPackageReference "BetterToStrings" */ = {

@@ -38,6 +38,7 @@ struct InfoTile: View {
         self.data = data
         self.type = type
     }
+
     var body: some View {
         Card {
             if isFlipped {
@@ -69,7 +70,7 @@ struct InfoTile: View {
             .pickerStyle(.segmented)
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 8) {
-                    ForEach(data.apps) { app in
+                    ForEach(infoApps) { app in
                         appDetail(for: app)
                     }
                 }
@@ -83,12 +84,22 @@ struct InfoTile: View {
         }
     }
 
+    private var infoApps: [InfoApp] {
+        data.apps
+            .map {
+                .init(app: $0, rawData: data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [$0]))
+            }
+            .sorted {
+                $0.rawData.map { data in data.0 }.reduce(0, +) > $1.rawData.map { data in data.0 }.reduce(0, +)
+            }
+    }
+
     @ViewBuilder
-    private func appDetail(for app: ACApp) -> some View {
+    private func appDetail(for infoApp: InfoApp) -> some View {
         Card(alignment: .leading, spacing: 5, innerPadding: 10, color: .secondaryCardColor) {
             HStack(spacing: 4) {
                 Group {
-                    if let data = app.artwork60ImgData, let uiImg = UIImage(data: data) {
+                    if let data = infoApp.app.artwork60ImgData, let uiImg = UIImage(data: data) {
                         Image(uiImage: uiImg)
                             .resizable()
                     } else {
@@ -98,17 +109,26 @@ struct InfoTile: View {
                 .frame(width: 15, height: 15)
                 .cornerRadius(4)
 
-                Text(app.name)
+                Text(infoApp.app.name)
                     .lineLimit(1)
                 Spacer()
             }
 
             if currencySymbol.isEmpty {
-                UnitText(data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [app]).toString(), metricSymbol: type.systemImage)
+                UnitText(infoApp.rawData.toString(), metricSymbol: type.systemImage)
             } else {
-                UnitText(data.getRawData(for: type, lastNDays: lastNDays, filteredApps: [app]).toString(), metric: currencySymbol)
+                UnitText(infoApp.rawData.toString(), metric: currencySymbol)
             }
         }
+    }
+
+    private struct InfoApp: Identifiable {
+        var id: String {
+            app.id
+        }
+
+        let app: ACApp
+        let rawData: [(Float, Date)]
     }
 }
 
