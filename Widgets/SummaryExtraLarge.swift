@@ -13,6 +13,12 @@ struct SummaryExtraLarge: View {
     var color: Color = .accentColor
     let filteredApps: [ACApp]
 
+    private var sortedApps: [ACApp] {
+        data.apps.sorted {
+            data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [$0]).map { $0.0 }.reduce(0, +) > data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [$1]).map { $0.0 }.reduce(0, +)
+        }
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             HStack {
@@ -106,7 +112,7 @@ struct SummaryExtraLarge: View {
 
     var appDetailSection: some View {
         HStack(spacing: 12) {
-            ForEach((filteredApps.isEmpty ? data.apps : filteredApps).prefix(4)) { app in
+            ForEach((filteredApps.isEmpty ? sortedApps : filteredApps).prefix(4)) { app in
                 Card(alignment: .leading, spacing: 3, innerPadding: 8, color: .cardColor) {
                     HStack(spacing: 4) {
                         Group {
