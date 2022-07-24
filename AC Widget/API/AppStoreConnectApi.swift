@@ -284,20 +284,13 @@ class AppStoreConnectApi {
             guard let appData = result?.results.first else {
                 throw APIError.unknown
             }
-
-            var imageData: Data?
-            if let imgUrl = URL(string: appData.artworkUrl60) {
-                imageData = try? await URLSession.shared.data(from: imgUrl).0
-            }
-
             return ACApp(appstoreId: app.appstoreId,
                          name: app.name,
                          sku: app.sku,
                          version: appData.version,
                          currentVersionReleaseDate: appData.currentVersionReleaseDate,
                          artworkUrl60: appData.artworkUrl60,
-                         artworkUrl100: appData.artworkUrl100,
-                         artwork60ImgData: imageData)
+                         artworkUrl100: appData.artworkUrl100)
         } else {
             throw APIError.unknown
         }
