@@ -3,9 +3,9 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import AppStoreConnect_Swift_SDK
 import StoreKit
+import SwiftUI
 
 struct HomeView: View {
     @State var data: ACData?
@@ -35,7 +35,7 @@ struct HomeView: View {
         }) {
             if let data = data {
                 lastChangeSubtitle
-                if appStoreNotice && AppStoreNotice.isTestFlight() {
+                if appStoreNotice, AppStoreNotice.isTestFlight() {
                     AppStoreNotice()
                 }
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 320))], spacing: 8) {
@@ -167,13 +167,13 @@ struct HomeView: View {
     private func onAppear(useMemoization: Bool = true) async {
         askToRate()
 
-        let selectedTiles = UserDefaults.shared?.stringArray(forKey: UserDefaultsKey.tilesInHome)?.compactMap({ TileType(rawValue: $0) }) ?? []
+        let selectedTiles = UserDefaults.shared?.stringArray(forKey: UserDefaultsKey.tilesInHome)?.compactMap { TileType(rawValue: $0) } ?? []
         tiles = selectedTiles.isEmpty ? TileType.allCases : selectedTiles
 
         guard let apiKey = selectedKey else { return }
         let api = AppStoreConnectApi(apiKey: apiKey)
         do {
-            self.data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
+            data = try await api.getData(currency: Currency(rawValue: currency), useMemoization: useMemoization)
         } catch let err as APIError {
             self.error = err
         } catch {}

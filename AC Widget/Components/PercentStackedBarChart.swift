@@ -11,7 +11,7 @@ struct PercentStackedBarChart: View {
 
     init(data: [(Float, Color)]) {
         self.data = data
-        self.dataSum = data.reduce(0, { $0 + $1.0 })
+        dataSum = data.reduce(0) { $0 + $1.0 }
     }
 
     var body: some View {
@@ -34,7 +34,7 @@ struct PercentStackedBarChart: View {
     }
 
     private func calcWidth(i: Int, totalWidth: CGFloat) -> CGFloat {
-        return CGFloat(data[i].0/dataSum) * totalWidth
+        return CGFloat(data[i].0 / dataSum) * totalWidth
     }
 }
 

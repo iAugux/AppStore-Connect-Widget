@@ -15,9 +15,9 @@ struct CurrencyPicker: View {
         if search.isEmpty { return Currency.sortedAllCases }
         return Currency.sortedAllCases
             .filter { currency in
-                return currency.rawValue.localizedCaseInsensitiveContains(search)
-                || currency.symbol.localizedCaseInsensitiveContains(search)
-                || currency.name.localizedCaseInsensitiveContains(search)
+                currency.rawValue.localizedCaseInsensitiveContains(search)
+                    || currency.symbol.localizedCaseInsensitiveContains(search)
+                    || currency.name.localizedCaseInsensitiveContains(search)
             }
     }
 

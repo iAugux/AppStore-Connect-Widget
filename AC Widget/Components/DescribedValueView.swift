@@ -16,7 +16,7 @@ struct DescribedValueView: View {
     }
 
     init(descriptionString: String, value: String) {
-        self.description = Text(descriptionString)
+        description = Text(descriptionString)
         self.value = value
     }
 

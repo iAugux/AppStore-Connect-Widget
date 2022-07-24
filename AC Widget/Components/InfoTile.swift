@@ -3,9 +3,9 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import BetterToStrings
 import Kingfisher
+import SwiftUI
 
 struct InfoTile: View {
     private var description: LocalizedStringKey
@@ -19,6 +19,7 @@ struct InfoTile: View {
             return ""
         }
     }
+
     @State private var isFlipped: Bool = false
     @State private var interval: Int = 0
     private var lastNDays: Int {
@@ -56,7 +57,7 @@ struct InfoTile: View {
             }
         }
         .frame(height: 250)
-        .rotation3DEffect(self.isFlipped ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
+        .rotation3DEffect(self.isFlipped ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
         .frame(height: 250)
     }
 

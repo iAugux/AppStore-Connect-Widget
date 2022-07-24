@@ -26,17 +26,17 @@ enum Currency: String, CaseIterable, Codable {
     case ILS; case THB
 
     var symbol: String {
-        return getSymbolForCurrencyCode(code: self.rawValue)
+        return getSymbolForCurrencyCode(code: rawValue)
     }
 
     var name: String {
-        return Locale.current.localizedString(forCurrencyCode: self.rawValue) ?? self.rawValue
+        return Locale.current.localizedString(forCurrencyCode: rawValue) ?? rawValue
     }
 
     static var sortedAllCases: [Currency] {
         var identifiers: [Currency] = Currency.allCases
         let first: [Currency] = [.USD, .EUR, .GBP]
-        identifiers = identifiers.filter({ !first.contains($0) }).sorted { $0.rawValue < $1.rawValue }
+        identifiers = identifiers.filter { !first.contains($0) }.sorted { $0.rawValue < $1.rawValue }
         identifiers.insert(contentsOf: first, at: 0)
         return identifiers
     }
@@ -81,7 +81,6 @@ enum Currency: String, CaseIterable, Codable {
 
 // Global Classes:
 class CurrencyConverter {
-
     static let shared = CurrencyConverter()
 
     private var exchangeRates: [Currency: Double] = [
@@ -107,7 +106,7 @@ class CurrencyConverter {
         .CAD: 1.5082,
         .CNY: 7.5939,
         .HKD: 8.8788,
-        .IDR: 15954.12,
+        .IDR: 15_954.12,
         .ILS: 4.0389,
         .INR: 78.2915,
         .KRW: 1283.00,
@@ -124,7 +123,7 @@ class CurrencyConverter {
     //    private var exchangeRates : [Currency : Double] = [:]
     private let xmlParser = CurrencyXMLParser()
 
-    init() { }
+    init() {}
 
     // Public Methods:
     /** Updates the exchange rate and runs the completion afterwards. */
@@ -146,14 +145,13 @@ class CurrencyConverter {
     public func convert(_ value: Double, valueCurrency: Currency, outputCurrency: Currency) -> Double? {
         guard let valueRate = exchangeRates[valueCurrency] else { return nil }
         guard let outputRate = exchangeRates[outputCurrency] else { return nil }
-        let multiplier = outputRate/valueRate
+        let multiplier = outputRate / valueRate
         return value * multiplier
     }
 }
 
 // Private Classes:
 private class CurrencyXMLParser: NSObject, XMLParserDelegate {
-
     // Private Properties:
     private let xmlURL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
     private var exchangeRates: [Currency: Double] = [
@@ -165,7 +163,7 @@ private class CurrencyXMLParser: NSObject, XMLParserDelegate {
         return exchangeRates
     }
 
-    public func parse(completion : @escaping () -> Void, errorCompletion : @escaping () -> Void) {
+    public func parse(completion: @escaping () -> Void, errorCompletion: @escaping () -> Void) {
         guard let url = URL(string: xmlURL) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
@@ -193,13 +191,12 @@ private class CurrencyXMLParser: NSObject, XMLParserDelegate {
     }
 
     // XML Parse Methods (from XMLParserDelegate):
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
-        if elementName == "Cube"{
+    func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?, qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
+        if elementName == "Cube" {
             guard let currency = attributeDict["currency"] else { return }
             guard let rate = attributeDict["rate"] else { return }
             guard let exchangeRate = makeExchangeRate(currency: currency, rate: rate) else { return }
             exchangeRates.updateValue(exchangeRate.rate, forKey: exchangeRate.currency)
         }
     }
-
 }

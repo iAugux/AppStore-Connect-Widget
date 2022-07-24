@@ -19,7 +19,7 @@ struct ACEntry: Codable {
 
 extension ACEntry {
     func belongsToApp(apps: [ACApp]) -> Bool {
-        if apps.count == 0 { return true }
+        if apps.isEmpty { return true }
         return apps.contains(where: { app in
             app.sku == self.appSKU
         })
@@ -81,7 +81,7 @@ enum ACDevice: String, CaseIterable, Identifiable {
     }
 
     var id: String {
-        self.rawValue
+        rawValue
     }
 
     var symbol: String {

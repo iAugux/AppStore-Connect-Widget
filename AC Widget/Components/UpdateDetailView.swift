@@ -12,13 +12,13 @@ struct UpdateDetailView: View {
     private var subTitle: LocalizedStringKey
 
     init(systemName: String, title: LocalizedStringKey, subTitle: LocalizedStringKey) {
-        self.icon = Image(systemName: systemName)
+        icon = Image(systemName: systemName)
         self.title = title
         self.subTitle = subTitle
     }
 
     init(imageName: String, title: LocalizedStringKey, subTitle: LocalizedStringKey) {
-        self.icon = Image(imageName)
+        icon = Image(imageName)
         self.title = title
         self.subTitle = subTitle
     }

@@ -45,7 +45,7 @@ class ACDataCache {
 
         // merge items
         let oldDataFiltered = oldEntries.filter { oldEntry in
-            return !data.entries.contains(where: { $0.date == oldEntry.date })
+            !data.entries.contains(where: { $0.date == oldEntry.date })
         }
 
         var entries: [ACEntry] = data.entries + oldDataFiltered
@@ -56,11 +56,11 @@ class ACDataCache {
         }.first
 
         let latestDate = latest?.date ?? Date()
-        let validDays = latestDate.getLastNDates(35).map({ $0.acApiFormat() })
+        let validDays = latestDate.getLastNDates(35).map { $0.acApiFormat() }
 
-        entries = entries.filter({ entry in
+        entries = entries.filter { entry in
             validDays.contains(entry.date.acApiFormat())
-        })
+        }
 
         if !entries.isEmpty {
             let newObj = CacheObject(apiKeyId: apiKey.id, data: ACData(entries: entries, currency: data.displayCurrency, apps: data.apps))
@@ -96,10 +96,10 @@ class ACDataCache {
 
     public static func numberOfEntriesCached(apiKey: APIKey? = nil) -> Int {
         let cacheObjects: [CacheObject] = getCollection()?.objects ?? []
-        let data: [ACEntry] = cacheObjects.filter({
+        let data: [ACEntry] = cacheObjects.filter {
             guard let keyId = apiKey?.id else { return true }
             return $0.apiKeyId == keyId
-        }).flatMap({ $0.data.entries })
+        }.flatMap { $0.data.entries }
         return data.count
     }
 

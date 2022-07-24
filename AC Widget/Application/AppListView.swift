@@ -3,8 +3,8 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct AppListView: View {
     let apps: [ACApp]

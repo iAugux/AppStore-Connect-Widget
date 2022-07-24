@@ -24,13 +24,13 @@ struct APIKeyDetailView: View {
 
     init(_ key: APIKey) {
         self.key = key
-        self._keyName = State(initialValue: key.name)
-        self._keyColor = State(initialValue: key.color)
-        self._cachedEntries = State(initialValue: ACDataCache.numberOfEntriesCached(apiKey: key))
-        self.issuerID = key.issuerID
-        self.privateKeyID = key.privateKeyID
-        self.privateKey = key.privateKey
-        self.vendorNumber = key.vendorNumber
+        _keyName = State(initialValue: key.name)
+        _keyColor = State(initialValue: key.color)
+        _cachedEntries = State(initialValue: ACDataCache.numberOfEntriesCached(apiKey: key))
+        issuerID = key.issuerID
+        privateKeyID = key.privateKeyID
+        privateKey = key.privateKey
+        vendorNumber = key.vendorNumber
     }
 
     var body: some View {
@@ -118,16 +118,16 @@ struct APIKeyDetailView: View {
     private func loadApps() async throws {
         let api = AppStoreConnectApi(apiKey: key)
         let data = try await api.getData(currency: Currency.USD, useCache: true)
-        self.apps = data.apps
+        apps = data.apps
     }
 
     private func save() {
         try? apiKeysProvider.addApiKey(apiKey: APIKey(name: keyName,
-                                        color: keyColor,
-                                        issuerID: issuerID,
-                                        privateKeyID: privateKeyID,
-                                        privateKey: privateKey,
-                                        vendorNumber: vendorNumber))
+                                                      color: keyColor,
+                                                      issuerID: issuerID,
+                                                      privateKeyID: privateKeyID,
+                                                      privateKey: privateKey,
+                                                      vendorNumber: vendorNumber))
     }
 
     var storageSection: some View {

@@ -3,8 +3,8 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct AppIconStack: View {
     var apps: [ACApp]
@@ -20,7 +20,7 @@ struct AppIconStack: View {
 
     var body: some View {
         ZStack {
-            ForEach(0..<showAppCount, id: \.self) { index in
+            ForEach(0 ..< showAppCount, id: \.self) { index in
                 KFImage(URL(string: apps[index].artworkUrl60))
                     .placeholder {
                         Rectangle()
@@ -40,7 +40,7 @@ struct AppIconStack: View {
                 ZStack {
                     Image(systemName: "app.fill")
                         .foregroundColor(.secondaryCardColor)
-                    Text("+\(apps.count-3)")
+                    Text("+\(apps.count - 3)")
                         .font(.system(size: 8))
                         .minimumScaleFactor(0.5)
                 }

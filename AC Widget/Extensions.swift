@@ -3,11 +3,11 @@
 //  AC Widget by NO-COMMENT
 //
 
+import DynamicColor
 import Foundation
+import KeychainAccess
 import SwiftUI
 import WidgetKit
-import DynamicColor
-import KeychainAccess
 
 extension Date {
     var dayBefore: Date {
@@ -44,7 +44,7 @@ extension Date {
         return self
     }
 
-    func nextDateWithMinute(_ minute: Int) -> Date {
+    func nextDateWithMinute(_: Int) -> Date {
         if let next = Calendar.current.date(bySetting: .minute, value: 30, of: self) {
             return next
         }
@@ -77,16 +77,19 @@ extension Calendar {
 }
 
 // MARK: UIApplication
+
 extension UIApplication {
     static var appVersion: String? {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     }
+
     static var buildVersion: String? {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
 }
 
 // MARK: User Defaults
+
 extension UserDefaults {
     static var shared: UserDefaults? {
         UserDefaults(suiteName: "group.com.iAugus.ACWidget")
@@ -108,6 +111,7 @@ enum UserDefaultsKey {
 }
 
 // MARK: Editing Strings
+
 extension String {
     func removeCharacters(from set: CharacterSet) -> String {
         var newString = self
@@ -124,6 +128,7 @@ extension String {
 }
 
 // MARK: View Modifier
+
 // hide view if redacted as placeholder (for loading widget)
 private struct HideViewPlaceholderRedacted: ViewModifier {
     @Environment(\.redactionReasons) private var reasons
@@ -140,7 +145,7 @@ private struct HideViewPlaceholderRedacted: ViewModifier {
 
 extension View {
     func hidePlaceholderRedacted() -> some View {
-        self.modifier(HideViewPlaceholderRedacted())
+        modifier(HideViewPlaceholderRedacted())
     }
 }
 
@@ -168,6 +173,7 @@ struct ShowAsWidget: ViewModifier {
             height = 141
         }
     }
+
     func body(content: Content) -> some View {
         content
             .aspectRatio(CGSize(width: width, height: height), contentMode: .fill)
@@ -180,7 +186,7 @@ struct ShowAsWidget: ViewModifier {
 
 extension View {
     func showAsWidget(_ size: WidgetFamily) -> some View {
-        self.modifier(ShowAsWidget(size))
+        modifier(ShowAsWidget(size))
     }
 }
 
@@ -207,17 +213,18 @@ struct CloseSheet: ViewModifier {
 
 extension View {
     func closeSheetButton() -> some View {
-        self.modifier(CloseSheet())
+        modifier(CloseSheet())
     }
 }
 
 // MARK: Color
+
 extension Color {
-    static let widgetBackground: Color = Color("WidgetBackground")
-    static let widgetSecondary: Color = Color("WidgetSecondary")
-    static let systemWhite: Color = Color("systemWhite")
-    static let cardColor: Color = Color("CardColor")
-    static let secondaryCardColor: Color = Color("SecondaryCardColor")
+    static let widgetBackground: Color = .init("WidgetBackground")
+    static let widgetSecondary: Color = .init("WidgetSecondary")
+    static let systemWhite: Color = .init("systemWhite")
+    static let cardColor: Color = .init("CardColor")
+    static let secondaryCardColor: Color = .init("SecondaryCardColor")
 }
 
 // From: http://brunowernimont.me/howtos/make-swiftui-color-codable
@@ -237,6 +244,8 @@ extension Color {
     }
 }
 
+// MARK: - Color Conformance to Codable
+
 extension Color: Codable {
     enum CodingKeys: String, CodingKey {
         case red, green, blue
@@ -252,7 +261,7 @@ extension Color: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        guard let colorComponents = self.colorComponents else {
+        guard let colorComponents = colorComponents else {
             return
         }
 
@@ -267,7 +276,7 @@ extension Color: Codable {
 // From: https://stackoverflow.com/questions/42355778/how-to-compute-color-contrast-ratio-between-two-uicolor-instances/42355779
 extension Color {
     func readable(colorScheme: ColorScheme) -> Color {
-        let lum = self.luminance()
+        let lum = luminance()
 
         switch colorScheme {
         case .light:
@@ -293,36 +302,38 @@ extension Color {
         func adjust(colorComponent: CGFloat) -> CGFloat {
             return (colorComponent < 0.04045) ? (colorComponent / 12.92) : pow((colorComponent + 0.055) / 1.055, 2.4)
         }
-        return 0.2126 * adjust(colorComponent: self.colorComponents?.red ?? 0) + 0.7152 * adjust(colorComponent: self.colorComponents?.green ?? 0) + 0.0722 * adjust(colorComponent: self.colorComponents?.blue ?? 0)
+        return 0.2126 * adjust(colorComponent: colorComponents?.red ?? 0) + 0.7152 * adjust(colorComponent: colorComponents?.green ?? 0) + 0.0722 * adjust(colorComponent: colorComponents?.blue ?? 0)
     }
 }
 
 // MARK: ACEntry Array
+
 extension Array where Element == ACEntry {
     func getLastDays(_ n: Int) -> [ACEntry] {
-        let latestDate: Date? = self.reduce(Date.distantPast, { $0 > $1.date ? $0 : $1.date })
+        let latestDate: Date? = reduce(Date.distantPast) { $0 > $1.date ? $0 : $1.date }
         let lastNDays: [Date] = (latestDate ?? Date()).getLastNDates(n)
-        return self.filter({ lastNDays.contains($0.date) })
+        return filter { lastNDays.contains($0.date) }
     }
 
     func filterApps(_ isIncluded: [ACApp]) -> [ACEntry] {
-        return self.filter({ $0.belongsToApp(apps: isIncluded) })
+        return filter { $0.belongsToApp(apps: isIncluded) }
     }
 }
 
 extension Array where Element == (Float, Date) {
     func fillZeroLastDays(_ n: Int, latestDate: Date) -> [(Float, Date)] {
         let lastNDays: [Date] = latestDate.getLastNDates(n)
-        return lastNDays.map({ day -> (Float, Date) in
-            return self.first(where: { $0.1 == day }) ?? (Float.zero, day)
-        })
+        return lastNDays.map { day -> (Float, Date) in
+            self.first(where: { $0.1 == day }) ?? (Float.zero, day)
+        }
     }
 }
 
 // MARK: Other
+
 extension Collection {
     func count(where test: (Element) throws -> Bool) rethrows -> Int {
-        return try self.filter(test).count
+        return try filter(test).count
     }
 }
 
@@ -333,6 +344,6 @@ extension CurrencyParam {
         if self == .system {
             return Currency(rawValue: Locale.current.currencyCode ?? "")
         }
-        return Currency(rawValue: self.identifier ?? "")
+        return Currency(rawValue: identifier ?? "")
     }
 }

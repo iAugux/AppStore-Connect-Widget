@@ -20,7 +20,7 @@ struct Card<Content: View>: View {
         self.content = content()
         self.alignment = alignment
         self.spacing = spacing
-        self.padding = innerPadding
+        padding = innerPadding
         self.color = color
     }
 

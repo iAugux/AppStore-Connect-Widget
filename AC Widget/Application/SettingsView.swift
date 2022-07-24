@@ -35,14 +35,14 @@ struct SettingsView: View {
             ForEach(apiKeysProvider.apiKeys) { key in
                 NavigationLink(destination: APIKeyDetailView(key),
                                label: {
-                    HStack {
-                        Text("\(Image(systemName: "circle.fill"))")
-                            .foregroundColor(key.color)
-                        Text(key.name)
-                        Spacer()
-                        ApiKeyCheckIndicator(key: key)
-                    }
-                })
+                                   HStack {
+                                       Text("\(Image(systemName: "circle.fill"))")
+                                           .foregroundColor(key.color)
+                                       Text(key.name)
+                                       Spacer()
+                                       ApiKeyCheckIndicator(key: key)
+                                   }
+                               })
             }
             .onDelete(perform: deleteKey)
 
@@ -52,16 +52,16 @@ struct SettingsView: View {
 
     var keySectionFooter: some View {
         Text("\(Image(systemName: "checkmark.circle")): ")
-        +
-        Text("VALID_KEY")
-        +
-        Text(" \(Image(systemName: "xmark.circle")): ")
-        +
-        Text("INVALID_KEY")
-        +
-        Text(" \(Image(systemName: "exclamationmark.circle")): ")
-        +
-        Text("PROBLEM_KEY")
+            +
+            Text("VALID_KEY")
+            +
+            Text(" \(Image(systemName: "xmark.circle")): ")
+            +
+            Text("INVALID_KEY")
+            +
+            Text(" \(Image(systemName: "exclamationmark.circle")): ")
+            +
+            Text("PROBLEM_KEY")
     }
 
     var generalSection: some View {
@@ -152,13 +152,13 @@ struct SettingsView: View {
 
     private func sheet() -> some View {
         NavigationView {
-        OnboardingView(showsWelcome: false)
+            OnboardingView(showsWelcome: false)
                 .closeSheetButton()
         }
     }
 
     private func deleteKey(at offsets: IndexSet) {
-        let keys = offsets.map({ apiKeysProvider.apiKeys[$0] })
+        let keys = offsets.map { apiKeysProvider.apiKeys[$0] }
         keys.forEach { ACDataCache.clearCache(apiKey: $0) }
         apiKeysProvider.deleteApiKeys(keys: keys)
     }
@@ -195,13 +195,13 @@ struct ApiKeyCheckIndicator: View {
                     .foregroundColor(.orange)
             }
         }
-        .task(priority: .background, {
+        .task(priority: .background) {
             do {
                 try await key.checkKey()
             } catch let err {
                 status = (err as? APIError) ?? .unknown
             }
             loading = false
-        })
+        }
     }
 }

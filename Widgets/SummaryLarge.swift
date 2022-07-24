@@ -3,10 +3,10 @@
 //  AC Widget by NO-COMMENT
 //
 
+import BetterToStrings
+import Kingfisher
 import SwiftUI
 import WidgetKit
-import Kingfisher
-import BetterToStrings
 
 struct SummaryLarge: View {
     @Environment(\.colorScheme) var colorScheme
@@ -65,9 +65,9 @@ struct SummaryLarge: View {
 
             VStack(spacing: 0) {
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data
-                                    .getRawData(for: .downloads, lastNDays: 7, filteredApps: filteredApps).toString(size: .compact))
+                    .getRawData(for: .downloads, lastNDays: 7, filteredApps: filteredApps).toString(size: .compact))
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data
-                                    .getRawData(for: .downloads, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact))
+                    .getRawData(for: .downloads, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact))
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
                                    value: data.getRawData(for: .downloads, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps).toString(size: .compact))
             }
@@ -81,18 +81,18 @@ struct SummaryLarge: View {
 
             VStack(spacing: 0) {
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
+                    .toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps)
+                    .toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
                                    value: data
-                                    .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                                       .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps)
+                                       .toString(size: .compact)
+                                       .appending(data.displayCurrency.symbol))
             }
         }
     }
@@ -110,7 +110,7 @@ struct SummaryLarge: View {
     }
 
     var fewApps: Bool {
-        filteredApps.count == 2 || (filteredApps.count == 0 && data.apps.count == 2)
+        filteredApps.count == 2 || (filteredApps.isEmpty && data.apps.count == 2)
     }
 
     var appList: some View {

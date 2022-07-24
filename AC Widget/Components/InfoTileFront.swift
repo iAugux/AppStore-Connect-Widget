@@ -3,8 +3,8 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import BetterToStrings
+import SwiftUI
 
 struct InfoTileFront: View {
     private var description: LocalizedStringKey
@@ -32,7 +32,7 @@ struct InfoTileFront: View {
     init(description: LocalizedStringKey, data: ACData, type: InfoType, color: Color = .accentColor) {
         self.description = description
         self.data = data
-        self.rawData = data.getRawData(for: type, lastNDays: 30).reversed()
+        rawData = data.getRawData(for: type, lastNDays: 30).reversed()
         self.type = type
         self.color = color
     }
@@ -60,6 +60,7 @@ struct InfoTileFront: View {
     }
 
     // MARK: Top
+
     var topSection: some View {
         HStack(alignment: .top) {
             if let index = currentIndex {
@@ -95,6 +96,7 @@ struct InfoTileFront: View {
     }
 
     // MARK: Graph
+
     var graphSection: some View {
         Group {
             if !graphData.isEmpty {
@@ -102,11 +104,11 @@ struct InfoTileFront: View {
                     HStack(alignment: .bottom, spacing: 0) {
                         ForEach(graphData.indices) { i in
                             Capsule()
-                                .frame(width: (reading.size.width/CGFloat(graphData.count))*0.7, height: reading.size.height * getGraphHeight(i))
+                                .frame(width: (reading.size.width / CGFloat(graphData.count)) * 0.7, height: reading.size.height * getGraphHeight(i))
                                 .foregroundColor(getGraphColor(i))
                                 .opacity(currentIndex == i ? 0.7 : 1)
 
-                            if i != graphData.count-1 {
+                            if i != graphData.count - 1 {
                                 Spacer()
                                     .frame(minWidth: 0)
                             }
@@ -114,19 +116,19 @@ struct InfoTileFront: View {
                     }
                     .contentShape(Rectangle())
                     .highPriorityGesture(DragGesture(minimumDistance: 20)
-                                .onChanged({ value in
-                                    let newIndex = Int((value.location.x/reading.size.width) * CGFloat(graphData.count))
-                                    if newIndex != currentIndex && newIndex < rawData.count && newIndex >= 0 {
-                                        currentIndex = newIndex
-                                        UISelectionFeedbackGenerator()
-                                            .selectionChanged()
-                                    }
-                                })
-                                .onEnded({ _ in
-                                    withAnimation(Animation.easeOut(duration: 0.2)) {
-                                            currentIndex = nil
-                                        }
-                                })
+                        .onChanged { value in
+                            let newIndex = Int((value.location.x / reading.size.width) * CGFloat(graphData.count))
+                            if newIndex != currentIndex, newIndex < rawData.count, newIndex >= 0 {
+                                currentIndex = newIndex
+                                UISelectionFeedbackGenerator()
+                                    .selectionChanged()
+                            }
+                        }
+                        .onEnded { _ in
+                            withAnimation(Animation.easeOut(duration: 0.2)) {
+                                currentIndex = nil
+                            }
+                        }
                     )
                 }
             } else {
@@ -138,10 +140,10 @@ struct InfoTileFront: View {
     }
 
     private func getGraphHeight(_ i: Int) -> CGFloat {
-        if i < graphData.count && graphData[i] > 0 {
+        if i < graphData.count, graphData[i] > 0 {
             return graphData[i]
         }
-        if i < graphData.count && graphData[i] < 0 {
+        if i < graphData.count, graphData[i] < 0 {
             return abs(graphData[i])
         }
         return 0.01
@@ -149,15 +151,16 @@ struct InfoTileFront: View {
 
     private func getGraphColor(_ i: Int) -> Color {
         var result: Color = .gray
-        if i < graphData.count && graphData[i] > 0 {
+        if i < graphData.count, graphData[i] > 0 {
             result = color
-        } else if i < graphData.count && graphData[i] < 0 {
+        } else if i < graphData.count, graphData[i] < 0 {
             result = .red
         }
         return result
     }
 
     // MARK: Bottom
+
     var bottomSection: some View {
         VStack {
             HStack(alignment: .bottom) {

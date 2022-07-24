@@ -65,11 +65,11 @@ struct SummaryMedium: View {
 
             VStack(spacing: 0) {
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps).toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps).toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps).toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
             }
         }
     }
@@ -85,7 +85,6 @@ struct SummaryMedium_Previews: PreviewProvider {
                 .background(Color.widgetBackground)
                 .preferredColorScheme(.dark)
                 .previewContext(WidgetPreviewContext(family: .systemMedium))
-
         }
     }
 }

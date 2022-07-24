@@ -3,9 +3,9 @@
 //  AC Widget by NO-COMMENT
 //
 
+import Kingfisher
 import SwiftUI
 import WidgetKit
-import Kingfisher
 
 struct SummaryExtraLarge: View {
     @Environment(\.colorScheme) var colorScheme
@@ -82,18 +82,18 @@ struct SummaryExtraLarge: View {
                     UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: filteredApps).toString(), metric: data.displayCurrency.symbol)
                 }
                 DescribedValueView(description: "LAST_SEVEN_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
+                    .toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
                 DescribedValueView(description: "LAST_THIRTY_DAYS", value: data
-                                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                    .getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps)
+                    .toString(size: .compact)
+                    .appending(data.displayCurrency.symbol))
                 DescribedValueView(descriptionString: data.latestReportingDate().toString(format: "MMMM").appending(":"),
                                    value: data
-                                    .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                                       .getRawData(for: .proceeds, lastNDays: data.latestReportingDate().dateToMonthNumber(), filteredApps: filteredApps)
+                                       .toString(size: .compact)
+                                       .appending(data.displayCurrency.symbol))
             }
             VStack(alignment: .trailing) {
                 HStack {
@@ -135,12 +135,12 @@ struct SummaryExtraLarge: View {
                         Spacer()
                         UnitText(data.getRawData(for: .proceeds, lastNDays: 1, filteredApps: [app]).toString(), metric: data.displayCurrency.symbol)
                             .fontSize(19)
-                        if (filteredApps.count != 0 && filteredApps.count <= 3) || (filteredApps.count == 0 && data.apps.count <= 3) {
+                        if (!filteredApps.isEmpty && filteredApps.count <= 3) || (filteredApps.isEmpty && data.apps.count <= 3) {
                             Spacer()
                             UnitText(data.getRawData(for: .iap, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.iap.systemImage)
                                 .fontSize(19)
                         }
-                        if (filteredApps.count != 0 && filteredApps.count <= 2) || (filteredApps.count == 0 && data.apps.count <= 2) {
+                        if (!filteredApps.isEmpty && filteredApps.count <= 2) || (filteredApps.isEmpty && data.apps.count <= 2) {
                             Spacer()
                             UnitText(data.getRawData(for: .updates, lastNDays: 1, filteredApps: [app]).toString(), metricSymbol: InfoType.updates.systemImage)
                                 .fontSize(19)
@@ -160,11 +160,11 @@ struct SummaryExtraLarge: View {
                         Image(systemName: InfoType.downloads.systemImage)
                             .foregroundColor(.gray)
                         PercentStackedBarChart(data:
-                                                data.getDevices(.downloads, lastNDays: 30, filteredApps: filteredApps)
-                                                .sorted(by: { $0.0 < $1.0 })
-                                                .map({ ($0.1, ACDevice($0.0).color) })
+                            data.getDevices(.downloads, lastNDays: 30, filteredApps: filteredApps)
+                                .sorted(by: { $0.0 < $1.0 })
+                                .map { ($0.1, ACDevice($0.0).color) }
                         )
-                            .frame(height: 10)
+                        .frame(height: 10)
                     }
                     HStack {
                         ZStack {
@@ -174,31 +174,31 @@ struct SummaryExtraLarge: View {
                                 .foregroundColor(.gray)
                         }
                         PercentStackedBarChart(data:
-                                                data.getDevices(.proceeds, lastNDays: 30, filteredApps: filteredApps)
-                                                .sorted(by: { $0.0 < $1.0 })
-                                                .map({ ($0.1, ACDevice($0.0).color) })
+                            data.getDevices(.proceeds, lastNDays: 30, filteredApps: filteredApps)
+                                .sorted(by: { $0.0 < $1.0 })
+                                .map { ($0.1, ACDevice($0.0).color) }
                         )
-                            .frame(height: 10)
+                        .frame(height: 10)
                     }
                     HStack {
                         Image(systemName: InfoType.iap.systemImage)
                             .foregroundColor(.gray)
                         PercentStackedBarChart(data:
-                                                data.getDevices(.iap, lastNDays: 30, filteredApps: filteredApps)
-                                                .sorted(by: { $0.0 < $1.0 })
-                                                .map({ ($0.1, ACDevice($0.0).color) })
+                            data.getDevices(.iap, lastNDays: 30, filteredApps: filteredApps)
+                                .sorted(by: { $0.0 < $1.0 })
+                                .map { ($0.1, ACDevice($0.0).color) }
                         )
-                            .frame(height: 10)
+                        .frame(height: 10)
                     }
                     HStack {
                         Image(systemName: InfoType.updates.systemImage)
                             .foregroundColor(.gray)
                         PercentStackedBarChart(data:
-                                                data.getDevices(.updates, lastNDays: 30, filteredApps: filteredApps)
-                                                .sorted(by: { $0.0 < $1.0 })
-                                                .map({ ($0.1, ACDevice($0.0).color) })
+                            data.getDevices(.updates, lastNDays: 30, filteredApps: filteredApps)
+                                .sorted(by: { $0.0 < $1.0 })
+                                .map { ($0.1, ACDevice($0.0).color) }
                         )
-                            .frame(height: 10)
+                        .frame(height: 10)
                     }
                 }
                 .font(.system(size: 10))
@@ -269,7 +269,6 @@ struct SummaryExtraLarge_Previews: PreviewProvider {
                 .background(Color.widgetBackground)
                 .preferredColorScheme(.dark)
                 .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
-
         }
     }
 }

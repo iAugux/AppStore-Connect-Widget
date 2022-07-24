@@ -45,7 +45,7 @@ struct KeySelectionView: View {
         Section(header: Label("CURRENCY", systemImage: "dollarsign.circle.fill")) {
             NavigationLink(destination: CurrencyPicker(selection: $currency)) {
                 HStack {
-                Text("APP_CURRENCY")
+                    Text("APP_CURRENCY")
                     Spacer()
                     CurrencySymbol(symbol: (Currency(rawValue: currency) ?? .USD).symbol)
                 }

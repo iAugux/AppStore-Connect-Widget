@@ -14,33 +14,33 @@ struct UnitText: View {
 
     init(_ text: String, metric: String) {
         self.text = text
-        self.metricString = metric
-        self.metricImage = nil
+        metricString = metric
+        metricImage = nil
     }
 
     init(_ text: String, metricSymbol: String) {
         self.text = text
-        self.metricString = nil
-        self.metricImage = metricSymbol
+        metricString = nil
+        metricImage = metricSymbol
     }
 
     var body: some View {
-        HStack(alignment: .bottom, spacing: fontSize*0.17) {
+        HStack(alignment: .bottom, spacing: fontSize * 0.17) {
             HStack(alignment: .top, spacing: 0) {
                 Text(text)
 
                 if let metricString = metricString {
                     Text(metricString)
-                        .font(.system(size: fontSize*0.5, weight: .semibold, design: .rounded) )
+                        .font(.system(size: fontSize * 0.5, weight: .semibold, design: .rounded))
                         // .font(.system(size: fontSize*0.5))
-                        .padding(.top, fontSize*0.1)
+                        .padding(.top, fontSize * 0.1)
                         .hidePlaceholderRedacted()
                 }
 
                 if let metricImage = metricImage {
                     Image(systemName: metricImage)
-                        .font(.system(size: fontSize*0.48, weight: .semibold, design: .default) )
-                        .padding(.top, fontSize*0.1)
+                        .font(.system(size: fontSize * 0.48, weight: .semibold, design: .default))
+                        .padding(.top, fontSize * 0.1)
                         .hidePlaceholderRedacted()
                 }
             }

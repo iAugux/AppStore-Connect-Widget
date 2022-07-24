@@ -21,7 +21,7 @@ struct OnboardingView: View {
     @State private var errorFields: Set<Fields> = .init()
 
     init(showsWelcome: Bool) {
-        self._page = State(initialValue: showsWelcome ? .welcome : .naming)
+        _page = State(initialValue: showsWelcome ? .welcome : .naming)
     }
 
     var body: some View {
@@ -43,6 +43,7 @@ struct OnboardingView: View {
     }
 
     // MARK: Pages
+
     var welcomeSection: some View {
         VStack {
             Text("WELCOME_TO")
@@ -69,31 +70,31 @@ struct OnboardingView: View {
     }
 
     var nameSection: some View {
-            VStack(spacing: 25) {
-                Image(systemName: "person.fill.badge.plus")
-                    .renderingMode(.original)
-                    .foregroundColor(.accentColor)
-                    .font(.system(size: 45, weight: .medium))
-                    .padding(.top, 35)
+        VStack(spacing: 25) {
+            Image(systemName: "person.fill.badge.plus")
+                .renderingMode(.original)
+                .foregroundColor(.accentColor)
+                .font(.system(size: 45, weight: .medium))
+                .padding(.top, 35)
 
-                Text("ONBOARD_KEY_NAME")
+            Text("ONBOARD_KEY_NAME")
 
-                TextField("KEY_NAME", text: $name)
-                    .textFieldStyle(.roundedBorder)
+            TextField("KEY_NAME", text: $name)
+                .textFieldStyle(.roundedBorder)
 
-                Text("ONBOARD_KEY_COLOR")
+            Text("ONBOARD_KEY_COLOR")
 
-                ColorPicker(selection: $color, supportsOpacity: false, label: {
-                    Text("KEY_COLOR")
-                        .fixedSize()
-                })
-                    .frame(maxWidth: 250, maxHeight: 30)
-                Spacer()
-                Button("NEXT", action: { page = .key })
-                    .buttonStyle(PrimaryButtonStyle())
-                    .disabled(name.isEmpty)
-            }
-            .padding()
+            ColorPicker(selection: $color, supportsOpacity: false, label: {
+                Text("KEY_COLOR")
+                    .fixedSize()
+            })
+            .frame(maxWidth: 250, maxHeight: 30)
+            Spacer()
+            Button("NEXT", action: { page = .key })
+                .buttonStyle(PrimaryButtonStyle())
+                .disabled(name.isEmpty)
+        }
+        .padding()
     }
 
     var creatingKeySection: some View {
@@ -141,7 +142,7 @@ struct OnboardingView: View {
                         if vendor.isEmpty { errorFields.insert(.vendor) }
                         if key.isEmpty { errorFields.insert(.key) }
                     })
-                        .onChange(of: name + issuerID + keyID + key + vendor) { _ in errorFields.removeAll() }
+                    .onChange(of: name + issuerID + keyID + key + vendor) { _ in errorFields.removeAll() }
                 }
             }
             .padding()
@@ -259,15 +260,16 @@ struct OnboardingView: View {
         case naming = 1
         case key = 2
 
-        var id: Int { self.rawValue }
+        var id: Int { rawValue }
     }
 
     // MARK: Alert
+
     private enum AddAPIKeyAlert: Int, Identifiable {
         case invalidKey = 0
         case duplicateKey = 1
 
-        var id: Int { self.rawValue }
+        var id: Int { rawValue }
     }
 
     private func generateAlert(_ alertType: AddAPIKeyAlert) -> Alert {

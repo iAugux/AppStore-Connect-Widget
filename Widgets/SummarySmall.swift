@@ -26,12 +26,12 @@ struct SummarySmall: View {
 
                 DescribedValueView(description: "LAST_SEVEN_DAYS",
                                    value: data.getRawData(for: .proceeds, lastNDays: 7, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                                       .toString(size: .compact)
+                                       .appending(data.displayCurrency.symbol))
                 DescribedValueView(description: "LAST_THIRTY_DAYS",
                                    value: data.getRawData(for: .proceeds, lastNDays: 30, filteredApps: filteredApps)
-                                    .toString(size: .compact)
-                                    .appending(data.displayCurrency.symbol))
+                                       .toString(size: .compact)
+                                       .appending(data.displayCurrency.symbol))
             }
             .padding()
             AppIconStack(apps: filteredApps)

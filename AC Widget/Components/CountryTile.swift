@@ -23,7 +23,7 @@ struct CountryTile: View {
             }
             .padding(.bottom, 5)
 
-            ForEach(0..<7) { i in
+            ForEach(0 ..< 7) { i in
                 let name = countryName(placement: i)
                 let value = countryProceeds(placement: i)
                 if !value.isEmpty {

@@ -3,8 +3,8 @@
 //  AC Widget by NO-COMMENT
 //
 
-import SwiftUI
 import AppStoreConnect_Swift_SDK
+import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var apiKeysProvider: APIKeyProvider

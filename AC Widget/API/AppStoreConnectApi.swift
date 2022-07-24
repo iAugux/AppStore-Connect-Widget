@@ -3,8 +3,8 @@
 //  AC Widget by NO-COMMENT
 //
 
-import Foundation
 import AppStoreConnect_Swift_SDK
+import Foundation
 import Gzip
 import SwiftCSV
 
@@ -23,7 +23,7 @@ class AppStoreConnectApi {
     private var privateKey: String { apiKey.privateKey }
     private var vendorNumber: String { apiKey.vendorNumber }
 
-    static private var lastData: [APIKey: LoaderStatus] = [:]
+    private static var lastData: [APIKey: LoaderStatus] = [:]
     private enum LoaderStatus {
         case inProgress(Task<ACData, Error>)
         case loaded((data: ACData, date: Date))
@@ -57,7 +57,7 @@ class AppStoreConnectApi {
         }
 
         let task: Task<ACData, Error> = Task {
-            return try await getDataFromAPI(localCurrency: currency ?? .USD, numOfDays: numOfDays, useCache: useCache)
+            try await getDataFromAPI(localCurrency: currency ?? .USD, numOfDays: numOfDays, useCache: useCache)
         }
 
         AppStoreConnectApi.lastData[apiKey] = .inProgress(task)
@@ -70,29 +70,29 @@ class AppStoreConnectApi {
     }
 
     private func getDataFromAPI(localCurrency: Currency, numOfDays: Int = 35, useCache: Bool = true) async throws -> ACData {
-        if self.privateKey.count < privateKeyMinLength {
+        if privateKey.count < privateKeyMinLength {
             throw APIError.invalidCredentials
         }
 
-        let configuration = APIConfiguration(issuerID: self.issuerID, privateKeyID: self.privateKeyID, privateKey: self.privateKey)
+        let configuration = APIConfiguration(issuerID: issuerID, privateKeyID: privateKeyID, privateKey: privateKey)
 
-        let provider: APIProvider = APIProvider(configuration: configuration)
+        let provider = APIProvider(configuration: configuration)
 
         var entries: [ACEntry] = []
 
         await CurrencyConverter.shared.updateExchangeRates()
 
-        let dates = Date.now.dayBefore.getLastNDates(numOfDays).map({ $0.acApiFormat() })
+        let dates = Date.now.dayBefore.getLastNDates(numOfDays).map { $0.acApiFormat() }
 
         if useCache {
-            let cachedData = ACDataCache.getData(apiKey: self.apiKey)?.changeCurrency(to: localCurrency)
+            let cachedData = ACDataCache.getData(apiKey: apiKey)?.changeCurrency(to: localCurrency)
             let cachedEntries: [ACEntry] = cachedData?.entries ?? []
 
             entries.append(contentsOf: cachedEntries)
         }
 
-        let entriesDates = entries.map({ $0.date.acApiFormat() })
-        let missingDates = dates.filter({ !entriesDates.contains($0) })
+        let entriesDates = entries.map { $0.date.acApiFormat() }
+        let missingDates = dates.filter { !entriesDates.contains($0) }
 
         async let results: [Data] = withThrowingTaskGroup(of: Data?.self) { group in
             var data: [Data] = []
@@ -120,9 +120,9 @@ class AppStoreConnectApi {
             entries.append(contentsOf: parseApiResult(result, localCurrency: localCurrency))
         }
 
-        let apps = try? await self.getApps(entries: entries)
+        let apps = try? await getApps(entries: entries)
         let acdata = ACData(entries: entries, currency: localCurrency, apps: apps ?? [])
-        ACDataCache.saveData(data: acdata, apiKey: self.apiKey)
+        ACDataCache.saveData(data: acdata, apiKey: apiKey)
 
         return acdata
     }
@@ -132,9 +132,9 @@ class AppStoreConnectApi {
 
         guard let decompressedData = try? result.gunzipped() else {
             #if DEBUG
-            fatalError()
+                fatalError()
             #else
-            return []
+                return []
             #endif
         }
 
@@ -142,9 +142,9 @@ class AppStoreConnectApi {
 
         guard let tsv: CSV = try? CSV(string: str, delimiter: "\t") else {
             #if DEBUG
-            fatalError()
+                fatalError()
             #else
-            return []
+                return []
             #endif
         }
 
@@ -153,7 +153,7 @@ class AppStoreConnectApi {
             let sku: String = dict["SKU"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
             var proceeds = Double(dict["Developer Proceeds"] ?? "0.00") ?? 0
-            if let cur: Currency = Currency(rawValue: dict["Currency of Proceeds"] ?? "") {
+            if let cur = Currency(rawValue: dict["Currency of Proceeds"] ?? "") {
                 proceeds = CurrencyConverter.shared.convert(proceeds, valueCurrency: cur, outputCurrency: localCurrency) ?? 0
             } else {
                 proceeds = 0
@@ -174,7 +174,7 @@ class AppStoreConnectApi {
     }
 
     private func getApps(entries: [ACEntry]) async throws -> [ACApp] {
-        let tupples: [ITunesLookupApp] = entries.map({ .init(appstoreId: $0.appIdentifier, name: $0.appTitle, sku: $0.appSKU) })
+        let tupples: [ITunesLookupApp] = entries.map { .init(appstoreId: $0.appIdentifier, name: $0.appTitle, sku: $0.appSKU) }
         var uniqueTupple: [ITunesLookupApp] = []
         for tupple in tupples {
             if !uniqueTupple.contains(where: { $0.appstoreId == tupple.appstoreId }) {
@@ -188,7 +188,7 @@ class AppStoreConnectApi {
 
             for app in uniqueTupple {
                 group.addTask {
-                    return try? await self.iTunesLookup(app: app)
+                    try? await self.iTunesLookup(app: app)
                 }
             }
 

@@ -3,12 +3,12 @@
 //  AC Widget by NO-COMMENT
 //
 
-import WidgetKit
-import SwiftUI
 import Intents
+import SwiftUI
+import WidgetKit
 
 struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> ACStatEntry {
+    func placeholder(in _: Context) -> ACStatEntry {
         ACStatEntry(date: Date(), data: .example, filteredApps: [], color: .accentColor, configuration: WidgetConfigurationIntent())
     }
 
@@ -19,15 +19,15 @@ struct Provider: IntentTimelineProvider {
             Task.init {
                 do {
                     let data = try await getApiData(currencyParam: configuration.currency, apiKeyParam: configuration.apiKey)
-                    let isNewData = data.getRawData(for: .proceeds, lastNDays: 3).contains { (proceed) -> Bool in
+                    let isNewData = data.getRawData(for: .proceeds, lastNDays: 3).contains { proceed -> Bool in
                         Calendar.current.isDateInToday(proceed.1) ||
-                        Calendar.current.isDateInYesterday(proceed.1)
+                            Calendar.current.isDateInYesterday(proceed.1)
                     }
 
                     let entry = ACStatEntry(
                         date: Date(),
                         data: data,
-                        filteredApps: configuration.filteredApps?.compactMap({ $0.toACApp(data: data) }) ?? [],
+                        filteredApps: configuration.filteredApps?.compactMap { $0.toACApp(data: data) } ?? [],
                         color: configuration.apiKey?.getColor() ?? .accentColor,
                         configuration: configuration,
                         relevance: isNewData ? .high : .medium
@@ -41,18 +41,18 @@ struct Provider: IntentTimelineProvider {
         }
     }
 
-    func getTimeline(for configuration: WidgetConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func getTimeline(for configuration: WidgetConfigurationIntent, in _: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         Task.init {
             do {
                 let data = try await getApiData(currencyParam: configuration.currency, apiKeyParam: configuration.apiKey)
-                let isNewData = data.getRawData(for: .proceeds, lastNDays: 3).contains { (proceed) -> Bool in
+                let isNewData = data.getRawData(for: .proceeds, lastNDays: 3).contains { proceed -> Bool in
                     Calendar.current.isDateInToday(proceed.1) ||
-                    Calendar.current.isDateInYesterday(proceed.1)
+                        Calendar.current.isDateInYesterday(proceed.1)
                 }
 
                 let entry = ACStatEntry(date: Date(),
                                         data: data,
-                                        filteredApps: configuration.filteredApps?.compactMap({ $0.toACApp(data: data) }) ?? [],
+                                        filteredApps: configuration.filteredApps?.compactMap { $0.toACApp(data: data) } ?? [],
                                         color: configuration.apiKey?.getColor() ?? .accentColor,
                                         configuration: configuration,
                                         relevance: isNewData ? .high : .medium)
@@ -95,9 +95,10 @@ struct Provider: IntentTimelineProvider {
 
     func getApiData(currencyParam: CurrencyParam?, apiKeyParam: ApiKeyParam?) async throws -> ACData {
         guard let apiKey = apiKeyParam?.toApiKey(),
-              APIKeyProvider().getApiKey(apiKeyId: apiKey.id) != nil else {
-                  throw APIError.invalidCredentials
-              }
+              APIKeyProvider().getApiKey(apiKeyId: apiKey.id) != nil
+        else {
+            throw APIError.invalidCredentials
+        }
         let api = await AppStoreConnectApi(apiKey: apiKey)
         return try await api.getData(currency: currencyParam)
     }

@@ -29,7 +29,7 @@ struct AppStoreNotice: View {
                         Label("APPSTORE_NOTICE_PROMPT", image: "logo.appstore")
                         // Text("APPSTORE_NOTICE_PROMPT")
                     })
-                        .buttonStyle(.borderedProminent)
+                    .buttonStyle(.borderedProminent)
                 }
             }
         }

@@ -4,10 +4,10 @@
 //
 
 import Foundation
-import UIKit
-import SwiftUI
-import WidgetKit
 import KeychainAccess
+import SwiftUI
+import UIKit
+import WidgetKit
 
 class APIKeyProvider: ObservableObject {
     @Published private(set) var apiKeys: [APIKey]
@@ -23,7 +23,7 @@ class APIKeyProvider: ObservableObject {
             print(error.localizedDescription)
             apiKeys = []
             #if DEBUG
-            fatalError(error.localizedDescription)
+                fatalError(error.localizedDescription)
             #endif
         }
     }
@@ -32,9 +32,9 @@ class APIKeyProvider: ObservableObject {
         .synchronizable(true)
     private static let keychainKey = "ac-api-key"
 
-    static private func getKeysFromData(_ data: Data) throws -> [APIKey] {
+    private static func getKeysFromData(_ data: Data) throws -> [APIKey] {
         let keys = try JSONDecoder().decode([APIKey].self, from: data)
-        return keys.map(\.id).compactMap({ keyId in keys.first(where: { $0.id == keyId }) })
+        return keys.map(\.id).compactMap { keyId in keys.first(where: { $0.id == keyId }) }
     }
 
     func getApiKey(apiKeyId: String) -> APIKey? {
@@ -67,8 +67,8 @@ class APIKeyProvider: ObservableObject {
     @discardableResult
     func deleteApiKeys(keys: [APIKey]) -> Bool {
         apiKeys.removeAll(where: { del in
-            return keys.contains(where: { other in
-                return del.id == other.id
+            keys.contains(where: { other in
+                del.id == other.id
             })
         })
         do {
@@ -107,13 +107,13 @@ struct APIKey: Codable, Identifiable, Hashable {
 
 extension APIKey {
     func equalsKeyDetails(other key: APIKey) -> Bool {
-        return self.issuerID == key.issuerID && self.privateKeyID == key.privateKeyID && self.privateKey == key.privateKey && self.privateKeyID == key.privateKeyID
+        return issuerID == key.issuerID && privateKeyID == key.privateKeyID && privateKey == key.privateKey && privateKeyID == key.privateKeyID
     }
 }
 
 @MainActor
 extension APIKey {
-    static private var lastChecks: [APIKey: LoaderStatus] = [:]
+    private static var lastChecks: [APIKey: LoaderStatus] = [:]
     private enum LoaderStatus {
         case inProgress(Task<Void, Error>)
         case loaded((error: Error?, date: Date))
@@ -153,7 +153,6 @@ extension APIKey {
             } catch {
                 throw APIError.unknown
             }
-            return
         }
 
         APIKey.lastChecks[self] = .inProgress(task)
@@ -165,8 +164,6 @@ extension APIKey {
             APIKey.lastChecks[self] = .loaded((error: error, date: .now))
             throw error
         }
-
-        return
     }
 
     static let example = APIKey(name: "Example Key",
@@ -187,10 +184,10 @@ extension ApiKeyParam {
     }
 
     func toApiKey() -> APIKey? {
-        return APIKeyProvider().getApiKey(apiKeyId: self.identifier ?? "")
+        return APIKeyProvider().getApiKey(apiKeyId: identifier ?? "")
     }
 
     func getColor() -> Color? {
-        return self.toApiKey()?.color
+        return toApiKey()?.color
     }
 }
