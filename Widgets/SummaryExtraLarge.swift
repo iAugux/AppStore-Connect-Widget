@@ -5,6 +5,7 @@
 
 import SwiftUI
 import WidgetKit
+import Kingfisher
 
 struct SummaryExtraLarge: View {
     @Environment(\.colorScheme) var colorScheme
@@ -115,17 +116,13 @@ struct SummaryExtraLarge: View {
             ForEach((filteredApps.isEmpty ? sortedApps : filteredApps).prefix(4)) { app in
                 Card(alignment: .leading, spacing: 3, innerPadding: 8, color: .cardColor) {
                     HStack(spacing: 4) {
-                        Group {
-                            if let data = app.artwork60ImgData, let uiImg = UIImage(data: data) {
-                                Image(uiImage: uiImg)
-                                    .resizable()
-                            } else {
+                        KFImage(URL(string: app.artworkUrl60))
+                            .placeholder {
                                 Rectangle().foregroundColor(.secondary)
                             }
-                        }
-                        .frame(width: 15, height: 15)
-                        .cornerRadius(4)
-
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .cornerRadius(4)
                         Text(app.name)
                             .lineLimit(1)
                         Spacer()

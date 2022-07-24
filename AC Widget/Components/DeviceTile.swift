@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct DeviceTile: View {
     private var data: ACData
@@ -25,7 +26,7 @@ struct DeviceTile: View {
         Card(alignment: .leading, spacing: 7) {
             if isFlipped {
                 backSide
-                 .rotation3DEffect(Angle(degrees: 180), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
+                    .rotation3DEffect(Angle(degrees: 180), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
             } else {
                 Text("DEVICES")
                     .font(.system(size: 20))
@@ -53,9 +54,9 @@ struct DeviceTile: View {
             PercentStackedBarChart(data: proceedData.map({ ($0.1, ACDevice($0.0).color) }))
                 .frame(height: 10)
 
-//            Text("IN-APP-PURCHASES")
-//            PercentStackedBarChart(data: iapData.map({ ($0.1, ACDevice($0.0).color) }))
-//                .frame(height: 10)
+            //            Text("IN-APP-PURCHASES")
+            //            PercentStackedBarChart(data: iapData.map({ ($0.1, ACDevice($0.0).color) }))
+            //                .frame(height: 10)
 
             Text("UPDATES")
             PercentStackedBarChart(data: updateData.map({ ($0.1, ACDevice($0.0).color) }))
@@ -80,16 +81,13 @@ struct DeviceTile: View {
     private func appDetail(for app: ACApp) -> some View {
         Card(alignment: .leading, spacing: 5, innerPadding: 10, color: .secondaryCardColor) {
             HStack(spacing: 4) {
-                Group {
-                    if let data = app.artwork60ImgData, let uiImg = UIImage(data: data) {
-                        Image(uiImage: uiImg)
-                            .resizable()
-                    } else {
+                KFImage(URL(string: app.artworkUrl60))
+                    .placeholder {
                         Rectangle().foregroundColor(.secondary)
                     }
-                }
-                .frame(width: 15, height: 15)
-                .cornerRadius(4)
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .cornerRadius(4)
 
                 Text(app.name)
                     .lineLimit(1)
@@ -101,34 +99,34 @@ struct DeviceTile: View {
                         .foregroundColor(.gray)
                     PercentStackedBarChart(data:
                                             data.getDevices(.downloads, lastNDays: 30, filteredApps: [app])
-                                            .sorted(by: { $0.1 > $1.1 })
-                                            .map({ ($0.1, ACDevice($0.0).color) })
+                        .sorted(by: { $0.1 > $1.1 })
+                        .map({ ($0.1, ACDevice($0.0).color) })
                     )
-                        .frame(height: 7)
+                    .frame(height: 7)
                 }
                 HStack {
                     ZStack {
                         Image(systemName: "circle.fill")
                             .foregroundColor(.secondaryCardColor)
-                    Text(data.displayCurrency.symbol)
-                        .foregroundColor(.gray)
+                        Text(data.displayCurrency.symbol)
+                            .foregroundColor(.gray)
                     }
                     PercentStackedBarChart(data:
                                             data.getDevices(.proceeds, lastNDays: 30, filteredApps: [app])
-                                            .sorted(by: { $0.1 > $1.1 })
-                                            .map({ ($0.1, ACDevice($0.0).color) })
+                        .sorted(by: { $0.1 > $1.1 })
+                        .map({ ($0.1, ACDevice($0.0).color) })
                     )
-                        .frame(height: 7)
+                    .frame(height: 7)
                 }
                 HStack {
                     Image(systemName: InfoType.updates.systemImage)
                         .foregroundColor(.gray)
                     PercentStackedBarChart(data:
                                             data.getDevices(.updates, lastNDays: 30, filteredApps: [app])
-                                            .sorted(by: { $0.1 > $1.1 })
-                                            .map({ ($0.1, ACDevice($0.0).color) })
+                        .sorted(by: { $0.1 > $1.1 })
+                        .map({ ($0.1, ACDevice($0.0).color) })
                     )
-                        .frame(height: 7)
+                    .frame(height: 7)
                 }
             }
             .font(.system(size: 12))

@@ -5,6 +5,7 @@
 
 import SwiftUI
 import BetterToStrings
+import Kingfisher
 
 struct InfoTile: View {
     private var description: LocalizedStringKey
@@ -98,16 +99,13 @@ struct InfoTile: View {
     private func appDetail(for infoApp: InfoApp) -> some View {
         Card(alignment: .leading, spacing: 5, innerPadding: 10, color: .secondaryCardColor) {
             HStack(spacing: 4) {
-                Group {
-                    if let data = infoApp.app.artwork60ImgData, let uiImg = UIImage(data: data) {
-                        Image(uiImage: uiImg)
-                            .resizable()
-                    } else {
+                KFImage(URL(string: infoApp.app.artworkUrl60))
+                    .placeholder {
                         Rectangle().foregroundColor(.secondary)
                     }
-                }
-                .frame(width: 15, height: 15)
-                .cornerRadius(4)
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .cornerRadius(4)
 
                 Text(infoApp.app.name)
                     .lineLimit(1)

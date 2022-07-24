@@ -49,6 +49,9 @@
 		45E8C4C0261268D4007F9B0E /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 45E8C4BF261268D4007F9B0E /* SwiftCSV */; };
 		45FD5196261915F200603D8A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FD5195261915F200603D8A /* IntentHandler.swift */; };
 		45FD519A261915F200603D8A /* WidgetIntentExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 45FD5191261915F200603D8A /* WidgetIntentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B18B76D8288CF7F800FDD842 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B18B76D7288CF7F800FDD842 /* Kingfisher */; };
+		B18B76DA288CF83400FDD842 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B18B76D9288CF83400FDD842 /* Kingfisher */; };
+		B18B76DC288CF83B00FDD842 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B18B76DB288CF83B00FDD842 /* Kingfisher */; };
 		CB28AEE02615D24400B48215 /* UnitText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB28AEDF2615D24400B48215 /* UnitText.swift */; };
 		CB28AEE12615D24400B48215 /* UnitText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB28AEDF2615D24400B48215 /* UnitText.swift */; };
 		CB28AEE52615D28F00B48215 /* SummarySmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB28AEE42615D28F00B48215 /* SummarySmall.swift */; };
@@ -217,6 +220,7 @@
 			files = (
 				CB77BBB22691F19A006D4EC4 /* BetterToStrings in Frameworks */,
 				45E8C4C0261268D4007F9B0E /* SwiftCSV in Frameworks */,
+				B18B76D8288CF7F800FDD842 /* Kingfisher in Frameworks */,
 				456187F426F66FE400FAE4F8 /* KeychainAccess in Frameworks */,
 				CBDFA497261E52F200719CC1 /* DynamicColor in Frameworks */,
 				45E8C4BD261267FB007F9B0E /* Gzip in Frameworks */,
@@ -231,6 +235,7 @@
 				45E8C4992612531D007F9B0E /* SwiftUI.framework in Frameworks */,
 				45CAC10F2615CBCB00FF63E7 /* AppStoreConnect-Swift-SDK in Frameworks */,
 				456187F626F6741A00FAE4F8 /* KeychainAccess in Frameworks */,
+				B18B76DA288CF83400FDD842 /* Kingfisher in Frameworks */,
 				CB77BBB42691F3EC006D4EC4 /* BetterToStrings in Frameworks */,
 				CBDFA49F261E55EE00719CC1 /* DynamicColor in Frameworks */,
 				45CAC10D2615CBC700FF63E7 /* SwiftCSV in Frameworks */,
@@ -245,6 +250,7 @@
 			files = (
 				CB77BBB62691F3F2006D4EC4 /* BetterToStrings in Frameworks */,
 				CBAB72AD261B33DF00ED0F94 /* AppStoreConnect-Swift-SDK in Frameworks */,
+				B18B76DC288CF83B00FDD842 /* Kingfisher in Frameworks */,
 				456187F826F6742100FAE4F8 /* KeychainAccess in Frameworks */,
 				CBDFA4A1261E55F500719CC1 /* DynamicColor in Frameworks */,
 				CBAB72B4261B340C00ED0F94 /* SwiftCSV in Frameworks */,
@@ -427,6 +433,7 @@
 				CBDFA496261E52F200719CC1 /* DynamicColor */,
 				CB77BBB12691F19A006D4EC4 /* BetterToStrings */,
 				456187F326F66FE400FAE4F8 /* KeychainAccess */,
+				B18B76D7288CF7F800FDD842 /* Kingfisher */,
 			);
 			productName = "AC Widget";
 			productReference = 45E8C47D2612512E007F9B0E /* AC Widget.app */;
@@ -452,6 +459,7 @@
 				CBDFA49E261E55EE00719CC1 /* DynamicColor */,
 				CB77BBB32691F3EC006D4EC4 /* BetterToStrings */,
 				456187F526F6741A00FAE4F8 /* KeychainAccess */,
+				B18B76D9288CF83400FDD842 /* Kingfisher */,
 			);
 			productName = WidgetsExtension;
 			productReference = 45E8C4942612531D007F9B0E /* WidgetsExtension.appex */;
@@ -477,6 +485,7 @@
 				CBDFA4A0261E55F500719CC1 /* DynamicColor */,
 				CB77BBB52691F3F2006D4EC4 /* BetterToStrings */,
 				456187F726F6742100FAE4F8 /* KeychainAccess */,
+				B18B76DB288CF83B00FDD842 /* Kingfisher */,
 			);
 			productName = WidgetIntentExtension;
 			productReference = 45FD5191261915F200603D8A /* WidgetIntentExtension.appex */;
@@ -519,6 +528,7 @@
 				CBDFA495261E52F200719CC1 /* XCRemoteSwiftPackageReference "DynamicColor" */,
 				CB77BBB02691F19A006D4EC4 /* XCRemoteSwiftPackageReference "BetterToStrings" */,
 				456187F226F66FE400FAE4F8 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				B18B76D6288CF7F800FDD842 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 45E8C47E2612512E007F9B0E /* Products */;
 			projectDirPath = "";
@@ -901,6 +911,7 @@
 		45E8C4A82612531E007F9B0E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
@@ -930,6 +941,7 @@
 		45E8C4A92612531E007F9B0E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WidgetsExtension.entitlements;
@@ -1078,6 +1090,14 @@
 				version = 0.6.1;
 			};
 		};
+		B18B76D6288CF7F800FDD842 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		CB77BBB02691F19A006D4EC4 /* XCRemoteSwiftPackageReference "BetterToStrings" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/cameronshemilt/BetterToStrings.git";
@@ -1141,6 +1161,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 45E8C4BE261268D4007F9B0E /* XCRemoteSwiftPackageReference "SwiftCSV" */;
 			productName = SwiftCSV;
+		};
+		B18B76D7288CF7F800FDD842 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18B76D6288CF7F800FDD842 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		B18B76D9288CF83400FDD842 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18B76D6288CF7F800FDD842 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		B18B76DB288CF83B00FDD842 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B18B76D6288CF7F800FDD842 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		CB77BBB12691F19A006D4EC4 /* BetterToStrings */ = {
 			isa = XCSwiftPackageProductDependency;

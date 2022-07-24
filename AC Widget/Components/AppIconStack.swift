@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct AppIconStack: View {
     var apps: [ACApp]
@@ -19,22 +20,20 @@ struct AppIconStack: View {
 
     var body: some View {
         ZStack {
-            ForEach(0..<showAppCount) { index in
-                Group {
-                    if let data = apps[index].artwork60ImgData, let uiImg = UIImage(data: data) {
-                        Image(uiImage: uiImg)
-                            .resizable()
-                    } else {
-                        Rectangle().foregroundColor(.secondary)
+            ForEach(0..<showAppCount, id: \.self) { index in
+                KFImage(URL(string: apps[index].artworkUrl60))
+                    .placeholder {
+                        Rectangle()
+                            .foregroundColor(.secondary)
                     }
-                }
-                .frame(width: 15, height: 15)
-                .cornerRadius(3)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 3)
-                        .stroke(Color.secondaryCardColor, lineWidth: 0.3)
-                )
-                .padding(.leading, 12 * CGFloat(index))
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .cornerRadius(3)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 3)
+                            .stroke(Color.secondaryCardColor, lineWidth: 0.3)
+                    )
+                    .padding(.leading, 12 * CGFloat(index))
             }
 
             if apps.count > maxAppCount {
